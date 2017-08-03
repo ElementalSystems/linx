@@ -1,0 +1,1 @@
+[![NPM Stats](https://nodei.co/npm/divhide.png?downloads=true)](https://www.npmjs.com/package/divhide)

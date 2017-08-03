@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/divhide/divhide-core/badge.svg)](https://coveralls.io/r/divhide/divhide-core)

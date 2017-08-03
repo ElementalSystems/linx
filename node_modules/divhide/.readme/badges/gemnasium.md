@@ -1,0 +1,1 @@
+[![Dependency Status](https://gemnasium.com/divhide/divhide-core.svg)](https://gemnasium.com/divhide/divhide-core)
