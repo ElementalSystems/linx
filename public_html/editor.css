@@ -1,0 +1,20 @@
+div#editor {
+  background: #0F0; }
+  div#editor div.main {
+    height: 100vmin;
+    width: 100vmin;
+    float: right; }
+  div#editor input {
+    display: block;
+    font-size: 200%;
+    width: 6em;
+    margin: .1em;
+    border: 2px #000 solid;
+    padding: .1em;
+    font-family: monospace; }
+  div#editor div.editrows {
+    transform-origin: 0% 0%;
+    transform: translateY(20%) rotateZ(-30deg);
+    padding: 3em; }
+
+/*# sourceMappingURL=editor.css.map */

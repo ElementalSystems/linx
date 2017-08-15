@@ -10,7 +10,8 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         files: {
-          'public_html/style.css': 'source/style/*.scss'
+          'public_html/style.css': 'source/style/corecss.scss',
+          'public_html/editor.css': 'source/style/editor.scss'
         }
       },
       rel: {
@@ -19,7 +20,7 @@ module.exports = function(grunt) {
           style: 'compressed'
         },
         files: {
-          'release_html/style.css': 'source/style/*.scss'
+          'release_html/style.css': 'source/style/corecss.scss'
         }
       }
     },
@@ -77,7 +78,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'source/html',
-          src: ['**'],
+          src: ['index.html'],
           dest: 'release_html/'
         }]
       }
