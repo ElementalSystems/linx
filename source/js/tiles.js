@@ -62,5 +62,12 @@ function tile(ti, txt) {
   bot.setbg(tc.t_b);
   tc.appendChild(tc.t_b);
 
+  tc.setTransform=function()
+  {
+    var x=ti_to_x(tc.t_i)*25;
+    var y=ti_to_y(tc.t_i)*25;
+    tc.style.transform="translate3d("+x+"vmin,"+y+"vmin,0vmin)";
+  }
+
   return tc;
 }

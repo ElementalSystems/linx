@@ -2,7 +2,6 @@
   Returns the points on a cubic bezier curve
   from xs,ys to xe,ye with control point xc,yc
   as an array like so [ {x: , y: },...]
-
 */
 function bez(len,xs,ys,xe,ye,xc,yc){
   var cv=[];

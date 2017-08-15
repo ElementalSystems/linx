@@ -12,5 +12,3 @@ var h_mx=[0,h_k,h_k,0,-h_k,-h_k]; //x co-orddinates of mid points
 var h_my=[-h_j,-h_l,h_l,h_j,h_l,-h_l];//y co-orddinates of mid points
 
 function h_ni(i) { return (i+36)%6;} //normalise an hex index number to the range 0-5
-
-//handling the 5 x 5 grid logic of the puzzle game
