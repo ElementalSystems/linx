@@ -1,22 +1,30 @@
+div.main.sheet {
+  div.tile {
+    position: relative;
+  }
+}
+
 div#editor {
-  background: #0F0;
+
+  overflow:hidden;
   div.main {
     height:100vmin;
     width: 100vmin;
     float: right;
   }
   input {
-    display: block;
     font-size: 200%;
-    width: 6em;
+    width: 1.2em;
     margin:.1em;
     border: 2px #000 solid;
     padding: .1em;
     font-family: monospace;
   }
   div.editrows {
+    padding-top:5em;
+  }
+  div.row {
     transform-origin: 0% 0%;
-    transform: translateY(20%) rotateZ(-30deg);
-    padding: 3em;
+    transform: rotateZ(-30deg);
   }
 }

@@ -11,20 +11,73 @@
 <div id=editor>
 <div class=main id=main>
 </div>
-<div class=editrows>
   Tile Layout
-  <input id=r1 type=text maxlength=10>
-  <input id=r2 type=text maxlength=10>
-  <input id=r3 type=text maxlength=10>
-  <input id=r4 type=text maxlength=10>
-  <input id=r5 type=text maxlength=10>
+<div class=editrows>
+  <div class=row>
+  <input id=r1 type=text maxlength=2 onchange="edited()">
+  <input id=r2 type=text maxlength=2 onchange="edited()" >
+  <input id=r3 type=text maxlength=2 onchange="edited()">
+  <input id=r4 type=text maxlength=2 onchange="edited()">
+  <input id=r5 type=text maxlength=2 onchange="edited()">
+  </div>
+  <div class=row>
+  <input id=r6 type=text maxlength=2 onchange="edited()">
+  <input id=r7 type=text maxlength=2 onchange="edited()">
+  <input id=r8 type=text maxlength=2 onchange="edited()">
+  <input id=r9 type=text maxlength=2 onchange="edited()">
+  <input id=r10 type=text maxlength=2 onchange="edited()">
+  </div>
+  <div class=row>
+  <input id=r11 type=text maxlength=2 onchange="edited()">
+  <input id=r12 type=text maxlength=2 onchange="edited()" value='30'>
+  <input id=r13 type=text maxlength=2 onchange="edited()">
+  <input id=r14 type=text maxlength=2 onchange="edited()">
+  <input id=r15 type=text maxlength=2 onchange="edited()">
+  </div>
+  <div class=row>
+  <input id=r16 type=text maxlength=2 onchange="edited()">
+  <input id=r17 type=text maxlength=2 onchange="edited()">
+  <input id=r18 type=text maxlength=2 onchange="edited()">
+  <input id=r19 type=text maxlength=2 onchange="edited()">
+  <input id=r20 type=text maxlength=2 onchange="edited()">
+  </div>
+  <div class=row>
+  <input id=r21 type=text maxlength=2 onchange="edited()">
+  <input id=r22 type=text maxlength=2 onchange="edited()">
+  <input id=r23 type=text maxlength=2 onchange="edited()">
+  <input id=r24 type=text maxlength=2 onchange="edited()">
+  <input id=r25 type=text maxlength=2 onchange="edited()">
+  </div>
+  <div class=row>
+  <input id=r26 type=text maxlength=2 onchange="edited()">
+  <input id=r27 type=text maxlength=2 onchange="edited()">
+  <input id=r28 type=text maxlength=2 onchange="edited()">
+  <input id=r29 type=text maxlength=2 onchange="edited()">
+  <input id=r30 type=text maxlength=2 onchange="edited()">
+  </div>
+
+
+
 </div>
 
-
+<div id=target>
 </div>
 <script src="scripts.js"></script>
 <script>
-
+function edited() {
+  var data="";
+  for (var i=1;i<31;i+=1) {
+    var val=document.getElementById('r'+i).value;
+    if (!val) val='00';
+    if (val.length==1) val+='0';
+    data+=val;
+  }
+  document.getElementById('target').innerHTML=data;
+  var spot=document.getElementById('main');
+  spot.innerHTML="";
+  buildGrid(spot,data)
+}
+edited();
 </script>
 </body>
 </html>

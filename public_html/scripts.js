@@ -29,8 +29,9 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
 
 function buildGrid(el, init) {
     for (var grd = [], i = 0; i < 30; i += 1) {
-        var t = tile("0");
-        el.appendChild(t), t.t_i = i, t.t_dir = i % 6, t.setTransform(), grd.push(t);
+        var t = tile(init.charAt(2 * i));
+        el.appendChild(t), t.t_i = i, t.t_dir = Number(init.charAt(2 * i + 1)), t.setTransform(), 
+        grd.push(t);
     }
     return grd;
 }
@@ -40,7 +41,7 @@ function ti_to_x(i) {
 }
 
 function ti_to_y(i) {
-    return Math.floor(i / 5) * h_j * 2 - (i % 5)(h_j);
+    return Math.floor(i / 5) * h_j * 2 - i % 5 * h_j;
 }
 
 function cgrad(ctx, s, c1, c2) {
@@ -95,9 +96,14 @@ function tile(ti, txt) {
     var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, !0);
     return drawLnks(top, tc.lk), top.setbg(tc.t_t), tc.appendChild(tc.t_t), tc.t_b = document.createElement("div"), 
     tc.t_b.classList.add("bot"), gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95).echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0).setbg(tc.t_b), 
-    tc.appendChild(tc.t_b), tc.setTransform = function() {
+    tc.appendChild(tc.t_b), tc.style.transform = "translate3d(50vmin,-30vmin,0px)", 
+    tc.setTransformFuture = function(tm) {
+        setTimeout(function() {
+            tc.setTransform();
+        }, 1e3 * tm);
+    }, tc.setTransform = function() {
         var x = 25 * ti_to_x(tc.t_i), y = 25 * ti_to_y(tc.t_i);
-        tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,0vmin)";
+        tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,0vmin) rotateZ(" + 60 * tc.t_dir + "deg)";
     }, tc;
 }
 
@@ -189,7 +195,7 @@ var context = new AudioContext(), ae = {
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l ], t_set = {
-    0: "0a2a4a",
+    0: "",
     1: "0a2b",
     2: "0c2b5b",
     3: "0b1b",

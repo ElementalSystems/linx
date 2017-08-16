@@ -1,5 +1,5 @@
 var t_set = {
-  0: "0a2a4a",
+  0: "",
   1: "0a2b",
   2: "0c2b5b",
   3: "0b1b",
@@ -61,12 +61,15 @@ function tile(ti, txt) {
     .echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
   bot.setbg(tc.t_b);
   tc.appendChild(tc.t_b);
-
+  tc.style.transform="translate3d(50vmin,-30vmin,0px)"
+  tc.setTransformFuture=function(tm) {
+    setTimeout(function(){tc.setTransform();},tm*1000);
+  };
   tc.setTransform=function()
   {
     var x=ti_to_x(tc.t_i)*25;
     var y=ti_to_y(tc.t_i)*25;
-    tc.style.transform="translate3d("+x+"vmin,"+y+"vmin,0vmin)";
+    tc.style.transform="translate3d("+x+"vmin,"+y+"vmin,0vmin) rotateZ("+tc.t_dir*60+"deg)";
   }
 
   return tc;
