@@ -15,7 +15,7 @@ div#editor {
     padding: .1em;
     font-family: monospace; }
   div#editor div.editrows {
-    padding-top: 5em; }
+    padding-top: 7em; }
   div#editor div.row {
     transform-origin: 0% 0%;
     transform: rotateZ(-30deg); }
