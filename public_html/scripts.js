@@ -27,11 +27,18 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
     return cv;
 }
 
+function dec(at) {
+    var v = _dec.indexOf(at);
+    return {
+        cls: Math.floor(v / 6),
+        val: v % 6
+    };
+}
+
 function buildGrid(el, init) {
     for (var grd = [], i = 0; i < 30; i += 1) {
-        var t = tile(init.charAt(2 * i));
-        el.appendChild(t), t.t_i = i, t.t_dir = Number(init.charAt(2 * i + 1)), t.setTransform(), 
-        grd.push(t);
+        var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
+        el.appendChild(t), t.t_i = i, t.t_dir = ty.val, t.setTransform(), grd.push(t);
     }
     return grd;
 }
@@ -71,7 +78,7 @@ function drawLnks(s, lk) {
     s.lineStyle("rgba(255,0,0,.8)").lineWidth(1).fillStyle("rgba(255,0,0,.5)").discPath(lk[i].pts, .03, !0);
 }
 
-function tile(ti, txt) {
+function tile(ti, at, txt) {
     var tc = document.createElement("div");
     txt && (tc.innerHTML = txt), tc.classList.add("tile"), tc.lk = [];
     for (var tds = t_set[ti], i = 0; i < tds.length; i += 2) {
@@ -94,10 +101,14 @@ function tile(ti, txt) {
     }
     tc.t_t = document.createElement("div"), tc.t_t.classList.add("top");
     var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, !0);
-    return drawLnks(top, tc.lk), top.setbg(tc.t_t), tc.appendChild(tc.t_t), tc.t_b = document.createElement("div"), 
+    (drawLnks(top, tc.lk), top.setbg(tc.t_t), tc.appendChild(tc.t_t), tc.t_b = document.createElement("div"), 
     tc.t_b.classList.add("bot"), gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95).echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0).setbg(tc.t_b), 
-    tc.appendChild(tc.t_b), tc.style.transform = "translate3d(50vmin,-30vmin,0px)", 
-    tc.setTransformFuture = function(tm) {
+    tc.appendChild(tc.t_b), at) && (tc.t_a = document.createElement("div"), tc.t_a.classList.add("act"), 
+    gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(2).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).echo(10, 0, 0, 0, 0, -60, 0, 1, 1, .2, 1).rotSym(5).setbg(tc.t_a), 
+    tc.appendChild(tc.t_a), tc.t_a.addEventListener("click", function() {
+        tc.t_dir = tc.t_dir + 1, tc.setTransform();
+    }));
+    return tc.style.transform = "translate3d(50vmin,-30vmin,0px)", tc.setTransformFuture = function(tm) {
         setTimeout(function() {
             tc.setTransform();
         }, 1e3 * tm);
@@ -129,7 +140,7 @@ var context = new AudioContext(), ae = {
     click: function() {
         tone(.1).v(0, .3, .5).f(100, 100, 200);
     }
-}, _gs = {
+}, _dec = "012345abcdefABCDEF", _gs = {
     line: function(x, y, x2, y2) {
         return this.ctx.beginPath(), this.ctx.moveTo(x, y), this.ctx.lineTo(x2, y2), this.ctx.stroke(), 
         this;
@@ -196,11 +207,11 @@ var context = new AudioContext(), ae = {
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l ], t_set = {
     0: "",
-    1: "0a2b",
-    2: "0c2b5b",
-    3: "0b1b",
-    4: "0c",
-    5: "0b",
-    6: "0a"
+    1: "0a",
+    2: "0b",
+    3: "0c",
+    4: "0a2a4a",
+    5: "0b3b",
+    6: "0a3b"
 };
 //# sourceMappingURL=scripts.js.map

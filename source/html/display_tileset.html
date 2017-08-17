@@ -14,7 +14,7 @@
 <script>
 var tiles=Object.keys(t_set);
 for (var i=0;i<tiles.length;i+=1) {
-  var t=tile(tiles[i],tiles[i])
+  var t=tile(tiles[i],0,tiles[i])
   t.style.transform="";
   document.getElementById('main').appendChild(t);
 }

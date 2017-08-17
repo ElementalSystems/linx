@@ -1,11 +1,11 @@
 var t_set = {
   0: "",
-  1: "0a2b",
-  2: "0c2b5b",
-  3: "0b1b",
-  4: "0c",
-  5: "0b",
-  6: "0a"
+  1: "0a",
+  2: "0b",
+  3: "0c",
+  4: "0a2a4a",
+  5: "0b3b",
+  6: "0a3b"
 };
 
 
@@ -18,7 +18,7 @@ function drawLnks(s, lk) {
   }
 }
 
-function tile(ti, txt) {
+function tile(ti, at,txt) {
   var tc = document.createElement('div');
   if (txt) tc.innerHTML = txt;
   tc.classList.add('tile');
@@ -61,10 +61,26 @@ function tile(ti, txt) {
     .echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
   bot.setbg(tc.t_b);
   tc.appendChild(tc.t_b);
+
+  if (at) { //create the action button to get pressed
+    tc.t_a = document.createElement('div');
+    tc.t_a.classList.add('act');
+    var act = gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(2)
+    .line(0,-.4,.1,-.35).line(0,-.3,.1,-.35)
+    .echo(10, 0, 0, 0, 0, -60 , 0, 1, 1, .2, 1)
+      .rotSym(5);
+    act.setbg(tc.t_a);
+    tc.appendChild(tc.t_a);
+    tc.t_a.addEventListener("click", function() { tc.t_dir=tc.t_dir+1; tc.setTransform();});
+  }
+
+
   tc.style.transform="translate3d(50vmin,-30vmin,0px)"
   tc.setTransformFuture=function(tm) {
     setTimeout(function(){tc.setTransform();},tm*1000);
   };
+
+
   tc.setTransform=function()
   {
     var x=ti_to_x(tc.t_i)*25;

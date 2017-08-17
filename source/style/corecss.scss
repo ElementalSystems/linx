@@ -13,6 +13,11 @@ body {
   margin:0;
 }
 
+@keyframes round {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(72deg); }
+}
+
 div.tile {
   position: absolute;
   width: 25vmin;
@@ -31,6 +36,7 @@ div.tile {
     right:0;
     z-index:10;
     background-size: 100% 100%;
+    pointer-events: none;
   }
   div.bot {
     z-index:2;
@@ -41,4 +47,15 @@ div.tile {
     right:0;
     background-size: 100% 100%;
   }
+  div.act {
+    z-index:5;
+    position: absolute;
+    top:10%;
+    bottom: 10%;
+    left: 10%;
+    right:10%;
+    background-size: 100% 100%;
+    animation: round 3s infinite;
+  }
+
 }
