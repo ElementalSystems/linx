@@ -10,6 +10,8 @@ function dec(at)
   }
 }
 
+g_dir=[-5,+1,+6,+5,-1,-6];
+
 //create a grid in the dom element el from the init string
 function buildGrid(el,init)
 {
@@ -25,7 +27,31 @@ function buildGrid(el,init)
     t.setTransform();
     grd.push(t)
   }
-  return grd;
+  var g={
+    cell:grd,
+    spark: function(type,grd,tile,lnk) {
+      var x=_spark(type,grd,tile,lnk);
+      this.spks.push(x)
+      return x;
+    },
+
+    spks: []
+  };
+
+  //start the game loop
+  var st=0;
+  function gl(t)
+  {
+    var ft=.05;
+    if (st) ft=(t-st)/1000;
+    st=t;
+    for (var i=0;i<g.spks.length;i+=1)
+      g.spks[i].tick(ft);
+    window.requestAnimationFrame(gl);
+  };
+  window.requestAnimationFrame(gl);
+
+  return g;
 }
 
 function ti_to_x(i)

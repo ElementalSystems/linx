@@ -57,5 +57,22 @@ div.tile {
     background-size: 100% 100%;
     animation: round 3s infinite;
   }
+  div.spk {
+    z-index:100;
+    width: 4vmin;
+    height: 4vmin;
+    position:relative;
+    left: -2vmin;
+    top: -2vmin;
+
+    div {//decor div
+      position: absolute;
+      top:0;
+      bottom: 0;
+      left: 0;
+      right:0;
+      background-size: 100% 100%;
+    }
+  }
 
 }

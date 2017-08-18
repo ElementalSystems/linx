@@ -52,5 +52,19 @@ div.tile {
     right: 10%;
     background-size: 100% 100%;
     animation: round 3s infinite; }
+  div.tile div.spk {
+    z-index: 100;
+    width: 4vmin;
+    height: 4vmin;
+    position: relative;
+    left: -2vmin;
+    top: -2vmin; }
+    div.tile div.spk div {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-size: 100% 100%; }
 
 /*# sourceMappingURL=style.css.map */

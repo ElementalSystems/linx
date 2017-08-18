@@ -23,28 +23,28 @@
   <div class=row>
   <input id=r6 type=text maxlength=2 onchange="edited()">
   <input id=r7 type=text maxlength=2 onchange="edited()">
-  <input id=r8 type=text maxlength=2 onchange="edited()">
+  <input id=r8 type=text maxlength=2 onchange="edited()" value='23'>
   <input id=r9 type=text maxlength=2 onchange="edited()">
   <input id=r10 type=text maxlength=2 onchange="edited()">
   </div>
   <div class=row>
   <input id=r11 type=text maxlength=2 onchange="edited()">
-  <input id=r12 type=text maxlength=2 onchange="edited()" value='20'>
-  <input id=r13 type=text maxlength=2 onchange="edited()" value='21'>
-  <input id=r14 type=text maxlength=2 onchange="edited()" value='13'>
+  <input id=r12 type=text maxlength=2 onchange="edited()">
+  <input id=r13 type=text maxlength=2 onchange="edited()" value='40'>
+  <input id=r14 type=text maxlength=2 onchange="edited()">
   <input id=r15 type=text maxlength=2 onchange="edited()">
   </div>
   <div class=row>
   <input id=r16 type=text maxlength=2 onchange="edited()">
   <input id=r17 type=text maxlength=2 onchange="edited()">
   <input id=r18 type=text maxlength=2 onchange="edited()" value='4a'>
-  <input id=r19 type=text maxlength=2 onchange="edited()" value='24'>
+  <input id=r19 type=text maxlength=2 onchange="edited()">
   <input id=r20 type=text maxlength=2 onchange="edited()">
   </div>
   <div class=row>
   <input id=r21 type=text maxlength=2 onchange="edited()">
   <input id=r22 type=text maxlength=2 onchange="edited()">
-  <input id=r23 type=text maxlength=2 onchange="edited()">
+  <input id=r23 type=text maxlength=2 onchange="edited()" value='30'>
   <input id=r24 type=text maxlength=2 onchange="edited()">
   <input id=r25 type=text maxlength=2 onchange="edited()">
   </div>
@@ -75,7 +75,8 @@ function edited() {
   document.getElementById('target').innerHTML=data;
   var spot=document.getElementById('main');
   spot.innerHTML="";
-  buildGrid(spot,data)
+  var grd=buildGrid(spot,data)
+  grd.spark('0',grd,7,0); 
 }
 edited();
 </script>

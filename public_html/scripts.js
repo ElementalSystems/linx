@@ -36,11 +36,25 @@ function dec(at) {
 }
 
 function buildGrid(el, init) {
+    function gl(t) {
+        var ft = .05;
+        st && (ft = (t - st) / 1e3), st = t;
+        for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(ft);
+        window.requestAnimationFrame(gl);
+    }
     for (var grd = [], i = 0; i < 30; i += 1) {
         var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
         el.appendChild(t), t.t_i = i, t.t_dir = ty.val, t.setTransform(), grd.push(t);
     }
-    return grd;
+    var g = {
+        cell: grd,
+        spark: function(type, grd, tile, lnk) {
+            var x = _spark(type, grd, tile, lnk);
+            return this.spks.push(x), x;
+        },
+        spks: []
+    }, st = 0;
+    return window.requestAnimationFrame(gl), g;
 }
 
 function ti_to_x(i) {
@@ -66,36 +80,50 @@ function gs(res) {
 }
 
 function h_ni(i) {
-    return (i + 36) % 6;
+    return (i + 3600) % 6;
 }
 
 function start() {
     console.log("start up code");
 }
 
+function _spark(type, grd, tile, lnk) {
+    function link(tile, lnk, dir) {
+        spk.fact = dir, spk.tile = grd.cell[tile], spk.lk = spk.tile.lk[lnk], spk.tile.appendChild(spk);
+    }
+    var spk = document.createElement("div");
+    return spk.classList.add("spk"), spk.spk_decor = document.createElement("div"), 
+    gs(50).lineStyle("rgba(255,128,128,1)").lineWidth(10).hex(.8).hex(.4).setbg(spk.spk_decor), 
+    spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.tick = function(time) {
+        spk.pos += spk.fact * time;
+        var sw = -1;
+        if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
+        sw = spk.lk.st), sw >= 0) {
+            for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].st == inward && (lnk = i), 
+            nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1);
+            lnk >= 0 && link(nextTi, lnk, dir);
+        }
+        var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
+        spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,0)";
+    }, spk;
+}
+
 function drawLnks(s, lk) {
     for (var i = 0; i < lk.length; i += 1) s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk[i].pts, .05, !0), 
-    s.lineStyle("rgba(255,0,0,.8)").lineWidth(1).fillStyle("rgba(255,0,0,.5)").discPath(lk[i].pts, .03, !0);
+    s.lineStyle("rgba(255,0,0,.8)").lineWidth(1).fillStyle("rgba(255,0,0,.5)").discPath(lk[i].pts, .03, !0), 
+    6 == lk[i].ed && s.lineStyle("rgba(255,0,0,1)").lineWidth(3).circle(.2, 0, .1), 
+    7 == lk[i].ed && s.lineStyle("rgba(255,0,0,.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
 }
 
 function tile(ti, at, txt) {
     var tc = document.createElement("div");
     txt && (tc.innerHTML = txt), tc.classList.add("tile"), tc.lk = [];
     for (var tds = t_set[ti], i = 0; i < tds.length; i += 2) {
-        var start = Number(tds.charAt(i)), dist = 1;
-        switch (tds.charAt(i + 1)) {
-          case "b":
-            dist = 2;
-            break;
-
-          case "c":
-            dist = 3;
-        }
-        var end = h_ni(start + dist);
-        tc.lk.push({
+        var start = Number(tds.charAt(i)), sc = dec(tds.charAt(i + 1)), end = 0;
+        end = sc.val < 3 ? h_ni(start + sc.val + 1) : 3 == sc.val ? 6 : 7, tc.lk.push({
             st: start,
             ed: end,
-            ty: 0,
+            ty: sc.cls,
             pts: bez(20, h_mx[start], h_my[start], h_mx[end], h_my[end], 0, 0)
         });
     }
@@ -104,7 +132,7 @@ function tile(ti, at, txt) {
     (drawLnks(top, tc.lk), top.setbg(tc.t_t), tc.appendChild(tc.t_t), tc.t_b = document.createElement("div"), 
     tc.t_b.classList.add("bot"), gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95).echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0).setbg(tc.t_b), 
     tc.appendChild(tc.t_b), at) && (tc.t_a = document.createElement("div"), tc.t_a.classList.add("act"), 
-    gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(2).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).echo(10, 0, 0, 0, 0, -60, 0, 1, 1, .2, 1).rotSym(5).setbg(tc.t_a), 
+    gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(1).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).echo(20, 0, 0, 0, 0, -60, 0, 1, 1, .1, 1).rotSym(5).setbg(tc.t_a), 
     tc.appendChild(tc.t_a), tc.t_a.addEventListener("click", function() {
         tc.t_dir = tc.t_dir + 1, tc.setTransform();
     }));
@@ -140,7 +168,11 @@ var context = new AudioContext(), ae = {
     click: function() {
         tone(.1).v(0, .3, .5).f(100, 100, 200);
     }
-}, _dec = "012345abcdefABCDEF", _gs = {
+}, _dec = "012345abcdefABCDEF";
+
+g_dir = [ -5, 1, 6, 5, -1, -6 ];
+
+var _gs = {
     line: function(x, y, x2, y2) {
         return this.ctx.beginPath(), this.ctx.moveTo(x, y), this.ctx.lineTo(x2, y2), this.ctx.stroke(), 
         this;
@@ -205,13 +237,13 @@ var context = new AudioContext(), ae = {
         return ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs.ctx.scale(x ? -1 : 1, y ? -1 : 1), 
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
-}, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l ], t_set = {
+}, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], t_set = {
     0: "",
     1: "0a",
-    2: "0b",
-    3: "0c",
-    4: "0a2a4a",
-    5: "0b3b",
-    6: "0a3b"
+    2: "0d",
+    3: "0e",
+    4: "0c",
+    5: "0b",
+    6: "0b1b"
 };
 //# sourceMappingURL=scripts.js.map
