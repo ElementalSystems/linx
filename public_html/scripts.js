@@ -4,12 +4,12 @@ function tone(length, type) {
     oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
     oscillator.stop(current + length), {
         f: function() {
-            1 == arguments.length && (oscillator.frequency.value = arguments[0]);
+            if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
             for (var i = 0; i < arguments.length; i += 1) oscillator.frequency.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
             return this;
         },
         v: function() {
-            1 == arguments.length && (gain.gain.value = arguments[0]);
+            if (1 == arguments.length) return gain.gain.value = arguments[0], this;
             for (var i = 0; i < arguments.length; i += 1) gain.gain.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
             return this;
         }
@@ -27,19 +27,16 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
     return cv;
 }
 
-function dec(at) {
-    var v = _dec.indexOf(at);
-    return {
-        cls: Math.floor(v / 6),
-        val: v % 6
-    };
-}
-
 function buildGrid(el, init) {
     function gl(t) {
-        var ft = .05;
-        st && (ft = (t - st) / 1e3), st = t;
-        for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(ft);
+        var ft = .01;
+        st && (ft = (t - st) / 1e3);
+        var gft = ft / 2;
+        if (st = t, (spk_time -= gft) < 0 && spk_count < 8) {
+            spk_time += spk_gap, spk_count += 1;
+            for (var l = 0; l < 30; l += 1) for (var m = 0; m < g.cell[l].lk.length; m += 1) 6 == g.cell[l].lk[m].ed && g.spark("0", g, l, m);
+        }
+        for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(gft);
         window.requestAnimationFrame(gl);
     }
     for (var grd = [], i = 0; i < 30; i += 1) {
@@ -53,7 +50,7 @@ function buildGrid(el, init) {
             return this.spks.push(x), x;
         },
         spks: []
-    }, st = 0;
+    }, st = 0, spk_gap = .35, spk_time = 0, spk_count = 0;
     return window.requestAnimationFrame(gl), g;
 }
 
@@ -93,19 +90,27 @@ function _spark(type, grd, tile, lnk) {
     }
     var spk = document.createElement("div");
     return spk.classList.add("spk"), spk.spk_decor = document.createElement("div"), 
-    gs(50).lineStyle("rgba(255,128,128,1)").lineWidth(10).hex(.8).hex(.4).setbg(spk.spk_decor), 
-    spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.tick = function(time) {
-        spk.pos += spk.fact * time;
-        var sw = -1;
-        if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
-        sw = spk.lk.st), sw >= 0) {
-            for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].st == inward && (lnk = i), 
-            nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1);
-            lnk >= 0 && link(nextTi, lnk, dir);
+    gs(50).lineGrad("rgba(192,192,0,1)", "rgba(255,0,0,1)").lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45).echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0).rotSym(rdmi(3, 6)).setbg(spk.spk_decor), 
+    spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(.1, 1), 
+    spk.tick = function(time) {
+        if (!spk.stop) {
+            spk.pos += spk.fact * time;
+            var sw = -1;
+            if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
+            sw = spk.lk.st), 7 == sw) return spk.fx("home"), void (spk.stop = !0);
+            if (sw >= 0) {
+                for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].st == inward && (lnk = i), 
+                nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1);
+                if (!(lnk >= 0)) return spk.fx("death"), void (spk.stop = !0);
+                spk.fx("hop"), link(nextTi, lnk, dir);
+            }
+            var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
+            spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,0)", 
+            spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(.2, 1.2), spk.fx("chirp"));
         }
-        var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
-        spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,0)";
-    }, spk;
+    }, spk.fx = function(e) {
+        ae[e](), spk.spk_decor.style.animation = e + " 1s 1 forwards";
+    }, spk.fx("start"), spk;
 }
 
 function drawLnks(s, lk) {
@@ -146,9 +151,28 @@ function tile(ti, at, txt) {
     }, tc;
 }
 
+function dec(at) {
+    var v = _dec.indexOf(at);
+    return {
+        cls: Math.floor(v / 6),
+        val: v % 6
+    };
+}
+
+function rdm(a, b) {
+    return a + Math.random() * (b - a);
+}
+
+function rdmi(a, b) {
+    return Math.floor(a + Math.random() * (b - a + 1));
+}
+
 var context = new AudioContext(), ae = {
     beep: function() {
         tone(1, "square").v(0, 1, 1, 1, 0).f(300);
+    },
+    hop: function() {
+        tone(1).v(0, 1, 1, 1, 0).f(300);
     },
     home: function() {
         tone(1.5).v(1, 1, 1, 1, 0).f(100, 300, 100, 200, 100, 150, 50);
@@ -159,6 +183,9 @@ var context = new AudioContext(), ae = {
     death: function() {
         tone(2).v(1, 0, .8, 0, .5, 0).f(150, 100);
     },
+    chirp: function() {
+        tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
+    },
     spdup: function() {
         tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
     },
@@ -168,7 +195,7 @@ var context = new AudioContext(), ae = {
     click: function() {
         tone(.1).v(0, .3, .5).f(100, 100, 200);
     }
-}, _dec = "012345abcdefABCDEF";
+};
 
 g_dir = [ -5, 1, 6, 5, -1, -6 ];
 
@@ -245,5 +272,5 @@ var _gs = {
     4: "0c",
     5: "0b",
     6: "0b1b"
-};
+}, _dec = "012345abcdefABCDEF";
 //# sourceMappingURL=scripts.js.map

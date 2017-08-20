@@ -19,7 +19,7 @@ function drawLnks(s, lk) {
       s.lineStyle("rgba(255,0,0,1)").lineWidth(3)
        .circle(.2,0,.1);
     }
-    if (lk[i].ed==7) { //need to draw the start point
+    if (lk[i].ed==7) { //need to draw the end point
       s.lineStyle("rgba(255,0,0,.8)").lineWidth(3)
       .line(-.3,-.1,-.1,-.1)
       .line(-.3,.1,-.1,.1)

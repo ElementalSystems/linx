@@ -11,8 +11,10 @@ function _spark(type,grd,tile,lnk)
 
   //make a child div and decorate it with a GS
   spk.spk_decor = document.createElement('div');
-  gs(50).lineStyle("rgba(255,128,128,1)")
-        .lineWidth(10).hex(.8).hex(.4)
+  gs(50).lineGrad("rgba(192,192,0,1)","rgba(255,0,0,1)")
+        .lineWidth(15).line(0,.1,0,.4).line(rdm(-.25,0),.45,rdm(.1,.25),.45)
+        .echo(5,0,0,0,0,0,rdm(25,95),1,1,1,0)
+        .rotSym(rdmi(3,6))
         .setbg(spk.spk_decor);
 
   spk.appendChild(spk.spk_decor);
@@ -23,11 +25,17 @@ function _spark(type,grd,tile,lnk)
     spk.lk=spk.tile.lk[lnk];
     spk.tile.appendChild(spk);
   }
+
+
+
+
   spk.pos=1;
-  link(tile,lnk,-1); //connect it to the first tile
+  link(tile,lnk,-1); //connect it to the init tile
+  spk.ch_tm=rdm(.1,1);
   //add it's move me forward in time function
   spk.tick=function(time)
   {
+    if (spk.stop) return;
     //move my position
     spk.pos+=spk.fact*time; //because you move 1 unit in one second
     var sw=-1;
@@ -37,6 +45,11 @@ function _spark(type,grd,tile,lnk)
     } else if (spk.pos<0) {//previous tile
       spk.pos*=-1;
       sw=spk.lk.st;
+    }
+    if (sw==7) { //we got home
+      spk.fx('home');
+      spk.stop=true;
+      return;
     }
     if (sw>=0) { //seems we are moving to a new hex;
       var outward=h_ni(sw+spk.tile.t_dir);
@@ -56,7 +69,12 @@ function _spark(type,grd,tile,lnk)
         }
       }
       if (lnk>=0) {
+        spk.fx('hop');
         link(nextTi,lnk,dir);
+      } else {
+        spk.fx('death');
+        spk.stop=true;
+        return;
       }
     }
     //position me on the lnk
@@ -67,6 +85,20 @@ function _spark(type,grd,tile,lnk)
     var x=spk.lk.pts[ppf].x*(1-ppd)+spk.lk.pts[ppf+1].x*ppd;
     var y=spk.lk.pts[ppf].y*(1-ppd)+spk.lk.pts[ppf+1].y*ppd;
     spk.style.transform="translate3d("+(x*25+12.5)+"vmin,"+(y*25+12.5)+"vmin,0)";
+
+    //chirp code
+    spk.ch_tm-=time;
+    if (spk.ch_tm<0) {
+      spk.ch_tm=rdm(.2,1.2);
+      spk.fx('chirp')    
+    }
+
   }
+  //do a special effect thing
+  spk.fx=function(e) {
+    ae[e](); //play the sound
+    spk.spk_decor.style.animation=e+" 1s 1 forwards"; //do the movement
+  }
+  spk.fx('start')
   return spk;
 }
