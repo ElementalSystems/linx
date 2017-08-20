@@ -1,0 +1,105 @@
+div.main {
+  height: 100vmin;
+  width: 100vmin;
+  background: #000;
+  color: #000;
+  font-size: 5vmin;
+  margin: 0;
+  position: relative;
+  overflow: hidden; }
+
+body {
+  margin: 0; }
+
+@keyframes round {
+  0% {
+    transform: rotateZ(0deg); }
+  100% {
+    transform: rotateZ(72deg); } }
+@keyframes home {
+  0% {
+    transform: scale(1, 1);
+    opacity: 1; }
+  100% {
+    transform: scale(3, 3);
+    opacity: 0; } }
+@keyframes hop {
+  0% {
+    transform: rotateY(0deg); }
+  100% {
+    transform: rotateY(180deg); } }
+@keyframes death {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+@keyframes start {
+  0% {
+    transform: scale(0.1, 0.1); }
+  100% {
+    transform: scale(1, 1); } }
+@keyframes chirp {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  20% {
+    transform: translate3d(1vmin, -1vmin, 0vmin) rotateZ(40deg); }
+  50% {
+    transform: translate3d(1vmin, 1vmin, 0vmin); }
+  75% {
+    transform: translate3d(-1vmin, 0vmin, 0vmin) rotateZ(80deg); }
+  100% {
+    transform: translate3d(0vmin, 0vmin, 0vmin) rotateZ(0deg); } }
+div.tile {
+  position: absolute;
+  width: 25vmin;
+  height: 25vmin;
+  background-size: 100% 100%;
+  color: #FFF;
+  text-align: left;
+  display: inline-block;
+  box-sizing: border-box;
+  transition: transform .5s; }
+  div.tile div.top {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-size: 100% 100%;
+    pointer-events: none; }
+  div.tile div.bot {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 100% 100%; }
+  div.tile div.act {
+    z-index: 5;
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
+    background-size: 100% 100%;
+    animation: round 3s infinite; }
+  div.tile div.spk {
+    pointer-events: none;
+    z-index: 100;
+    width: 4vmin;
+    height: 4vmin;
+    position: absolute;
+    left: -2vmin;
+    top: -2vmin;
+    transform-origin: 50% 50%; }
+    div.tile div.spk div {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-size: 100% 100%; }
+
+/*# sourceMappingURL=style.css.map */
