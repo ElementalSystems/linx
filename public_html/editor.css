@@ -4,8 +4,6 @@ div.main.sheet div.tile {
 div#editor {
   overflow: hidden; }
   div#editor div.main {
-    height: 100vmin;
-    width: 100vmin;
     float: right; }
   div#editor input {
     font-size: 200%;

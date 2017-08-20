@@ -172,7 +172,7 @@ var context = new AudioContext(), ae = {
         tone(1, "square").v(0, 1, 1, 1, 0).f(300);
     },
     hop: function() {
-        tone(1).v(0, 1, 1, 1, 0).f(300);
+        tone(.25).v(0, 1, 1, 1, 0).f(300);
     },
     home: function() {
         tone(1.5).v(1, 1, 1, 1, 0).f(100, 300, 100, 200, 100, 150, 50);
@@ -184,7 +184,7 @@ var context = new AudioContext(), ae = {
         tone(2).v(1, 0, .8, 0, .5, 0).f(150, 100);
     },
     chirp: function() {
-        tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
+        tone(.1).v(0, 1, 1, .5).f(500, 1e3, 500);
     },
     spdup: function() {
         tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
@@ -264,7 +264,10 @@ var _gs = {
         return ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs.ctx.scale(x ? -1 : 1, y ? -1 : 1), 
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
-}, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], t_set = {
+}, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
+    1: "22000000000055520000114a41140000555200000031525a000000001500",
+    5: "211310000000606113000010646c0000001d5c140000305a1c0000000000"
+}, t_set = {
     0: "",
     1: "0a",
     2: "0d",
