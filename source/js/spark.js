@@ -9,9 +9,16 @@ function _spark(type,grd,tile,lnk)
   var spk = document.createElement('div');
   spk.classList.add('spk');
 
+  spk.spk_ty=grd.cell[tile].lk[lnk].ty;
+  var cl="255,255,255";
+  switch (spk.spk_ty) {
+    case 0: cl="0,255,0"; break;
+    case 1: cl="255,0,0"; break;
+    case 2: cl="0,0,255"; break;
+  }
   //make a child div and decorate it with a GS
   spk.spk_decor = document.createElement('div');
-  gs(50).lineGrad("rgba(192,192,0,1)","rgba(255,0,0,1)")
+  gs(50).lineGrad("rgba(192,192,0,1)","rgba("+cl+",1)")
         .lineWidth(15).line(0,.1,0,.4).line(rdm(-.25,0),.45,rdm(.1,.25),.45)
         .echo(5,0,0,0,0,0,rdm(25,95),1,1,1,0)
         .rotSym(rdmi(3,6))
@@ -59,6 +66,7 @@ function _spark(type,grd,tile,lnk)
       var lnk=-1;
       var dir=1;
       for (var i=0;i<nextT.lk.length;i+=1) {
+        if (nextT.lk[i].ty!=spk.spk_ty) continue;
         if (nextT.lk[i].st==inward) {
           lnk=i;
         }
@@ -90,7 +98,7 @@ function _spark(type,grd,tile,lnk)
     spk.ch_tm-=time;
     if (spk.ch_tm<0) {
       spk.ch_tm=rdm(.2,1.2);
-      spk.fx('chirp')    
+      spk.fx('chirp')
     }
 
   }

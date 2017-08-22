@@ -27,6 +27,14 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
     return cv;
 }
 
+function decorate() {
+    gs(50).lineWidth(5).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s0"));
+    var t = gs(50).lineWidth(5).lineGrad("#FF0", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
+    t.echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s1")), 
+    t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s2")), 
+    t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s3"));
+}
+
 function buildGrid(el, init) {
     function gl(t) {
         var ft = .01;
@@ -89,8 +97,21 @@ function _spark(type, grd, tile, lnk) {
         spk.fact = dir, spk.tile = grd.cell[tile], spk.lk = spk.tile.lk[lnk], spk.tile.appendChild(spk);
     }
     var spk = document.createElement("div");
-    return spk.classList.add("spk"), spk.spk_decor = document.createElement("div"), 
-    gs(50).lineGrad("rgba(192,192,0,1)", "rgba(255,0,0,1)").lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45).echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0).rotSym(rdmi(3, 6)).setbg(spk.spk_decor), 
+    spk.classList.add("spk"), spk.spk_ty = grd.cell[tile].lk[lnk].ty;
+    var cl = "255,255,255";
+    switch (spk.spk_ty) {
+      case 0:
+        cl = "0,255,0";
+        break;
+
+      case 1:
+        cl = "255,0,0";
+        break;
+
+      case 2:
+        cl = "0,0,255";
+    }
+    return spk.spk_decor = document.createElement("div"), gs(50).lineGrad("rgba(192,192,0,1)", "rgba(" + cl + ",1)").lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45).echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0).rotSym(rdmi(3, 6)).setbg(spk.spk_decor), 
     spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(.1, 1), 
     spk.tick = function(time) {
         if (!spk.stop) {
@@ -99,8 +120,8 @@ function _spark(type, grd, tile, lnk) {
             if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
             sw = spk.lk.st), 7 == sw) return spk.fx("home"), void (spk.stop = !0);
             if (sw >= 0) {
-                for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].st == inward && (lnk = i), 
-                nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1);
+                for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
+                nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1));
                 if (!(lnk >= 0)) return spk.fx("death"), void (spk.stop = !0);
                 spk.fx("hop"), link(nextTi, lnk, dir);
             }
@@ -113,11 +134,28 @@ function _spark(type, grd, tile, lnk) {
     }, spk.fx("start"), spk;
 }
 
+function drawLnk(s, lk) {
+    var cl = "255,255,255";
+    switch (lk.ty) {
+      case 0:
+        cl = "0,255,0";
+        break;
+
+      case 1:
+        cl = "255,0,0";
+        break;
+
+      case 2:
+        cl = "0,0,255";
+    }
+    s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .03, !0), 
+    s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)").discPath(lk.pts, .02, !0), 
+    6 == lk.ed && s.lineStyle("rgba(" + cl + ",1)").lineWidth(3).circle(.2, 0, .1), 
+    7 == lk.ed && s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
+}
+
 function drawLnks(s, lk) {
-    for (var i = 0; i < lk.length; i += 1) s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk[i].pts, .05, !0), 
-    s.lineStyle("rgba(255,0,0,.8)").lineWidth(1).fillStyle("rgba(255,0,0,.5)").discPath(lk[i].pts, .03, !0), 
-    6 == lk[i].ed && s.lineStyle("rgba(255,0,0,1)").lineWidth(3).circle(.2, 0, .1), 
-    7 == lk[i].ed && s.lineStyle("rgba(255,0,0,.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
+    for (var i = 0; i < lk.length; i += 1) drawLnk(s, lk[i]);
 }
 
 function tile(ti, at, txt) {
@@ -266,7 +304,9 @@ var _gs = {
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
     1: "22000000000055520000114a41140000555200000031525a000000001500",
-    5: "211310000000606113000010646c0000001d5c140000305a1c0000000000"
+    3: "0022000000001170130000008a8c1300008c8a1500317b72140000001500",
+    5: "211310000000606113000010646c0000001d5c140000305a1c0000000000",
+    6: "222300000051715200005040425300001f8a1f130000318a540000000000"
 }, t_set = {
     0: "",
     1: "0a",
@@ -274,6 +314,16 @@ var _gs = {
     3: "0e",
     4: "0c",
     5: "0b",
-    6: "0b1b"
+    6: "0b1b",
+    7: "0c2b5b",
+    8: "0c1a4a",
+    9: "0a223a",
+    a: "00",
+    b: "03",
+    c: "04",
+    d: "01",
+    e: "02",
+    f: "013b",
+    g: "021c"
 }, _dec = "012345abcdefABCDEF";
 //# sourceMappingURL=scripts.js.map

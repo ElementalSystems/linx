@@ -1,5 +1,8 @@
-div.main.sheet div.tile {
-  position: relative; }
+div.sheet {
+  background-color: #DDF;
+  font-size: 300%; }
+  div.sheet div.tile {
+    position: relative; }
 
 div#editor {
   overflow: hidden; }

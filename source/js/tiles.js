@@ -5,28 +5,48 @@ var t_set = {
   3: "0e",
   4: "0c",
   5: "0b",
-  6: "0b1b"
+  6: "0b1b",
+  7: "0c2b5b",
+  8: "0c1a4a",
+  9: "0a223a",
+  a: "00",
+  b: "03",
+  c: "04",
+  d: "01",
+  e: "02",
+  f: "013b",
+  g: "021c"
+
 };
 
 
-function drawLnks(s, lk) {
-  for (var i = 0; i < lk.length; i += 1) {
-    s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
-      .discPath(lk[i].pts, .05, true);
-    s.lineStyle("rgba(255,0,0,.8)").lineWidth(1).fillStyle("rgba(255,0,0,.5)")
-      .discPath(lk[i].pts, .03, true);
-    if (lk[i].ed==6) { //need to draw the start point
-      s.lineStyle("rgba(255,0,0,1)").lineWidth(3)
-       .circle(.2,0,.1);
-    }
-    if (lk[i].ed==7) { //need to draw the end point
-      s.lineStyle("rgba(255,0,0,.8)").lineWidth(3)
-      .line(-.3,-.1,-.1,-.1)
-      .line(-.3,.1,-.1,.1)
-      .line(-.3,.1,-.3,-.1)
-      .line(-.1,.1,-.1,-.1);
-    }
+function drawLnk(s,lk) {
+  var cl="255,255,255";
+  switch (lk.ty) {
+    case 0: cl="0,255,0"; break;
+    case 1: cl="255,0,0"; break;
+    case 2: cl="0,0,255"; break;
   }
+  s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
+    .discPath(lk.pts, .03, true);
+  s.lineStyle("rgba("+cl+",.8)").lineWidth(1).fillStyle("rgba("+cl+",.5)")
+    .discPath(lk.pts, .02, true);
+  if (lk.ed==6) { //need to draw the start point
+    s.lineStyle("rgba("+cl+",1)").lineWidth(3)
+     .circle(.2,0,.1);
+  }
+  if (lk.ed==7) { //need to draw the end point
+    s.lineStyle("rgba("+cl+",.8)").lineWidth(3)
+    .line(-.3,-.1,-.1,-.1)
+    .line(-.3,.1,-.1,.1)
+    .line(-.3,.1,-.3,-.1)
+    .line(-.1,.1,-.1,-.1);
+  }
+}
+
+function drawLnks(s, lk) {
+  for (var i = 0; i < lk.length; i += 1)
+    drawLnk(s,lk[i]);
 }
 
 function tile(ti, at,txt) {

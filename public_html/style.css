@@ -1,3 +1,37 @@
+body {
+  margin: 0; }
+
+#top {
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #3FF;
+  justify-content: space-around; }
+
+#tc {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 1vmin; }
+  #tc div {
+    background: rgba(255, 255, 255, 0.5);
+    width: 10vmin;
+    height: 10vmin;
+    background-size: 100% 100%;
+    border-radius: 2vmin;
+    margin: 1vmin;
+    display: inline-block; }
+
+@media (orientation: portrait) {
+  #top {
+    flex-direction: column; } }
+#title {
+  flex-grow: 1; }
+
+#panel {
+  flex-grow: 3; }
+
 div.main {
   height: 100vmin;
   width: 100vmin;
@@ -7,9 +41,6 @@ div.main {
   margin: 0;
   position: relative;
   overflow: hidden; }
-
-body {
-  margin: 0; }
 
 @keyframes round {
   0% {
@@ -58,7 +89,7 @@ div.tile {
   text-align: left;
   display: inline-block;
   box-sizing: border-box;
-  transition: transform .5s; }
+  transition: transform 0.5s; }
   div.tile div.top {
     position: absolute;
     top: 0;
