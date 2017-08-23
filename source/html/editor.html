@@ -21,7 +21,7 @@
   <input id=r5 type=text maxlength=2 onchange="edited()">
   </div>
   <div class=row>
-  <input id=r6 type=text maxlength=2 onchange="edited()">
+  <input id=r6 type=text maxlength=2 onchange="edited()" value='b2'>
   <input id=r7 type=text maxlength=2 onchange="edited()">
   <input id=r8 type=text maxlength=2 onchange="edited()" value='23'>
   <input id=r9 type=text maxlength=2 onchange="edited()">
@@ -29,7 +29,7 @@
   </div>
   <div class=row>
   <input id=r11 type=text maxlength=2 onchange="edited()">
-  <input id=r12 type=text maxlength=2 onchange="edited()">
+  <input id=r12 type=text maxlength=2 onchange="edited()" value='e2'>
   <input id=r13 type=text maxlength=2 onchange="edited()" value='40'>
   <input id=r14 type=text maxlength=2 onchange="edited()">
   <input id=r15 type=text maxlength=2 onchange="edited()">
@@ -37,7 +37,7 @@
   <div class=row>
   <input id=r16 type=text maxlength=2 onchange="edited()">
   <input id=r17 type=text maxlength=2 onchange="edited()">
-  <input id=r18 type=text maxlength=2 onchange="edited()" value='4a'>
+  <input id=r18 type=text maxlength=2 onchange="edited()" value='fd'>
   <input id=r19 type=text maxlength=2 onchange="edited()">
   <input id=r20 type=text maxlength=2 onchange="edited()">
   </div>
@@ -55,7 +55,19 @@
   <input id=r29 type=text maxlength=2 onchange="edited()">
   <input id=r30 type=text maxlength=2 onchange="edited()">
   </div>
-
+  <div id=panel>
+      <div id=ti>7s</div>
+      <div id=tc>
+        <div id=s0 onclick="setGS(0);">
+        </div>
+        <div id=s1 onclick="setGS(1);">
+        </div>
+        <div id=s2 onclick="setGS(2);">
+        </div>
+        <div id=s3 onclick="setGS(3);">
+        </div>
+    </div>
+  </div>
 
 
 </div>
@@ -64,6 +76,9 @@
 </div>
 <script src="scripts.js"></script>
 <script>
+
+decorate();
+
 function edited() {
   var data="";
   for (var i=1;i<31;i+=1) {
@@ -76,7 +91,7 @@ function edited() {
   var spot=document.getElementById('main');
   spot.innerHTML="";
   var grd=buildGrid(spot,data)
-  //grd.spark('0',grd,7,0); 
+  //grd.spark('0',grd,7,0);
 }
 edited();
 </script>

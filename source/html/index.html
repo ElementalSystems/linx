@@ -13,24 +13,22 @@
     <div id=title>
       Lost
     </div>
-    <div class=main id=main>
+    <div id=mainf>
+      <div class=main id=main>
+      </div>
+
     </div>
     <div id=panel>
-      <div id=timec>
         <div id=ti>7s</div>
         <div id=tc>
-          <div id=s0>
+          <div id=s0 onclick="setGS(0);">
           </div>
-          <div id=s1>
+          <div id=s1 onclick="setGS(1);">
           </div>
-          <div id=s2>
+          <div id=s2 onclick="setGS(2);">
           </div>
-          <div id=s3>
+          <div id=s3 onclick="setGS(3);">
           </div>
-
-
-        </div>
-
 
       </div>
     </div>
@@ -39,7 +37,7 @@
   <script src="scripts.js"></script>
   <script>
     decorate();
-    buildGrid(document.getElementById('main'), lev[6]);
+    buildGrid(document.getElementById('main'), lev[4]);
   </script>
 </body>
 

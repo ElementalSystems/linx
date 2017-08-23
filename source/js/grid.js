@@ -1,7 +1,7 @@
 //utility to store and display a 5 x 6 hex grid
 
 g_dir=[-5,+1,+6,+5,-1,-6];
-
+var activeGrid=null;
 //create a grid in the dom element el from the init string
 function buildGrid(el,init)
 {
@@ -24,9 +24,11 @@ function buildGrid(el,init)
       this.spks.push(x)
       return x;
     },
+    spd: 1,
     spks: []
   };
-
+  activeGrid=g;
+  setGS(1);
   //start the game loop
   var st=0;
   var spk_gap=.35;
@@ -36,7 +38,7 @@ function buildGrid(el,init)
   {
     var ft=.01;
     if (st) ft=(t-st)/1000;
-    var gft=ft/2;
+    var gft=ft/2*g.spd;
     st=t;
 
     spk_time-=gft;
@@ -46,7 +48,7 @@ function buildGrid(el,init)
       for (var l=0;l<30;l+=1) //search the grid for entry spots
         for (var m=0;m<g.cell[l].lk.length;m+=1)
           if (g.cell[l].lk[m].ed==6) //it's an entry
-            g.spark('0',g,l,m);
+            g.spark(g,l,m);
 
     }
 
@@ -67,4 +69,11 @@ function ti_to_x(i)
 function ti_to_y(i)
 {
   return Math.floor(i/5)*h_j*2-(i%5)*h_j;
+}
+
+function setGS(spd)
+{
+  activeGrid.spd=spd;
+  for (var i=0;i<4;i+=1)
+     document.getElementById('s'+i).classList.toggle('active',spd==i)
 }

@@ -8,7 +8,7 @@ var t_set = {
   6: "0b1b",
   7: "0c2b5b",
   8: "0c1a4a",
-  9: "0a223a",
+  9: "0a2a4a",
   a: "00",
   b: "03",
   c: "04",
@@ -16,11 +16,28 @@ var t_set = {
   e: "02",
   f: "013b",
   g: "021c"
-
 };
 
+var t_thm={ //theme for tiles
+  c1: "#",
+  c2: "",
+  top: function(el,lk) {
+    var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, true);
+    drawLnks(top, lk)
+    top.setbg(el);
 
-function drawLnk(s,lk) {
+  },
+  bot: function(el,lk) {
+    var bot = gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95)
+      .echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
+    drawLnks(bot, lk,true)
+
+    bot.setbg(el);
+  }
+}
+
+
+function drawLnk(s,lk,sdw) {
   var cl="255,255,255";
   switch (lk.ty) {
     case 0: cl="0,255,0"; break;
@@ -29,8 +46,9 @@ function drawLnk(s,lk) {
   }
   s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
     .discPath(lk.pts, .03, true);
-  s.lineStyle("rgba("+cl+",.8)").lineWidth(1).fillStyle("rgba("+cl+",.5)")
-    .discPath(lk.pts, .02, true);
+  if (!sdw)
+    s.lineStyle("rgba("+cl+",.8)").lineWidth(1).fillStyle("rgba("+cl+",.5)")
+      .discPath(lk.pts, .02, true);
   if (lk.ed==6) { //need to draw the start point
     s.lineStyle("rgba("+cl+",1)").lineWidth(3)
      .circle(.2,0,.1);
@@ -44,9 +62,9 @@ function drawLnk(s,lk) {
   }
 }
 
-function drawLnks(s, lk) {
+function drawLnks(s, lk,sdw) {
   for (var i = 0; i < lk.length; i += 1)
-    drawLnk(s,lk[i]);
+    drawLnk(s,lk[i],sdw);
 }
 
 function tile(ti, at,txt) {
@@ -77,25 +95,22 @@ function tile(ti, at,txt) {
   //create the top layer
   tc.t_t = document.createElement('div');
   tc.t_t.classList.add('top');
-  var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, true);
-  drawLnks(top, tc.lk)
-  top.setbg(tc.t_t);
+  t_thm.top(tc.t_t,tc.lk);
   tc.appendChild(tc.t_t);
 
   //create the bottom layer
   tc.t_b = document.createElement('div');
   tc.t_b.classList.add('bot');
-  var bot = gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95)
-    .echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
-  bot.setbg(tc.t_b);
+  tc.t_b.style.animation="hover "+rdm(5,10)+"s infinite";
+  t_thm.bot(tc.t_b,tc.lk);
   tc.appendChild(tc.t_b);
 
   if (at) { //create the action button to get pressed
     tc.t_a = document.createElement('div');
     tc.t_a.classList.add('act');
     var act = gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(1)
-    .line(0,-.4,.1,-.35).line(0,-.3,.1,-.35)
-    .echo(20, 0, 0, 0, 0, -60 , 0, 1, 1, .1, 1)
+      .line(0,-.4,.1,-.35).line(0,-.3,.1,-.35)
+      .echo(20, 0, 0, 0, 0, -60 , 0, 1, 1, .1, 1)
       .rotSym(5);
     act.setbg(tc.t_a);
     tc.appendChild(tc.t_a);

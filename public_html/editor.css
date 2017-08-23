@@ -7,7 +7,8 @@ div.sheet {
 div#editor {
   overflow: hidden; }
   div#editor div.main {
-    float: right; }
+    float: right;
+    transform: scale(0.7, 0.7); }
   div#editor input {
     font-size: 200%;
     width: 1.2em;
