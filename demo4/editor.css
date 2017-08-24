@@ -1,0 +1,25 @@
+div.sheet {
+  background-color: #DDF;
+  font-size: 300%; }
+  div.sheet div.tile {
+    position: relative; }
+
+div#editor {
+  overflow: hidden; }
+  div#editor div.main {
+    float: right;
+    transform: scale(0.7, 0.7); }
+  div#editor input {
+    font-size: 200%;
+    width: 1.2em;
+    margin: .1em;
+    border: 2px #000 solid;
+    padding: .1em;
+    font-family: monospace; }
+  div#editor div.editrows {
+    padding-top: 7em; }
+  div#editor div.row {
+    transform-origin: 0% 0%;
+    transform: rotateZ(-30deg); }
+
+/*# sourceMappingURL=editor.css.map */
