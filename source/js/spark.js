@@ -76,18 +76,20 @@ function _spark(grd, tile, lnk) {
       var outward = h_ni(sw + spk.tile.t_dir);
       var nextTi = spk.tile.t_i + g_dir[outward];
       var nextT = grd.cell[nextTi];
-      var inward = h_ni(outward + 3 - nextT.t_dir);
       var lnk = -1;
       var dir = 1;
-      for (var i = 0; i < nextT.lk.length; i += 1) {
-        if (nextT.lk[i].ty != spk.spk_ty) continue;
-        if (nextT.lk[i].st == inward) {
-          lnk = i;
-        }
-        if (nextT.lk[i].ed == inward) {
-          lnk = i;
-          spk.pos = 1 - spk.pos;
-          dir = -1;
+      if (nextT) {
+        var inward = h_ni(outward + 3 - nextT.t_dir);
+        for (var i = 0; i < nextT.lk.length; i += 1) {
+          if (nextT.lk[i].ty != spk.spk_ty) continue;
+          if (nextT.lk[i].st == inward) {
+            lnk = i;
+          }
+          if (nextT.lk[i].ed == inward) {
+            lnk = i;
+            spk.pos = 1 - spk.pos;
+            dir = -1;
+          }
         }
       }
       if (lnk >= 0) {

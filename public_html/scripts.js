@@ -39,7 +39,7 @@ function decorate() {
 function buildGrid(el, init) {
     function gl(t) {
         var ft = .01;
-        st && (ft = (t - st) / 1e3);
+        st && (ft = (t - st) / 1e3), ft > .1 && (ft = .1);
         var gft = ft / 2 * g.spd;
         if (st = t, (spk_time -= gft) < 0 && spk_count < 8) {
             spk_time += spk_gap, spk_count += 1;
@@ -130,7 +130,8 @@ function _spark(grd, tile, lnk) {
             if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
             sw = spk.lk.st), 7 == sw) return spk.fx("home"), void (spk.stop = !0);
             if (sw >= 0) {
-                for (var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], inward = h_ni(outward + 3 - nextT.t_dir), lnk = -1, dir = 1, i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
+                var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], lnk = -1, dir = 1;
+                if (nextT) for (var inward = h_ni(outward + 3 - nextT.t_dir), i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
                 nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1));
                 if (!(lnk >= 0)) return spk.fx("death"), void (spk.stop = !0);
                 spk.fx("hop"), link(nextTi, lnk, dir);

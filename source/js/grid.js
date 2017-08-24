@@ -38,6 +38,7 @@ function buildGrid(el,init)
   {
     var ft=.01;
     if (st) ft=(t-st)/1000;
+    if (ft>.1) ft=.1; //we don't believe in longer frames than 1/10 of a second.
     var gft=ft/2*g.spd;
     st=t;
 
