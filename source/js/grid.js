@@ -3,8 +3,13 @@
 g_dir=[-5,+1,+6,+5,-1,-6];
 var activeGrid=null;
 //create a grid in the dom element el from the init string
-function buildGrid(el,init)
+function buildGrid(el,fin)
 {
+  //first extract theme
+  qThm(Number(fin.charAt(0)),Number(fin.substring(1,3))*10,
+                             Number(fin.substring(3,5))*10,Number(fin.charAt(5))*10);
+  //now get the tiles
+  var init=fin.substring(6);
   var grd=[];
   for (var i=0;i<30;i+=1) {
     var ty=dec(init.charAt(i*2+1))

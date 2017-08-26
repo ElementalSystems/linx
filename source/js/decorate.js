@@ -1,10 +1,16 @@
 function decorate()
 {
-  //make the timer
-  gs(200).lineWidth(5).lineStyle("#FF0")
-        .circle(0,0,.45)
-        .echo(10,0,0,0,0,0,0,1,.01,.5,.1)
-        .setbg(document.getElementById('ti'));
+  //make the restart
+  gs(50).lineWidth(5).lineStyle("#FF0")
+        .circle(0,-.25,.05)
+        .echo(30,0,0,0,0,350,45,1,1,.1,1)
+        .setbg(document.getElementById('rs'));
+
+    //make the levels
+    gs(50).lineWidth(5).lineStyle("#FF0")
+          .hex(.8)
+          .echo(5,0,0,0,0,10,0,.1,1,.5,1)
+          .setbg(document.getElementById('lv'));
 
   //make a pause button
   gs(50).lineWidth(5).lineGrad("#FF0","#F80")

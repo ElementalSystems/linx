@@ -28,7 +28,8 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
 }
 
 function decorate() {
-    gs(200).lineWidth(5).lineStyle("#FF0").circle(0, 0, .45).echo(10, 0, 0, 0, 0, 0, 0, 1, .01, .5, .1).setbg(document.getElementById("ti")), 
+    gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
+    gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
     gs(50).lineWidth(5).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s0"));
     var t = gs(50).lineWidth(5).lineGrad("#FF0", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
     t.echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s1")), 
@@ -36,7 +37,7 @@ function decorate() {
     t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s3"));
 }
 
-function buildGrid(el, init) {
+function buildGrid(el, fin) {
     function gl(t) {
         var ft = .01;
         st && (ft = (t - st) / 1e3), ft > .1 && (ft = .1);
@@ -48,7 +49,8 @@ function buildGrid(el, init) {
         for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(gft);
         window.requestAnimationFrame(gl);
     }
-    for (var grd = [], i = 0; i < 30; i += 1) {
+    qThm(Number(fin.charAt(0)), 10 * Number(fin.substring(1, 3)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.charAt(5)));
+    for (var init = fin.substring(6), grd = [], i = 0; i < 30; i += 1) {
         var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
         el.appendChild(t), t.t_i = i, t.t_dir = ty.val, t.setTransform(), grd.push(t);
     }
@@ -143,6 +145,76 @@ function _spark(grd, tile, lnk) {
     }, spk.fx = function(e) {
         ae[e](), spk.spk_decor.style.animation = e + " 1s 1 forwards";
     }, spk.fx("start"), spk;
+}
+
+function theme(b, sym, s1, s1v, s2, s2v, c, cv, r, rv, fsc, l) {
+    function mod(v, o) {
+        return v + rdm(-o, +o);
+    }
+    function mods(v, o) {
+        return (v + rdm(-o, +o) + 720) % 360;
+    }
+    s1 += rdm(-s1v, +s1v), s2 += rdm(-s2v, +s2v), t_thm = {
+        top: function(el, lk) {
+            var top = gs(200).lineStyle("hsla(" + mods(s1, s1v) + ",100%," + l + "%,.8)");
+            top.lineWidth(2).fillStyle("hsla(" + mods(s1, s1v) + ",100%," + l + "%,.2)").hex(.95, !0), 
+            drawLnks(top, lk), top.setbg(el);
+        },
+        bot: function(el, lk) {
+            var bot = gs(200).lineStyle("hsla(" + mod(s2, s2v) + ",50%," + l + "%,.8)");
+            switch (b) {
+              case 0:
+                bot.lineWidth(2).hex(.95);
+                break;
+
+              case 1:
+                bot.lineStyle("hsla(" + mods(s2, s2v) + ",100%," + l + ",.3)").lineWidth(2).line(.1, .1, .3, .3);
+                break;
+
+              case 2:
+                bot.lineWidth(.5).fillStyle("hsla(" + mods(s2, s2v) + ",50%," + l + "%,.5)").circle(.3, 0, rdm(.03, .04), !0), 
+                bot.fillStyle("hsla(" + mods(s1, s1v) + ",50%," + l + "%,.5)").circle(0, rdm(.01, .25), rdm(.04, .05), !0);
+            }
+            sym && (bot = bot.rotSym(sym)), bot = bot.echo(mod(c, cv), 0, 0, 0, 0, 0, mod(r, rv), 1, fsc, 1, 0), 
+            bot.lineStyle("hsla(" + mods(s1, s1v) + ",70%," + l + "%,.3)").lineWidth(2).hex(.95), 
+            drawLnks(bot, lk, !0), bot.setbg(el);
+        }
+    };
+}
+
+function qThm(id, c1, c2, l) {
+    switch (id) {
+      case 0:
+        theme(0, 0, c1, 0, c2, 30, 8, 2, 0, 0, .01, l);
+        break;
+
+      case 1:
+        theme(0, 0, c1, 30, c2, 0, 12, 4, 30, 0, .1, l);
+        break;
+
+      case 2:
+        theme(0, 4, c1, 0, c2, 10, 6, 0, 0, 0, .01, l);
+        break;
+
+      case 3:
+        theme(1, 3, c1, 0, c2, 10, 40, 0, 180, 0, .8, l);
+        break;
+
+      case 4:
+        theme(1, 6, c1, 30, c2, 10, 40, 0, 50, 20, .8, l);
+        break;
+
+      case 5:
+        theme(2, 3, c1, 10, c2, 30, 20, 10, 80, 20, 1.2, l);
+        break;
+
+      case 6:
+        theme(2, 3, c1, 10, c2, 10, 10, 5, 45, 10, .1, l);
+        break;
+
+      case 7:
+        theme(2, 5, c1, 10, c2, 40, 6, 3, 180, 0, .4, l);
+    }
 }
 
 function drawLnk(s, lk, sdw) {
@@ -254,9 +326,9 @@ var activeGrid = null, _gs = {
         return this.ctx.beginPath(), this.ctx.moveTo(x, y), this.ctx.lineTo(x2, y2), this.ctx.stroke(), 
         this;
     },
-    circle: function(x, y, r) {
+    circle: function(x, y, r, fill) {
         return this.ctx.beginPath(), this.ctx.arc(x, y, r, 0, 2 * Math.PI, !1), this.ctx.stroke(), 
-        this;
+        fill && this.ctx.fill(), this;
     },
     lineStyle: function(s) {
         return this.ctx.strokeStyle = s, this;
@@ -315,12 +387,13 @@ var activeGrid = null, _gs = {
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
-    1: "22000000000055520000114a41140000555200000031525a000000001500",
-    3: "0022000000001170130000008a8c1300008c8a1500317b72140000001500",
-    4: "000000000031418b413412517c1400109a544210225053219b00558b4154",
-    5: "211310000000606113000010646c0000001d5c140000305a1c0000000000",
-    6: "222300000051715200005040425300001f8a1f130000318a540000000000"
-}, t_set = {
+    1: "02424522000000000055520000114a41140000555200000031525a000000001500",
+    2: "4242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
+    3: "0040430022000000001170130000008a8c1300008c8a1500317b72140000001500",
+    4: "504057000000000031418b413412517c1400109a544210225053219b00558b4154",
+    5: "304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
+    6: "620204222300000051715200005040425300001f8a1f130000318a540000000000"
+}, t_thm = null, t_set = {
     0: "",
     1: "0a",
     2: "0d",
@@ -336,18 +409,8 @@ var activeGrid = null, _gs = {
     c: "04",
     d: "01",
     e: "02",
-    f: "013b",
-    g: "021c"
-}, t_thm = {
-    c1: "#",
-    c2: "",
-    top: function(el, lk) {
-        var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, !0);
-        drawLnks(top, lk), top.setbg(el);
-    },
-    bot: function(el, lk) {
-        var bot = gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95).echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
-        drawLnks(bot, lk, !0), bot.setbg(el);
-    }
+    f: "0111",
+    g: "021c",
+    h: "01311c"
 }, _dec = "012345abcdefABCDEF";
 //# sourceMappingURL=scripts.js.map

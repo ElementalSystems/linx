@@ -1,99 +1,131 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Editor</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="editor.css">
+  <meta charset="utf-8">
+  <title>Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="editor.css">
 </head>
+
 <body>
-<div id=editor>
-<div class=main id=main>
-</div>
-  Tile Layout (First digit is the tile index (see cheatsheet); second represents tile orientation and action code)
-<div class=editrows>
-  <div class=row>
-  <input id=r1 type=text maxlength=2 onchange="edited()">
-  <input id=r2 type=text maxlength=2 onchange="edited()" >
-  <input id=r3 type=text maxlength=2 onchange="edited()">
-  <input id=r4 type=text maxlength=2 onchange="edited()">
-  <input id=r5 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div class=row>
-  <input id=r6 type=text maxlength=2 onchange="edited()" value='b2'>
-  <input id=r7 type=text maxlength=2 onchange="edited()">
-  <input id=r8 type=text maxlength=2 onchange="edited()" value='23'>
-  <input id=r9 type=text maxlength=2 onchange="edited()">
-  <input id=r10 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div class=row>
-  <input id=r11 type=text maxlength=2 onchange="edited()">
-  <input id=r12 type=text maxlength=2 onchange="edited()" value='e2'>
-  <input id=r13 type=text maxlength=2 onchange="edited()" value='40'>
-  <input id=r14 type=text maxlength=2 onchange="edited()">
-  <input id=r15 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div class=row>
-  <input id=r16 type=text maxlength=2 onchange="edited()">
-  <input id=r17 type=text maxlength=2 onchange="edited()">
-  <input id=r18 type=text maxlength=2 onchange="edited()" value='fd'>
-  <input id=r19 type=text maxlength=2 onchange="edited()">
-  <input id=r20 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div class=row>
-  <input id=r21 type=text maxlength=2 onchange="edited()">
-  <input id=r22 type=text maxlength=2 onchange="edited()">
-  <input id=r23 type=text maxlength=2 onchange="edited()" value='30'>
-  <input id=r24 type=text maxlength=2 onchange="edited()">
-  <input id=r25 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div class=row>
-  <input id=r26 type=text maxlength=2 onchange="edited()">
-  <input id=r27 type=text maxlength=2 onchange="edited()">
-  <input id=r28 type=text maxlength=2 onchange="edited()">
-  <input id=r29 type=text maxlength=2 onchange="edited()">
-  <input id=r30 type=text maxlength=2 onchange="edited()">
-  </div>
-  <div id=panel>
-      <div id=ti>7s</div>
-      <div id=tc>
-        <div id=s0 onclick="setGS(0);">
-        </div>
-        <div id=s1 onclick="setGS(1);">
-        </div>
-        <div id=s2 onclick="setGS(2);">
-        </div>
-        <div id=s3 onclick="setGS(3);">
-        </div>
+  <div id=editor>
+    <div class=main id=main>
     </div>
-  </div>
+    Tile Layout (First digit is the tile index (see cheatsheet); second represents tile orientation and action code)
+    <div class=editrows>
+      <div class=row>
+        <input id=r1 type=text maxlength=2 onchange="edited()">
+        <input id=r2 type=text maxlength=2 onchange="edited()">
+        <input id=r3 type=text maxlength=2 onchange="edited()">
+        <input id=r4 type=text maxlength=2 onchange="edited()">
+        <input id=r5 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=row>
+        <input id=r6 type=text maxlength=2 onchange="edited()" value='b2'>
+        <input id=r7 type=text maxlength=2 onchange="edited()">
+        <input id=r8 type=text maxlength=2 onchange="edited()" value='23'>
+        <input id=r9 type=text maxlength=2 onchange="edited()">
+        <input id=r10 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=row>
+        <input id=r11 type=text maxlength=2 onchange="edited()">
+        <input id=r12 type=text maxlength=2 onchange="edited()" value='e2'>
+        <input id=r13 type=text maxlength=2 onchange="edited()" value='40'>
+        <input id=r14 type=text maxlength=2 onchange="edited()">
+        <input id=r15 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=row>
+        <input id=r16 type=text maxlength=2 onchange="edited()">
+        <input id=r17 type=text maxlength=2 onchange="edited()">
+        <input id=r18 type=text maxlength=2 onchange="edited()" value='fd'>
+        <input id=r19 type=text maxlength=2 onchange="edited()">
+        <input id=r20 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=row>
+        <input id=r21 type=text maxlength=2 onchange="edited()">
+        <input id=r22 type=text maxlength=2 onchange="edited()">
+        <input id=r23 type=text maxlength=2 onchange="edited()" value='30'>
+        <input id=r24 type=text maxlength=2 onchange="edited()">
+        <input id=r25 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=row>
+        <input id=r26 type=text maxlength=2 onchange="edited()">
+        <input id=r27 type=text maxlength=2 onchange="edited()">
+        <input id=r28 type=text maxlength=2 onchange="edited()">
+        <input id=r29 type=text maxlength=2 onchange="edited()">
+        <input id=r30 type=text maxlength=2 onchange="edited()">
+      </div>
+      <div class=deco>
+        Thm <input id=thm type=text maxlength=1 onchange="edited()" value='1'> C1 <input id=h1 type=text maxlength=2 onchange="edited()" value='00'> C2 <input id=h2 type=text maxlength=2 onchange="edited()" value='24'> Lum <input id=lm type=text maxlength=2
+          onchange="edited()" value='5'>
+      </div>
+      <textarea id=target cols=70 onblur="setdata();">
+  </textarea>
+
+      <div id=panel>
+        <div id=ti>Time<b id=tm>3.8s</b><br/> Out<b id=ot>0%</b> Dead<b id=dd>0%</b> Home<b id=hm>0%</b> </div>
+        <div class=tc>
+          <div id=s0 onclick="setGS(0);">
+          </div>
+          <div id=s1 onclick="setGS(1);">
+          </div>
+          <div id=s2 onclick="setGS(2);">
+          </div>
+          <div id=s3 onclick="setGS(3);">
+          </div>
+
+        </div>
+        <div class=tc>
+          <div id=rs onclick="edited()">RESTART</div>
+          <div id=lv>LEVELS</div>
+        </div>
+      </div>
 
 
-</div>
+    </div>
 
-<div id=target>
-</div>
-<script src="scripts.js"></script>
-<script>
+    <script src="scripts.js"></script>
+    <script>
+      decorate();
+      qThm(1, 240, 200, 60);
 
-decorate();
 
-function edited() {
-  var data="";
-  for (var i=1;i<31;i+=1) {
-    var val=document.getElementById('r'+i).value;
-    if (!val) val='00';
-    if (val.length==1) val+='0';
-    data+=val;
-  }
-  document.getElementById('target').innerHTML=data;
-  var spot=document.getElementById('main');
-  spot.innerHTML="";
-  var grd=buildGrid(spot,data)
-  //grd.spark('0',grd,7,0);
-}
-edited();
-</script>
+      function edited() {
+        var data = document.getElementById('thm').value +
+          document.getElementById('h1').value +
+          document.getElementById('h2').value +
+          document.getElementById('lm').value;
+
+        for (var i = 1; i < 31; i += 1) {
+          var val = document.getElementById('r' + i).value;
+          if (!val) val = '00';
+          if (val.length == 1) val += '0';
+          data += val;
+        }
+        document.getElementById('target').value = data;
+        var spot = document.getElementById('main');
+        spot.innerHTML = "";
+        var grd = buildGrid(spot, data)
+      }
+
+      function setdata() {
+        var d = document.getElementById('target').value;
+        document.getElementById('thm').value = d.charAt(0);
+        document.getElementById('h1').value = d.substring(1, 3);
+        document.getElementById('h2').value = d.substring(3, 5);
+        document.getElementById('lm').value = d.charAt(5);
+        for (var i = 1; i < 31; i += 1) {
+          var val=d.substring(4+i*2,6+i*2);
+          if (val=='00') val='';
+          document.getElementById('r' + i).value=val;
+        }
+        edited();
+     }
+
+      edited();
+    </script>
 </body>
+
 </html>

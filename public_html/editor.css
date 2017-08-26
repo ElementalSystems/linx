@@ -10,7 +10,7 @@ div#editor {
     float: right;
     transform: scale(0.7, 0.7); }
   div#editor input {
-    font-size: 200%;
+    font-size: 150%;
     width: 1.2em;
     margin: .1em;
     border: 2px #000 solid;
@@ -21,5 +21,9 @@ div#editor {
   div#editor div.row {
     transform-origin: 0% 0%;
     transform: rotateZ(-30deg); }
+  div#editor div#panel {
+    position: absolute;
+    right: 50%;
+    transform: scale(0.7, 0.7); }
 
 /*# sourceMappingURL=editor.css.map */

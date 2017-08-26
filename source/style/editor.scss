@@ -13,7 +13,7 @@ div#editor {
     transform: scale(.7,.7);
   }
   input {
-    font-size: 200%;
+    font-size: 150%;
     width: 1.2em;
     margin:.1em;
     border: 2px #000 solid;
@@ -26,5 +26,10 @@ div#editor {
   div.row {
     transform-origin: 0% 0%;
     transform: rotateZ(-30deg);
+  }
+  div#panel {
+    position: absolute;
+    right:50%;
+    transform: scale(.7,.7);
   }
 }

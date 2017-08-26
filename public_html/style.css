@@ -1,5 +1,6 @@
 body {
-  margin: 0; }
+  margin: 0;
+  font-family: monospace; }
 
 #top {
   display: flex;
@@ -8,43 +9,54 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #CCC;
-  justify-content: space-around; }
+  background: radial-gradient(circle at 30% 30%, #fadb9e 0%, #fef6e7 100%);
+  justify-content: space-around;
+  overflow: hidden;
+  color: #FFF; }
 
 #ti {
   padding: 0;
-  width: 15vmin;
-  height: 15vmin;
-  font-size: 7vmin;
-  color: #FFF;
+  font-size: 4vmin;
+  color: rgba(192, 192, 192, 0.8);
   text-align: center;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(64, 64, 64, 0.8);
   border-radius: 2vmin;
-  margin: 1vmin;
+  border: #CCC 1px solid;
+  padding: 1vmin;
   background-size: 100% 100%; }
+  #ti b {
+    color: #FFF;
+    padding-left: .3em; }
 
-#tc {
+.tc {
   margin: 1vmin;
   border-radius: 2vmin;
-  padding: 0;
+  padding: .5vmin;
   display: inline-block;
-  text-align: center; }
-  #tc div {
+  text-align: center;
+  background: rgba(64, 64, 64, 0.8); }
+  .tc div {
     border: #CCC 1px solid;
     background-color: #000;
     width: 10vmin;
     height: 10vmin;
     background-size: 100% 100%;
     border-radius: 2vmin;
-    margin: 1vmin;
+    margin: .1vmin;
     display: inline-block;
-    box-sizing: border-box; }
-  #tc div.active {
+    box-sizing: border-box;
+    font-size: 2vmin; }
+  .tc div.active {
     background-color: #550;
     border: #FF0 3px solid; }
 
 #title {
-  flex-grow: 1; }
+  flex-grow: 1;
+  writing-mode: vertical-lr;
+  color: #FFF;
+  font-size: 5vmin;
+  padding-top: .25em;
+  padding-left: .1em; }
 
 #panel {
   flex-grow: 3;
@@ -57,6 +69,9 @@ body {
   #top {
     flex-direction: column; }
 
+  #title {
+    writing-mode: horizontal-tb; }
+
   #panel {
     flex-direction: row;
     flex-wrap: wrap; } }
@@ -65,7 +80,6 @@ div#mainf {
   width: 100vmin;
   margin: 0;
   position: relative;
-  overflow: hidden;
   perspective: 50vmin;
   perspective-origin: 50% 100%; }
 

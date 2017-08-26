@@ -6,10 +6,11 @@ var _gs = {
     this.ctx.stroke();
     return this;
   },
-  circle: function(x, y, r) {
+  circle: function(x, y, r,fill) {
     this.ctx.beginPath();
     this.ctx.arc(x, y, r, 0, 2 * Math.PI, false);
     this.ctx.stroke();
+    if (fill) this.ctx.fill();
     return this;
   },
   lineStyle: function(s) {

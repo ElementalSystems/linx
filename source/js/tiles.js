@@ -14,28 +14,10 @@ var t_set = {
   c: "04",
   d: "01",
   e: "02",
-  f: "013b",
-  g: "021c"
+  f: "0111",
+  g: "021c",
+  h: "01311c",
 };
-
-var t_thm={ //theme for tiles
-  c1: "#",
-  c2: "",
-  top: function(el,lk) {
-    var top = gs(200).lineStyle("rgba(0,0,128,.8)").lineWidth(2).fillStyle("rgba(0,0,255,.1)").hex(.95, true);
-    drawLnks(top, lk)
-    top.setbg(el);
-
-  },
-  bot: function(el,lk) {
-    var bot = gs(200).lineStyle("rgba(0,128,128,.8)").lineWidth(2).hex(.95)
-      .echo(10, 0, 0, 0, 0, 0, 0, 1, .1, 1, 0);
-    drawLnks(bot, lk,true)
-
-    bot.setbg(el);
-  }
-}
-
 
 function drawLnk(s,lk,sdw) {
   var cl="255,255,255";
