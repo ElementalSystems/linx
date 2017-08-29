@@ -17,6 +17,14 @@ var t_set = {
   f: "0111",
   g: "021c",
   h: "01311c",
+  A: "0A",
+  B: "0D",
+  C: "0E",
+  D: "0B",
+  E: "0C",
+  F: "0B1B",
+  G: "021C",
+
 };
 
 function drawLnk(s,lk,sdw) {
@@ -100,7 +108,7 @@ function tile(ti, at,txt) {
   }
 
 
-  tc.style.transform="translate3d(50vmin,-30vmin,0px)"
+  tc.style.transform="translate3d(0vmin,0vmin,100vmin)";
   tc.setTransformFuture=function(tm) {
     setTimeout(function(){tc.setTransform();},tm*1000);
   };

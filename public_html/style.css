@@ -9,7 +9,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: radial-gradient(circle at 30% 30%, #fadb9e 0%, #fef6e7 100%);
+  xbackground-image: radial-gradient(circle at 70% 30%, #fef6e7, #fadb9e);
   justify-content: space-around;
   overflow: hidden;
   color: #FFF; }
@@ -92,6 +92,39 @@ div.main {
   position: relative;
   transform: rotateX(15deg) translateY(-15vmin);
   transform-style: preserve-3d; }
+
+div#dp {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  z-index: 500;
+  top: -100%;
+  left: 10%;
+  text-align: center;
+  font-size: 5vmin;
+  margin: 1vmin;
+  border-radius: 2vmin;
+  padding: .5vmin;
+  background: rgba(64, 64, 64, 0.8);
+  transition: top .5s; }
+  div#dp div#dpl {
+    font-size: 300%; }
+  div#dp div.cmd {
+    margin: .5em;
+    font-size: 150%;
+    border: #FFF 1px solid;
+    border-radius: .25em;
+    font-variant: small-caps; }
+
+div#dp.st {
+  top: 10%; }
+  div#dp.st #ncmd {
+    display: none; }
+
+div#dp.ed {
+  top: 10%; }
+  div#dp.ed #scmd {
+    display: none; }
 
 @keyframes round {
   0% {

@@ -30,42 +30,54 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
 function decorate() {
     gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
     gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
-    gs(50).lineWidth(5).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s0"));
-    var t = gs(50).lineWidth(5).lineGrad("#FF0", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
-    t.echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s1")), 
-    t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s2")), 
+    gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0"));
+    var t = gs(50).lineWidth(10).lineGrad("#FF0", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
+    t.setbg(document.getElementById("s1")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s2")), 
     t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).echo(4, 0, 0, 0, 0, 0, 0, 1, .1, 1, .1).setbg(document.getElementById("s3"));
 }
 
-function buildGrid(el, fin) {
+function buildGrid(el, fin, bTm) {
     function gl(t) {
         var ft = .01;
         st && (ft = (t - st) / 1e3), ft > .1 && (ft = .1);
         var gft = ft / 2 * g.spd;
         if (st = t, (spk_time -= gft) < 0 && spk_count < 8) {
             spk_time += spk_gap, spk_count += 1;
-            for (var l = 0; l < 30; l += 1) for (var m = 0; m < g.cell[l].lk.length; m += 1) 6 == g.cell[l].lk[m].ed && g.spark(g, l, m);
+            for (var l = 0; l < 30; l += 1) for (var m = 0; m < g.cell[l].lk.length; m += 1) 6 == g.cell[l].lk[m].ed && g.spark(l, m);
         }
         for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(gft);
-        window.requestAnimationFrame(gl);
+        if (g.l_tm += gft, ti.innerHTML = g.l_tm.toFixed(1) + "s", ot.innerHTML = (100 * g.spk_out / g.spk_tot).toFixed(0) + "%", 
+        hm.innerHTML = (100 * g.spk_home / g.spk_tot).toFixed(0) + "%", dd.innerHTML = (100 * g.spk_dead / g.spk_tot).toFixed(0) + "%", 
+        g.spk_home + g.spk_dead == g.spk_tot) return void end(100 * g.spk_home / g.spk_tot, g.l_tm);
+        killgl || window.requestAnimationFrame(gl);
     }
-    qThm(Number(fin.charAt(0)), 10 * Number(fin.substring(1, 3)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.charAt(5)));
-    for (var init = fin.substring(6), grd = [], i = 0; i < 30; i += 1) {
-        var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
-        el.appendChild(t), t.t_i = i, t.t_dir = ty.val, t.setTransform(), grd.push(t);
-    }
-    var g = {
+    var init = fin.substring(6), grd = [], g = {
         cell: grd,
-        spark: function(type, grd, tile, lnk) {
-            var x = _spark(type, grd, tile, lnk);
+        spark: function(tile, lnk) {
+            var x = _spark(g, tile, lnk);
             return this.spks.push(x), x;
         },
         spd: 1,
+        spk_tot: 0,
+        spk_out: 0,
+        spk_dead: 0,
+        spk_home: 0,
+        l_tm: 0,
         spks: []
     };
+    killgl = !0, el.innerHTML = "";
+    for (var i = 0; i < 30; i += 1) {
+        var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
+        el.appendChild(t);
+        for (var j = 0; j < t.lk.length; j += 1) 6 == t.lk[j].ed && (g.spk_tot += 8);
+        t.t_i = i, t.t_dir = ty.val, bTm ? t.setTransformFuture(rdm(.5, bTm)) : t.setTransform(), 
+        grd.push(t);
+    }
     activeGrid = g, setGS(1);
-    var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0;
-    return window.requestAnimationFrame(gl), g;
+    var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0, ti = document.getElementById("tm"), ot = document.getElementById("ot"), dd = document.getElementById("dd"), hm = document.getElementById("hm");
+    return ti.innerHTML = ot.innerHTML = hm.innerHTML = dd.innerHTML = "", setTimeout(function() {
+        killgl = !1, window.requestAnimationFrame(gl);
+    }, 1e3 * bTm), g;
 }
 
 function ti_to_x(i) {
@@ -99,18 +111,35 @@ function h_ni(i) {
     return (i + 3600) % 6;
 }
 
-function start() {
-    console.log("start up code");
+function level(lv) {
+    lv_id = lv, thm(lev[lv_id]), document.getElementById("dp").classList.toggle("st", !0), 
+    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("dpl").innerHTML = lv, 
+    document.getElementById("dpr").innerHTML = "Best: Never Attempted", document.getElementById("dpt").innerHTML = "Goal: Save 50% for One Star", 
+    document.getElementById("main").innerHTML = "";
 }
 
-function _spark(grd, tile, lnk) {
+function startNext() {
+    level(lv_id + 1);
+}
+
+function start() {
+    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
+    buildGrid(document.getElementById("main"), lev[lv_id], 1);
+}
+
+function end(com, tm) {
+    document.getElementById("dp").classList.toggle("ed", !0), document.getElementById("dpr").innerHTML = "You saved " + com + "% in " + tm.toFixed(1) + "s", 
+    document.getElementById("dpt").innerHTML = "Goal: Save 100% for 2 Stars";
+}
+
+function _spark(g, tile, lnk) {
     function link(tile, lnk, dir) {
-        spk.fact = dir * spk.spk_spd, spk.tile = grd.cell[tile], spk.lk = spk.tile.lk[lnk], 
+        spk.fact = dir * spk.spk_spd, spk.tile = g.cell[tile], spk.lk = spk.tile.lk[lnk], 
         spk.tile.appendChild(spk);
     }
     var spk = document.createElement("div");
-    spk.classList.add("spk"), spk.spk_ty = grd.cell[tile].lk[lnk].ty;
-    spk.spk_decor = document.createElement("div");
+    spk.classList.add("spk"), spk.spk_ty = g.cell[tile].lk[lnk].ty;
+    g.spk_out += 1, spk.spk_decor = document.createElement("div");
     var bg = gs(50);
     switch (spk.spk_ty) {
       case 0:
@@ -130,12 +159,12 @@ function _spark(grd, tile, lnk) {
             spk.pos += spk.fact * time;
             var sw = -1;
             if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
-            sw = spk.lk.st), 7 == sw) return spk.fx("home"), void (spk.stop = !0);
+            sw = spk.lk.st), 7 == sw) return spk.fx("home"), spk.stop = !0, void (g.spk_home += 1);
             if (sw >= 0) {
-                var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = grd.cell[nextTi], lnk = -1, dir = 1;
+                var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = g.cell[nextTi], lnk = -1, dir = 1;
                 if (nextT) for (var inward = h_ni(outward + 3 - nextT.t_dir), i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
                 nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1));
-                if (!(lnk >= 0)) return spk.fx("death"), void (spk.stop = !0);
+                if (!(lnk >= 0)) return spk.fx("death"), spk.stop = !0, void (g.spk_dead += 1);
                 spk.fx("hop"), link(nextTi, lnk, dir);
             }
             var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
@@ -161,21 +190,21 @@ function theme(b, sym, s1, s1v, s2, s2v, c, cv, r, rv, fsc, l) {
             drawLnks(top, lk), top.setbg(el);
         },
         bot: function(el, lk) {
-            var bot = gs(200).lineStyle("hsla(" + mod(s2, s2v) + ",50%," + l + "%,.8)");
+            var bot = gs(200).lineStyle("hsla(" + mod(s2, s2v) + ",50%," + l + "%,.6)");
             switch (b) {
               case 0:
-                bot.lineWidth(2).hex(.95);
+                bot.lineWidth(2).hex(.9);
                 break;
 
               case 1:
-                bot.lineStyle("hsla(" + mods(s2, s2v) + ",100%," + l + ",.3)").lineWidth(2).line(.1, .1, .3, .3);
+                bot.lineStyle("hsla(" + mods(s2, s2v) + ",100%," + l + ",.2)").lineWidth(2).line(.1, .1, .3, .3);
                 break;
 
               case 2:
                 bot.lineWidth(.5).fillStyle("hsla(" + mods(s2, s2v) + ",50%," + l + "%,.5)").circle(.3, 0, rdm(.03, .04), !0), 
                 bot.fillStyle("hsla(" + mods(s1, s1v) + ",50%," + l + "%,.5)").circle(0, rdm(.01, .25), rdm(.04, .05), !0);
             }
-            sym && (bot = bot.rotSym(sym)), bot = bot.echo(mod(c, cv), 0, 0, 0, 0, 0, mod(r, rv), 1, fsc, 1, 0), 
+            sym && (bot = bot.rotSym(sym)), bot = bot.echo(mod(c, cv), 0, 0, 0, 0, 0, mod(r, rv), 1, fsc, .7, 0), 
             bot.lineStyle("hsla(" + mods(s1, s1v) + ",70%," + l + "%,.3)").lineWidth(2).hex(.95), 
             drawLnks(bot, lk, !0), bot.setbg(el);
         }
@@ -201,7 +230,7 @@ function qThm(id, c1, c2, l) {
         break;
 
       case 4:
-        theme(1, 6, c1, 30, c2, 10, 40, 0, 50, 20, .8, l);
+        theme(1, 6, c1, 30, c2, 10, 15, 0, 50, 20, .8, l);
         break;
 
       case 5:
@@ -215,6 +244,14 @@ function qThm(id, c1, c2, l) {
       case 7:
         theme(2, 5, c1, 10, c2, 40, 6, 3, 180, 0, .4, l);
     }
+    var bl = 95, bl2 = 80;
+    l > 70 ? (bl = 0, bl2 = 10) : l > 40 && (bl = 0, bl2 = 20);
+    var b = document.getElementById("top");
+    b && (b.style.backgroundImage = "linear-gradient(30deg, hsl(" + c1 + ",90%," + bl + "%), hsl(" + c1 + ",90%," + bl2 + "%))");
+}
+
+function thm(fin) {
+    qThm(Number(fin.charAt(0)), 10 * Number(fin.substring(1, 3)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.charAt(5)));
 }
 
 function drawLnk(s, lk, sdw) {
@@ -263,7 +300,7 @@ function tile(ti, at, txt) {
             tc.t_dir = tc.t_dir + 1, tc.setTransform();
         });
     }
-    return tc.style.transform = "translate3d(50vmin,-30vmin,0px)", tc.setTransformFuture = function(tm) {
+    return tc.style.transform = "translate3d(0vmin,0vmin,100vmin)", tc.setTransformFuture = function(tm) {
         setTimeout(function() {
             tc.setTransform();
         }, 1e3 * tm);
@@ -321,7 +358,7 @@ var context = new AudioContext(), ae = {
 
 g_dir = [ -5, 1, 6, 5, -1, -6 ];
 
-var activeGrid = null, _gs = {
+var activeGrid = null, killgl, _gs = {
     line: function(x, y, x2, y2) {
         return this.ctx.beginPath(), this.ctx.moveTo(x, y), this.ctx.lineTo(x2, y2), this.ctx.stroke(), 
         this;
@@ -388,12 +425,12 @@ var activeGrid = null, _gs = {
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
     1: "02424522000000000055520000114a41140000555200000031525a000000001500",
-    2: "4242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
+    2: "1242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
     3: "0040430022000000001170130000008a8c1300008c8a1500317b72140000001500",
     4: "504057000000000031418b413412517c1400109a544210225053219b00558b4154",
     5: "304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
     6: "620204222300000051715200005040425300001f8a1f130000318a540000000000"
-}, t_thm = null, t_set = {
+}, lv_id = 0, t_thm = null, t_set = {
     0: "",
     1: "0a",
     2: "0d",
@@ -411,6 +448,13 @@ var activeGrid = null, _gs = {
     e: "02",
     f: "0111",
     g: "021c",
-    h: "01311c"
+    h: "01311c",
+    A: "0A",
+    B: "0D",
+    C: "0E",
+    D: "0B",
+    E: "0C",
+    F: "0B1B",
+    G: "021C"
 }, _dec = "012345abcdefABCDEF";
 //# sourceMappingURL=scripts.js.map

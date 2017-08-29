@@ -16,10 +16,17 @@
     <div id=mainf>
       <div class=main id=main>
       </div>
+      <div id=dp>
+        <div id=dpl></div>
+        <div id=dpr></div>
+        <div id=dpt></div>
+        <div class=cmd id=scmd onclick="start();">Play</div>
+        <div class=cmd id=ncmd onclick="startNext();">Next Level</div>
+      </div>
 
     </div>
     <div id=panel>
-        <div id=ti>Time<b id=tm>3.8s</b><br/> Out<b  id=ot>0%</b> Dead<b  id=dd>0%</b> Home<b  id=hm>0%</b> </div>
+        <div id=ti>Time<b id=tm></b><br/> Out<b  id=ot></b> Dead<b  id=dd></b> Home<b  id=hm></b> </div>
         <div class=tc>
           <div id=s0 onclick="setGS(0);">
           </div>
@@ -32,8 +39,8 @@
 
       </div>
       <div class=tc>
-        <div id=rs onclick="restart(0);">RESTART</div>
-        <div id=lv onclick="level();">LEVELS</div>
+        <div id=rs onclick="start();">RESTART</div>
+        <div id=lv onclick="levels();">LEVELS</div>
     </div>
     </div>
 
@@ -41,7 +48,8 @@
   <script src="scripts.js"></script>
   <script>
     decorate();
-    buildGrid(document.getElementById('main'), lev[3]);
+    level(1);
+
   </script>
 </body>
 

@@ -2,11 +2,10 @@ div.sheet {
   div.tile {
     position: relative;
   }
-  background-color: #DDF;
   font-size: 300%;
 }
 
-div#editor {
+div.editor {
   overflow:hidden;
   div.main {
     float: right;

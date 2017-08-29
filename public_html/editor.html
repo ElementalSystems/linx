@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div id=editor>
+  <div class=editor>
     <div class=main id=main>
     </div>
     Tile Layout (First digit is the tile index (see cheatsheet); second represents tile orientation and action code)
@@ -107,7 +107,8 @@
         document.getElementById('target').value = data;
         var spot = document.getElementById('main');
         spot.innerHTML = "";
-        var grd = buildGrid(spot, data)
+        thm(data);
+        var grd = buildGrid(spot, data);
       }
 
       function setdata() {

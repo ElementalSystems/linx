@@ -3,14 +3,15 @@
 
 //returns a fully present spark div that is already
 //  attached to the tile and starts at the end of the lnk
-function _spark(grd, tile, lnk) {
+function _spark(g, tile, lnk) {
   //create the base div that is the spark
   var spk = document.createElement('div');
   spk.classList.add('spk');
 
-  spk.spk_ty = grd.cell[tile].lk[lnk].ty;
+  spk.spk_ty = g.cell[tile].lk[lnk].ty;
   var cl = "255,255,255";
 
+  g.spk_out+=1;
   //make a child div and decorate it with a GS
   spk.spk_decor = document.createElement('div');
   var bg = gs(50);
@@ -43,7 +44,7 @@ function _spark(grd, tile, lnk) {
 
   function link(tile, lnk, dir) {
     spk.fact = dir*spk.spk_spd;
-    spk.tile = grd.cell[tile];
+    spk.tile = g.cell[tile];
     spk.lk = spk.tile.lk[lnk];
     spk.tile.appendChild(spk);
   }
@@ -70,12 +71,13 @@ function _spark(grd, tile, lnk) {
     if (sw == 7) { //we got home
       spk.fx('home');
       spk.stop = true;
+      g.spk_home+=1;
       return;
     }
     if (sw >= 0) { //seems we are moving to a new hex;
       var outward = h_ni(sw + spk.tile.t_dir);
       var nextTi = spk.tile.t_i + g_dir[outward];
-      var nextT = grd.cell[nextTi];
+      var nextT = g.cell[nextTi];
       var lnk = -1;
       var dir = 1;
       if (nextT) {
@@ -98,6 +100,7 @@ function _spark(grd, tile, lnk) {
       } else {
         spk.fx('death');
         spk.stop = true;
+        g.spk_dead+=1;
         return;
       }
     }
