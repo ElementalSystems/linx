@@ -10,21 +10,22 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  xbackground-image: radial-gradient(circle at 70% 30%, hsl(40,90,95), hsl(40,90,80));
 
   justify-content: space-around;
   overflow: hidden;
   color: #FFF;
+  transition: color 2s;
 }
+
+#top.brt {
+  color: #000;
+}
+
 
 #ti {
   padding: 0;
   font-size: 4vmin;
   color: rgba(192,192,192,.8);
-  text-align: center;
-  background: rgba(64,64,64,.8);
-  border-radius: 2vmin;
-  border: #CCC 1px solid;
   padding: 1vmin;
   b {
     color:#FFF;
@@ -34,13 +35,18 @@ body {
   background-size: 100% 100%;
 }
 
-.tc {
-  margin: 1vmin;
+div.sb {
   border-radius: 2vmin;
   padding:.5vmin;
-  display: inline-block;
   text-align: center;
-  background: rgba(64,64,64,.8);
+  background: rgba(0,0,0,.5);
+  border: ridge 4px rgba(128,128,128,.8);
+  color: rgba(255,255,255,.8);
+}
+
+.tc {
+  margin: 1vmin;
+  display: inline-block;
 
   div {
     border: #CCC 1px solid;
@@ -63,11 +69,9 @@ body {
 #title {
   flex-grow: 1;
   writing-mode: vertical-lr;
-  color: #FFF;
   font-size: 5vmin;
   padding-top:.25em;
   padding-left:.1em;
-
 }
 
 #panel {
@@ -120,7 +124,15 @@ div#dp {
   text-align:  center;
   font-size: 5vmin;
   div#dpl {
-    font-size:300%;
+    box-sizing: border-box;
+    font-size:15vmin;
+    padding-top: 2vmin;
+    width: 25vmin;
+    height: 25vmin;
+    margin-left: auto;
+    margin-right:auto;
+    background-size: 100% 100%;
+
   }
   div.cmd {
     margin: .5em;
@@ -130,11 +142,8 @@ div#dp {
     border-radius: .25em;
     font-variant: small-caps;
    }
-  margin: 1vmin;
-  border-radius: 2vmin;
   padding:.5vmin;
-  background: rgba(64,64,64,.8);
-  transition: top .5s;
+  transition: top 1s;
 }
 div#dp.st {
   top:10%;
@@ -148,6 +157,53 @@ div#dp.ed {
     display: none;
   }
 }
+
+div#menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  position:absolute;
+  width: 98%;
+  height: 98%;
+  z-index: 500;
+  bottom:-200%;
+  transition: bottom 1s;
+  left:1%;
+  text-align:  center;
+  font-size: 5vmin;
+  box-sizing: border-box;
+  div {
+    width: 20vmin;
+    height: 15vmin;
+    display: inline-block;
+    font-size: 8vmin;
+    border: ridge #888 3px;
+    border-radius: 2vmin;
+    position: relative;
+    div {
+      position: absolute;
+      left: 0;
+      top: 0vmin;
+      box-sizing: border-box;
+      padding-top: 2vmin;
+      height: 15vmin;
+      width: 15vmin;
+      background-size: 100% 100%;
+      border:none;
+    }
+  }
+  div.brt {
+    color: #000;
+  }
+  padding:.5vmin;
+}
+
+div#menu.act {
+  bottom:1%;
+
+}
+
 @keyframes round {
   0% {
     transform: rotateZ(0deg);
@@ -282,11 +338,11 @@ div.tile {
   div.spk {
     pointer-events: none;
     z-index: 100;
-    width: 4vmin;
-    height: 4vmin;
+    width: 6vmin;
+    height: 6vmin;
     position: absolute;
-    left: -2vmin;
-    top: -2vmin;
+    left: -3vmin;
+    top: -3vmin;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
 

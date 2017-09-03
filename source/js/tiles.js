@@ -9,6 +9,7 @@ var t_set = {
   7: "0c2b5b",
   8: "0c1a4a",
   9: "0a2a4a",
+  '@': "0a2b",
   a: "00",
   b: "03",
   c: "04",
@@ -17,6 +18,8 @@ var t_set = {
   f: "0111",
   g: "021c",
   h: "01311c",
+  i: "0b11",
+  j: "011b40",
   A: "0A",
   B: "0D",
   C: "0E",
@@ -27,37 +30,43 @@ var t_set = {
 
 };
 
-function drawLnk(s,lk,sdw) {
-  var cl="255,255,255";
+function drawLnk(s, lk, sdw) {
+  var cl = "255,255,255";
   switch (lk.ty) {
-    case 0: cl="0,255,0"; break;
-    case 1: cl="255,0,0"; break;
-    case 2: cl="0,0,255"; break;
+    case 0:
+      cl = "0,255,0";
+      break;
+    case 1:
+      cl = "255,0,0";
+      break;
+    case 2:
+      cl = "0,0,255";
+      break;
   }
   s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
     .discPath(lk.pts, .03, true);
   if (!sdw)
-    s.lineStyle("rgba("+cl+",.8)").lineWidth(1).fillStyle("rgba("+cl+",.5)")
-      .discPath(lk.pts, .02, true);
-  if (lk.ed==6) { //need to draw the start point
-    s.lineStyle("rgba("+cl+",1)").lineWidth(3)
-     .circle(.2,0,.1);
+    s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)")
+    .discPath(lk.pts, .02, true);
+  if (lk.ed == 6) { //need to draw the start point
+    s.lineStyle("rgba(" + cl + ",1)").lineWidth(3)
+      .circle(.2, 0, .1);
   }
-  if (lk.ed==7) { //need to draw the end point
-    s.lineStyle("rgba("+cl+",.8)").lineWidth(3)
-    .line(-.3,-.1,-.1,-.1)
-    .line(-.3,.1,-.1,.1)
-    .line(-.3,.1,-.3,-.1)
-    .line(-.1,.1,-.1,-.1);
+  if (lk.ed == 7) { //need to draw the end point
+    s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3)
+      .line(-.3, -.1, -.1, -.1)
+      .line(-.3, .1, -.1, .1)
+      .line(-.3, .1, -.3, -.1)
+      .line(-.1, .1, -.1, -.1);
   }
 }
 
-function drawLnks(s, lk,sdw) {
+function drawLnks(s, lk, sdw) {
   for (var i = 0; i < lk.length; i += 1)
-    drawLnk(s,lk[i],sdw);
+    drawLnk(s, lk[i], sdw);
 }
 
-function tile(ti, at,txt) {
+function tile(ti, at, txt) {
   var tc = document.createElement('div');
   if (txt) tc.innerHTML = txt;
   tc.classList.add('tile');
@@ -66,14 +75,14 @@ function tile(ti, at,txt) {
   var tds = t_set[ti];
   for (var i = 0; i < tds.length; i += 2) {
     var start = Number(tds.charAt(i));
-    var sc=dec(tds.charAt(i + 1));
-    var end=0;
-    if (sc.val<3)
-      end = h_ni(start + sc.val+1);
-    else if (sc.val==3)
-      end=6;
+    var sc = dec(tds.charAt(i + 1));
+    var end = 0;
+    if (sc.val < 3)
+      end = h_ni(start + sc.val + 1);
+    else if (sc.val == 3)
+      end = 6;
     else
-      end=7;
+      end = 7;
     tc.lk.push({
       st: start,
       ed: end,
@@ -81,44 +90,50 @@ function tile(ti, at,txt) {
       pts: bez(20, h_mx[start], h_my[start], h_mx[end], h_my[end], 0, 0)
     });
   }
-
-  //create the top layer
-  tc.t_t = document.createElement('div');
-  tc.t_t.classList.add('top');
-  t_thm.top(tc.t_t,tc.lk);
-  tc.appendChild(tc.t_t);
-
-  //create the bottom layer
-  tc.t_b = document.createElement('div');
-  tc.t_b.classList.add('bot');
-  tc.t_b.style.animation="hover "+rdm(5,10)+"s infinite";
-  t_thm.bot(tc.t_b,tc.lk);
-  tc.appendChild(tc.t_b);
-
+  if (tc.lk.length > 0) {
+    //create the top layer
+    tc.t_t = document.createElement('div');
+    tc.t_t.classList.add('top');
+    t_thm.top(tc.t_t, tc.lk);
+    tc.appendChild(tc.t_t);
+    //create the bottom layer
+    tc.t_b = document.createElement('div');
+    tc.t_b.classList.add('bot');
+    tc.t_b.style.animation = "hover " + rdm(5, 10) + "s infinite";
+    t_thm.bot(tc.t_b, tc.lk);
+    tc.appendChild(tc.t_b);
+  }
   if (at) { //create the action button to get pressed
     tc.t_a = document.createElement('div');
     tc.t_a.classList.add('act');
-    var act = gs(200).lineStyle("rgba(255,255,0,1)").lineWidth(1)
-      .line(0,-.4,.1,-.35).line(0,-.3,.1,-.35)
-      .echo(20, 0, 0, 0, 0, -60 , 0, 1, 1, .1, 1)
+    var act = gs(200)
+    .lineStyle("rgba(0,0,0,1)").lineWidth(6)
+    .line(0, -.4, .1, -.35).line(0, -.3, .1, -.35)
+    .lineStyle("rgba(255,255,0,1)").lineWidth(4)
+    .line(0, -.4, .1, -.35).line(0, -.3, .1, -.35)
+    .echo(10, 0, 0, 0, 0, -60, 0, 1, 1, .1, 1)
       .rotSym(5);
     act.setbg(tc.t_a);
     tc.appendChild(tc.t_a);
-    tc.t_a.addEventListener("click", function() { tc.t_dir=tc.t_dir+1; tc.setTransform();});
+    tc.t_a.addEventListener("click", function() {
+      tc.t_dir = tc.t_dir + 1;
+      tc.setTransform();
+    });
   }
 
 
-  tc.style.transform="translate3d(0vmin,0vmin,100vmin)";
-  tc.setTransformFuture=function(tm) {
-    setTimeout(function(){tc.setTransform();},tm*1000);
+  tc.style.transform = "translate3d(0vmin,0vmin,100vmin)";
+  tc.setTransformFuture = function(tm) {
+    setTimeout(function() {
+      tc.setTransform();
+    }, tm * 1000);
   };
 
 
-  tc.setTransform=function()
-  {
-    var x=ti_to_x(tc.t_i)*25;
-    var y=ti_to_y(tc.t_i)*25;
-    tc.style.transform="translate3d("+x+"vmin,"+y+"vmin,0vmin) rotateZ("+tc.t_dir*60+"deg)";
+  tc.setTransform = function() {
+    var x = ti_to_x(tc.t_i) * 25;
+    var y = ti_to_y(tc.t_i) * 25;
+    tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,0vmin) rotateZ(" + tc.t_dir * 60 + "deg)";
   }
 
   return tc;

@@ -3,18 +3,18 @@
 
 //returns a fully present spark div that is already
 //  attached to the tile and starts at the end of the lnk
-function _spark(g, tile, lnk) {
+function _spark(g, tile, lnk,ty) {
   //create the base div that is the spark
   var spk = document.createElement('div');
   spk.classList.add('spk');
 
-  spk.spk_ty = g.cell[tile].lk[lnk].ty;
+  spk.spk_ty = ty;
   var cl = "255,255,255";
 
   g.spk_out+=1;
   //make a child div and decorate it with a GS
   spk.spk_decor = document.createElement('div');
-  var bg = gs(50);
+  var bg = gs(100);
   switch (spk.spk_ty) {
     case 0:
       spk.spk_spd=.6;
@@ -32,7 +32,7 @@ function _spark(g, tile, lnk) {
         .setbg(spk.spk_decor);
       break;
     case 2:
-      spk.spk_spd=2;
+      spk.spk_spd=3;
       bg.lineStyle("#000").lineWidth(20).line(-.3,-.3,.3,.3)
         .lineGrad("rgba(0,0,64,1)", "rgba(0,0,255,1)").lineWidth(15).line(-.3,-.3,.3,.3)
         .echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(45, 135), 1, 1, 1, 0.2)

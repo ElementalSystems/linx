@@ -12,8 +12,8 @@ function buildGrid(el,fin,bTm)
   var grd=[];
   var g={
     cell:grd,
-    spark: function(tile,lnk) {
-      var x=_spark(g,tile,lnk);
+    spark: function(tile,lnk,ty) {
+      var x=_spark(g,tile,lnk,ty);
       this.spks.push(x)
       return x;
     },
@@ -54,6 +54,31 @@ function buildGrid(el,fin,bTm)
   var hm=document.getElementById('hm');
   ti.innerHTML=ot.innerHTML=hm.innerHTML=dd.innerHTML='';
 
+  function spk() //make a wave of sparks because it's that time of the game
+  {
+    spk_time+=spk_gap;
+    spk_count+=1;
+    for (var l=0;l<30;l+=1) //search the grid for entry spots
+      for (var m=0;m<g.cell[l].lk.length;m+=1)
+        if (g.cell[l].lk[m].ed==6) {//it's an entry
+          var go=true;
+          var ty=g.cell[l].lk[m].ty;
+          switch (ty) {
+            case 0: //four on / six off /four on
+              if (spk_count>14) go=false;
+              if ((spk_count>4)&&(spk_count<11)) go=false;
+              break;
+            case 1: //every time for the first eight
+              if (spk_count>8) go=false;
+              break;
+            case 2: //two on / four off for the first 16 counts
+              if (spk_count>24) go=false;
+              if (((spk_count-1)%6)>1) go=false;
+              break;
+          }
+          if (go) g.spark(l,m,ty);
+        }
+  }
   function gl(t)
   {
     var ft=.01;
@@ -63,15 +88,9 @@ function buildGrid(el,fin,bTm)
     st=t;
 
     spk_time-=gft;
-    if ((spk_time<0)&&(spk_count<8)) { //time to launch a wave
-      spk_time+=spk_gap;
-      spk_count+=1;
-      for (var l=0;l<30;l+=1) //search the grid for entry spots
-        for (var m=0;m<g.cell[l].lk.length;m+=1)
-          if (g.cell[l].lk[m].ed==6) //it's an entry
-            g.spark(l,m);
+    if (spk_time<0)  //time to launch a wave
+      spk();
 
-    }
 
     for (var i=0;i<g.spks.length;i+=1)
       g.spks[i].tick(gft);
@@ -94,6 +113,12 @@ function buildGrid(el,fin,bTm)
     window.requestAnimationFrame(gl);},bTm*1000);
   return g;
 }
+
+function killGrid(el) {
+  killgl=true;
+  el.innerHTML='';
+}
+
 
 function ti_to_x(i)
 {

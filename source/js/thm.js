@@ -34,7 +34,7 @@ function theme(b,sym,s1,s1v,s2,s2v,c,cv,r,rv,fsc,l)
   }
 }
 
-function qThm(id,c1,c2,l)
+function qThm(id,c1,c2,l,bk)
 {
   switch (id) {
     case 0: theme(0,0,c1,0,c2,30,8,2,0,0,.01,l); break;
@@ -49,17 +49,22 @@ function qThm(id,c1,c2,l)
   //also set up the background
   var bl=95;
   var bl2=80;
+  var brt=true;
   if (l>70) {
     bl=0;
     bl2=10;
+    brt=false;
   } else if (l>40) {
     bl=0;
     bl2=20;
+    brt=false;
   }
-  var b=document.getElementById('top');
-  if (b) b.style.backgroundImage="linear-gradient(30deg, hsl("+c1+",90%,"+bl+"%), hsl("+c1+",90%,"+bl2+"%))";
+  if (bk) {
+    bk.style.backgroundImage="linear-gradient(30deg, hsl("+c1+",90%,"+bl+"%), hsl("+c1+",90%,"+bl2+"%))";
+    bk.classList.toggle('brt',brt);
+  }
 }
 
-function thm(fin) {
-  qThm(Number(fin.charAt(0)),Number(fin.substring(1,3))*10,Number(fin.substring(3,5))*10,Number(fin.charAt(5))*10);
+function thm(fin,bk) {
+  qThm(Number(fin.charAt(0)),Number(fin.substring(1,3))*10,Number(fin.substring(3,5))*10,Number(fin.charAt(5))*10,bk);
 }
