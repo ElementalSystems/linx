@@ -65,7 +65,8 @@ function start() {
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('menu').classList.toggle('act',false);
-  buildGrid(document.getElementById('main'), lev[lv_id],1);
+  killGrid(document.getElementById('main'));
+  setTimeout(function(){  buildGrid(document.getElementById('main'), lev[lv_id],1); },1000);
 }
 
 function menu() {
@@ -98,6 +99,7 @@ function mkLvlMenu()
     var e=document.createElement('div');
     var ei=document.createElement('div');
     ei.innerHTML=i;
+    if (!lev[i]) return e;
     thm(lev[i],e);
     t_thm.bot(ei,[]);
     e.append(ei);

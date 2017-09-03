@@ -161,7 +161,10 @@ function startNext() {
 
 function start() {
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("menu").classList.toggle("act", !1), buildGrid(document.getElementById("main"), lev[lv_id], 1);
+    document.getElementById("menu").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
+    setTimeout(function() {
+        buildGrid(document.getElementById("main"), lev[lv_id], 1);
+    }, 1e3);
 }
 
 function menu() {
@@ -180,9 +183,10 @@ function end(com, tm) {
 function mkLvlMenu() {
     for (var m = document.getElementById("menu"), i = 1; i <= 20; i += 1) m.append(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
-        return ei.innerHTML = i, thm(lev[i], e), t_thm.bot(ei, []), e.append(ei), e.onclick = function() {
+        return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), e.append(ei), 
+        e.onclick = function() {
             level(i);
-        }, e;
+        }, e) : e;
     }(i));
 }
 
