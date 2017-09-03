@@ -1,5 +1,6 @@
 div.sheet {
-  font-size: 300%; }
+  font-size: 300%;
+  background: #000; }
   div.sheet div.tile {
     position: relative; }
 
