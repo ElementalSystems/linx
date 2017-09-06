@@ -8,7 +8,7 @@ var killgl;
 function buildGrid(el,fin,bTm)
 {
   //now get the tiles
-  var init=fin.substring(6);
+  var init=fin.substring(8);
   var grd=[];
   var g={
     cell:grd,

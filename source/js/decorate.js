@@ -31,4 +31,17 @@ function decorate()
   t.echo(3,-.2,0,.4,0,0,0,1,1,1,1)
     .setbg(document.getElementById('s3'));
 
+  addStrs(document.getElementById('dpst'),3);
+
+}
+
+
+
+function mkStr(el) {
+  gs(100).lineStyle('#000').lineWidth(14).line(0,-.35,.2,0)
+         .lineStyle('#FF0').lineWidth(12).line(0,-.35,.2,0)
+         .lineGrad('#F80',"#FF0").lineWidth(8).line(0,-.35,.2,0)
+     .mirror(1,0)
+     .rotSym(5)
+     .setbg(el);
 }

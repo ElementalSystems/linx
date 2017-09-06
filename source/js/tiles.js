@@ -28,7 +28,9 @@ var t_set = {
   E: "0C",
   F: "0B1B",
   G: "021C",
-  H: "0B3A"
+  H: "0B3A",
+  I: "0b3A5B",
+  J: "0B3a5b"
 
 };
 
@@ -118,6 +120,7 @@ function tile(ti, at, txt) {
     act.setbg(tc.t_a);
     tc.appendChild(tc.t_a);
     tc.t_a.addEventListener("click", function() {
+      ae.rothex();
       tc.t_dir = tc.t_dir + 1;
       tc.setTransform();
     });
@@ -128,6 +131,7 @@ function tile(ti, at, txt) {
   tc.setTransformFuture = function(tm) {
     setTimeout(function() {
       tc.setTransform();
+      ae.tiled();
     }, tm * 1000);
   };
 

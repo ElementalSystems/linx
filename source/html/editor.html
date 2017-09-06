@@ -59,7 +59,8 @@
       </div>
       <div class=deco>
         Thm <input id=thm type=text maxlength=1 onchange="edited()" value='1'> C1 <input id=h1 type=text maxlength=2 onchange="edited()" value='00'> C2 <input id=h2 type=text maxlength=2 onchange="edited()" value='24'> Lum <input id=lm type=text maxlength=2
-          onchange="edited()" value='5'>
+          onchange="edited()" value='5'> <p>
+        Time <input id=time type=text maxlength=2 onchange="edited()" value='10'>
       </div>
       <textarea id=target cols=70 onblur="setdata();">
   </textarea>
@@ -93,7 +94,8 @@
 
 
       function edited() {
-        var data = document.getElementById('thm').value +
+        var data = document.getElementById('time').value +
+          document.getElementById('thm').value +
           document.getElementById('h1').value +
           document.getElementById('h2').value +
           document.getElementById('lm').value;
@@ -113,12 +115,13 @@
 
       function setdata() {
         var d = document.getElementById('target').value;
-        document.getElementById('thm').value = d.charAt(0);
-        document.getElementById('h1').value = d.substring(1, 3);
-        document.getElementById('h2').value = d.substring(3, 5);
-        document.getElementById('lm').value = d.charAt(5);
+        document.getElementById('thm').value = d.charAt(0,2);
+        document.getElementById('thm').value = d.charAt(2);
+        document.getElementById('h1').value = d.substring(3, 5);
+        document.getElementById('h2').value = d.substring(5, 7);
+        document.getElementById('lm').value = d.charAt(7);
         for (var i = 1; i < 31; i += 1) {
-          var val=d.substring(4+i*2,6+i*2);
+          var val=d.substring(6+i*2,6+i*2);
           if (val=='00') val='';
           document.getElementById('r' + i).value=val;
         }

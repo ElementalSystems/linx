@@ -33,7 +33,12 @@ function decorate() {
     gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0"));
     var t = gs(50).lineWidth(10).lineGrad("#080", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
     t.setbg(document.getElementById("s1")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s2")), 
-    t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3"));
+    t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
+    addStrs(document.getElementById("dpst"), 3);
+}
+
+function mkStr(el) {
+    gs(100).lineStyle("#000").lineWidth(14).line(0, -.35, .2, 0).lineStyle("#FF0").lineWidth(12).line(0, -.35, .2, 0).lineGrad("#F80", "#FF0").lineWidth(8).line(0, -.35, .2, 0).mirror(1, 0).rotSym(5).setbg(el);
 }
 
 function buildGrid(el, fin, bTm) {
@@ -67,7 +72,7 @@ function buildGrid(el, fin, bTm) {
         g.spk_home + g.spk_dead == g.spk_tot) return void end(100 * g.spk_home / g.spk_tot, g.l_tm);
         killgl || window.requestAnimationFrame(gl);
     }
-    var init = fin.substring(6), grd = [], g = {
+    var init = fin.substring(8), grd = [], g = {
         cell: grd,
         spark: function(tile, lnk, ty) {
             var x = _spark(g, tile, lnk, ty);
@@ -131,14 +136,20 @@ function h_ni(i) {
     return (i + 3600) % 6;
 }
 
+function levTime(id) {
+    return Number(lev[id].substring(0, 2));
+}
+
 function exp(com, tm) {
     if (!com) return "Never Attempted";
-    var t = "<b>" + com + "%</b> of the packets ";
+    var t = "Saved <b>" + Number(com).toFixed(0) + "%</b> of the packets ";
     return 100 == com && (t += " in " + Number(tm).toFixed(1) + "s"), t;
 }
 
 function expG(com, tm) {
-    return !com || com < 50 ? "Save 50% for 1*" : com < 100 ? "Save 100% for 2*" : "Save 100% in x.xs 3*";
+    if (!com || com < 50) return "Save 50% for 1 Star";
+    var tt = levTime(lv_id);
+    return com < 100 ? "Save 100% for 2 Stars" : tm > tt ? "Save 100% in " + tt + "s for 3 Stars" : "Completed";
 }
 
 function decLev(id) {
@@ -150,9 +161,9 @@ function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main")), thm(lev[lv_id], document.getElementById("top")), 
     document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("menu").classList.toggle("act", !1), document.getElementById("dpl").innerHTML = lv, 
-    decLev("dpl"), document.getElementById("dpr").innerHTML = "Your best: " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
-    document.getElementById("dpt").innerHTML = "Goal: " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
-    document.getElementById("main").innerHTML = "";
+    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("dpt").innerHTML = "<i>Goal:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("main").innerHTML = "", ae.click();
 }
 
 function startNext() {
@@ -164,27 +175,44 @@ function start() {
     document.getElementById("menu").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
     setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1);
-    }, 1e3);
+    }, 1e3), ae.levstart();
 }
 
 function menu() {
-    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("menu").classList.toggle("act", !0), killGrid(document.getElementById("main"));
+    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1);
+    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 16; i += 1) checkStars(its[i], i);
+    menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click();
 }
 
 function end(com, tm) {
+    ae.levend();
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
     otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), document.getElementById("dp").classList.toggle("ed", !0), 
-    document.getElementById("dpr").innerHTML = "You saved " + exp(com, tm), document.getElementById("dpt").innerHTML = "Goal: " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id));
+    lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
+    document.getElementById("dpt").innerHTML = "<i>Goal:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "", 
+    document.getElementById("dpt").innerHTML = "");
+}
+
+function addStrs(el, c) {
+    if (el) for (var i = 0; i < c; i += 1) {
+        var d = document.createElement("div");
+        d.classList.add("str"), mkStr(d), el.append(d);
+    }
+}
+
+function checkStars(el, lev) {
+    var c = Number(localStorage.getItem("com_" + lev)), t = Number(localStorage.getItem("tm_" + lev)), tar = 0;
+    c >= 50 && (tar = 1), c >= 100 && (tar = 2, t <= levTime(lev) && (tar = 3));
+    for (var chd = el.childNodes, i = 0; i < 3; i++) chd[i].classList.toggle("off", i + 1 > tar);
 }
 
 function mkLvlMenu() {
     for (var m = document.getElementById("menu"), i = 1; i <= 20; i += 1) m.append(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
-        return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), e.append(ei), 
-        e.onclick = function() {
+        return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), addStrs(e, 3), 
+        e.append(ei), e.onclick = function() {
             level(i);
         }, e) : e;
     }(i));
@@ -211,26 +239,26 @@ function _spark(g, tile, lnk, ty) {
       case 2:
         spk.spk_spd = 3, bg.lineStyle("#000").lineWidth(20).line(-.3, -.3, .3, .3).lineGrad("rgba(0,0,64,1)", "rgba(0,0,255,1)").lineWidth(15).line(-.3, -.3, .3, .3).echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(45, 135), 1, 1, 1, .2).setbg(spk.spk_decor);
     }
-    return spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(.1, 1), 
+    return spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(1, 2), 
     spk.tick = function(time) {
         if (!spk.stop) {
             spk.pos += spk.fact * time;
             var sw = -1;
             if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
-            sw = spk.lk.st), 7 == sw) return spk.fx("home"), spk.stop = !0, void (g.spk_home += 1);
+            sw = spk.lk.st), 7 == sw) return spk.fx("home", .75), spk.stop = !0, void (g.spk_home += 1);
             if (sw >= 0) {
                 var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = g.cell[nextTi], lnk = -1, dir = 1;
                 if (nextT) for (var inward = h_ni(outward + 3 - nextT.t_dir), i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
                 nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1));
-                if (!(lnk >= 0)) return spk.fx("death"), spk.stop = !0, void (g.spk_dead += 1);
-                spk.fx("hop"), link(nextTi, lnk, dir);
+                if (!(lnk >= 0)) return spk.fx("death", .5), spk.stop = !0, void (g.spk_dead += 1);
+                spk.fx("hop", .1), link(nextTi, lnk, dir);
             }
             var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
             spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,0)", 
-            spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(.2, 1.2), spk.fx("chirp"));
+            spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
-    }, spk.fx = function(e) {
-        ae[e](), spk.spk_decor.style.animation = e + " 1s 1 forwards";
+    }, spk.fx = function(e, len) {
+        len || (len = .25), len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
     }, spk.fx("start"), spk;
 }
 
@@ -309,7 +337,7 @@ function qThm(id, c1, c2, l, bk) {
 }
 
 function thm(fin, bk) {
-    qThm(Number(fin.charAt(0)), 10 * Number(fin.substring(1, 3)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.charAt(5)), bk);
+    qThm(Number(fin.charAt(2)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.substring(5, 7)), 10 * Number(fin.charAt(7)), bk);
 }
 
 function drawLnk(s, lk, sdw) {
@@ -355,12 +383,12 @@ function tile(ti, at, txt) {
         tc.t_a = document.createElement("div"), tc.t_a.classList.add("act");
         gs(200).lineStyle("rgba(0,0,0,1)").lineWidth(6).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).lineStyle("rgba(255,255,0,1)").lineWidth(4).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).echo(10, 0, 0, 0, 0, -60, 0, 1, 1, .1, 1).rotSym(5).setbg(tc.t_a), 
         tc.appendChild(tc.t_a), tc.t_a.addEventListener("click", function() {
-            tc.t_dir = tc.t_dir + 1, tc.setTransform();
+            ae.rothex(), tc.t_dir = tc.t_dir + 1, tc.setTransform();
         });
     }
     return tc.style.transform = "translate3d(0vmin,0vmin,100vmin)", tc.setTransformFuture = function(tm) {
         setTimeout(function() {
-            tc.setTransform();
+            tc.setTransform(), ae.tiled();
         }, 1e3 * tm);
     }, tc.setTransform = function() {
         var x = 25 * ti_to_x(tc.t_i), y = 25 * ti_to_y(tc.t_i);
@@ -385,23 +413,32 @@ function rdmi(a, b) {
 }
 
 var context = new AudioContext(), ae = {
+    levstart: function() {
+        tone(2, "triangle").v(.2, .4, .2, .7, .2).f(500, 300, 400, 100, 300, 300, 250, 200);
+    },
+    levend: function() {
+        tone(1, "triangle").v(.2, .8, .2).f(300, 250, 400);
+    },
+    tiled: function() {
+        tone(.5).v(.2, .5).f(300, 350);
+    },
     beep: function() {
         tone(1, "square").v(0, 1, 1, 1, 0).f(300);
     },
-    hop: function() {
-        tone(.25).v(0, 1, 1, 1, 0).f(300);
+    hop: function(len) {
+        tone(len).v(0, .5, 0).f(200, 250);
     },
-    home: function() {
-        tone(1.5).v(1, 1, 1, 1, 0).f(100, 300, 100, 200, 100, 150, 50);
+    home: function(len) {
+        tone(len).v(1, 1, .1).f(200, 500);
     },
-    start: function() {
-        tone(1).v(0, 1, .7).f(400, 100, 400, 100, 300, 300, 300, 300);
+    start: function(len) {
+        tone(len).v(0, 1, .7).f(100, 200);
     },
-    death: function() {
-        tone(2).v(1, 0, .8, 0, .5, 0).f(150, 100);
+    death: function(len) {
+        tone(len).v(1, .1, .8, .2, .5, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
     },
-    chirp: function() {
-        tone(.1).v(0, 1, 1, .5).f(500, 1e3, 500);
+    chirp: function(len) {
+        tone(len).v(0, .05, .1, 0).f(600, rdm(900, 1e3), rdm(900, 1e3), rdm(900, 1e3), 500);
     },
     spdup: function() {
         tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
@@ -410,7 +447,10 @@ var context = new AudioContext(), ae = {
         tone(1).v(0, 1, 1, 1, .3, .9, .9, .3, .7, 0).f(200, 100);
     },
     click: function() {
-        tone(.1).v(0, .3, .5).f(100, 100, 200);
+        tone(.5).v(1, .1, .8, .2, .5, 0).f(150, 200, 150, 100, 150, 100, 150, 100);
+    },
+    rothex: function() {
+        tone(.3).v(1, .1, .8, .2, .5, 0).f(150, 100, 150, 100, 150, 100, 150, 100), tone(.3).v(0, .1, .1, 0).f(800, 900);
     }
 };
 
@@ -482,21 +522,23 @@ var activeGrid = null, killgl, _gs = {
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
-    1: "02424522000000000055520000114a41140000555200000031525a000000001500",
-    2: "6040682113000000005012000011419a530000@e415b0000005f1e000000003000",
-    3: "1242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
-    4: "335355B1E1E1D2000000A1A3D300C3A1FeD400A0AbFeA40000EbFeA40000A0FeA4",
-    5: "5222230022000000003353b30000@aied4000000ia1400000000c5000000000000",
-    6: "0040430022000000001170130000008a8c1300008c8a1500317b72140000001500",
-    7: "504057000000000031418b413412517c1400109a544210225053219b00558b4154",
-    8: "304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
-    9: "620204222300000051715200005040425300001f8a1f130000318a540000000000",
-    10: "604128000012211351@a54@e544033535053408f7a118050108b14150055240000",
-    11: "5302080000b2000000c300d30000e000e00000ebe1ea0000000000000000000000",
-    12: "10202500b1d20000000000d3B30000D1GbD4c3C3A0GcA3a0Gae1d4E000A0E1E1D4",
-    13: "2253030000214113d1d2330040b011jda34000c1jejb54000010jdad000000a0af",
-    14: "003036D1E1A3a200E023D0b0d3E09ajaGcd4E030jakdD3A0E1GbkdE00000c0C0B0",
-    15: "120256B300b30000D000e0C300A2DfGcDc00A0Ha00d3D30000D5GcD400000000c5"
+    0: "2002020922A1B4000000h1G1b40000c042D3000000A1I534000000A5C50000000000",
+    1: "1002424522000000000055520000114a41140000555200000031525a000000001500",
+    2: "156040682113000000005012000011419a530000@e415b0000005f1e000000003000",
+    3: "221242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
+    4: "12335355B1E1E1D2000000A1A3D300C3A1FeD400A0AbFeA40000EbFeA40000A0FeA4",
+    5: "135222230022000000003353b30000@aied4000000ia1400000000c5000000000000",
+    6: "100040430022000000001170130000008a8c1300008c8a1500317b72140000001500",
+    7: "16504057000000000031418b413412517c1400109a544210225053219b00558b4154",
+    8: "20304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
+    9: "17620204222300000051715200005040425300001f8a1f130000318a540000000000",
+    10: "22604128000012211351@a54@e544033535053408f7a118050108b14150055240000",
+    11: "205302080000b2000000c300d30000e000e00000ebe1ea0000000000000000000000",
+    12: "1010202500b1d20000000000d3B30000D1GbD4c3C3A0GcA3a0Gae1d4E000A0E1E1D4",
+    13: "102253030000214113d1d2330040b011jda34000c1jejb54000010jdad000000a0af",
+    14: "22003036D1E1A3a200E023D0b0d3E09ajaGcd4E030jakdD3A0E1GbkdE00000c0C0B0",
+    15: "10120256B300b30000D000e0C300A2DfGcDc00A0Ha00d3D30000D5GcD400000000c5",
+    16: "11703244515251240040A2JcA3B340HaIaIaD440IaJaJaA410818cE20000003000C5"
 }, lv_id = 0, t_thm = null, t_set = {
     0: "",
     1: "0a",
@@ -527,6 +569,8 @@ var activeGrid = null, killgl, _gs = {
     E: "0C",
     F: "0B1B",
     G: "021C",
-    H: "0B3A"
+    H: "0B3A",
+    I: "0b3A5B",
+    J: "0B3a5b"
 }, _dec = "012345abcdefABCDEF";
 //# sourceMappingURL=scripts.js.map

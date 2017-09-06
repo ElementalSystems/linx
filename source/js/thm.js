@@ -66,5 +66,5 @@ function qThm(id,c1,c2,l,bk)
 }
 
 function thm(fin,bk) {
-  qThm(Number(fin.charAt(0)),Number(fin.substring(1,3))*10,Number(fin.substring(3,5))*10,Number(fin.charAt(5))*10,bk);
+  qThm(Number(fin.charAt(2)),Number(fin.substring(3,5))*10,Number(fin.substring(5,7))*10,Number(fin.charAt(7))*10,bk);
 }

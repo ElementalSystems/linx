@@ -54,7 +54,7 @@ function _spark(g, tile, lnk,ty) {
 
   spk.pos = 1;
   link(tile, lnk, -1); //connect it to the init tile
-  spk.ch_tm = rdm(.1, 1);
+  spk.ch_tm = rdm(1, 2);
   //add it's move me forward in time function
   spk.tick = function(time) {
     if (spk.stop) return;
@@ -69,7 +69,7 @@ function _spark(g, tile, lnk,ty) {
       sw = spk.lk.st;
     }
     if (sw == 7) { //we got home
-      spk.fx('home');
+      spk.fx('home',.75);
       spk.stop = true;
       g.spk_home+=1;
       return;
@@ -95,10 +95,10 @@ function _spark(g, tile, lnk,ty) {
         }
       }
       if (lnk >= 0) {
-        spk.fx('hop');
+        spk.fx('hop',.1);
         link(nextTi, lnk, dir);
       } else {
-        spk.fx('death');
+        spk.fx('death',.5);
         spk.stop = true;
         g.spk_dead+=1;
         return;
@@ -116,15 +116,17 @@ function _spark(g, tile, lnk,ty) {
     //chirp code
     spk.ch_tm -= time;
     if (spk.ch_tm < 0) {
-      spk.ch_tm = rdm(.2, 1.2);
-      spk.fx('chirp')
+      spk.ch_tm = rdm(1.2, 5);
+      spk.fx('chirp',rdm(.1,.3))
     }
 
   }
   //do a special effect thing
-  spk.fx = function(e) {
-    ae[e](); //play the sound
-    spk.spk_decor.style.animation = e + " 1s 1 forwards"; //do the movement
+  spk.fx = function(e,len) {
+    if (!len) len=.25;
+    len/=activeGrid.spd;
+    ae[e](len); //play the sound
+    spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
   }
   spk.fx('start')
   return spk;
