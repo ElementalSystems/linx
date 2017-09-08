@@ -18,7 +18,10 @@ function theme(b,sym,s1,s1v,s2,s2v,c,cv,r,rv,fsc,l)
       var bot = gs(200).lineStyle("hsla("+mod(s2,s2v)+",50%,"+l+"%,.6)");
       switch (b) {
         case 0: bot.lineWidth(2).hex(.9); break;
-        case 1: bot.lineStyle("hsla("+mods(s2,s2v)+",100%,"+l+",.2)").lineWidth(2).line(.1,.1,.3,.3); break;
+        case 1: bot.lineStyle("hsla("+mods(s2,s2v)+",100%,"+l+",.2)").lineWidth(2).line(.1,.1,.3,.3);
+                bot.lineStyle("hsla("+mods(s2,s2v)+",100%,"+l+",.2)").lineWidth(2).line(.1,.1,rdm(.1,.3),rdm(.1,.3));
+                bot.lineStyle("hsla("+mods(s2,s2v)+",100%,"+l+",.2)").lineWidth(2).line(.1,.1,rdm(.1,.3),rdm(.1,.3)); 
+                break;
         case 2: bot.lineWidth(0.5).fillStyle("hsla("+mods(s2,s2v)+",50%,"+l+"%,.5)").circle(.3,0,rdm(.03,.04),true);
                 bot.fillStyle("hsla("+mods(s1,s1v)+",50%,"+l+"%,.5)").circle(0,rdm(.01,.25),rdm(.04,.05),true);
                 break;
@@ -39,7 +42,7 @@ function qThm(id,c1,c2,l,bk)
   switch (id) {
     case 0: theme(0,0,c1,0,c2,30,8,2,0,0,.01,l); break;
     case 1: theme(0,0,c1,30,c2,0,12,4,30,0,.1,l); break;
-    case 2: theme(0,4,c1,0,c2,10,6,0,0,0,.01,l); break;
+    case 2: theme(0,4,c1,0,c2,10,4,0,30,0,.01,l); break;
     case 3: theme(1,3,c1,0,c2,10,40,0,180,0,.8,l); break;
     case 4: theme(1,6,c1,30,c2,10,15,0,50,20,.8,l); break;
     case 5: theme(2,3,c1,10,c2,30,20,10,80,20,1.2,l); break;

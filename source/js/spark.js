@@ -74,7 +74,10 @@ function _spark(g, tile, lnk,ty) {
       g.spk_home+=1;
       return;
     }
-    if (sw >= 0) { //seems we are moving to a new hex;
+    if (sw==6) { //back at a start node turn around
+      spk.pos = 1 - spk.pos;
+      spk.fact = -spk.spk_spd;      
+    } else  if (sw >= 0) { //seems we are moving to a new hex;
       var outward = h_ni(sw + spk.tile.t_dir);
       var nextTi = spk.tile.t_i + g_dir[outward];
       var nextT = g.cell[nextTi];
@@ -93,6 +96,7 @@ function _spark(g, tile, lnk,ty) {
             dir = -1;
           }
         }
+
       }
       if (lnk >= 0) {
         spk.fx('hop',.1);

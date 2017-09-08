@@ -2,7 +2,9 @@ div.sheet {
   font-size: 300%;
   background: #000; }
   div.sheet div.tile {
-    position: relative; }
+    position: relative;
+    width: 20vmin;
+    height: 20vmin; }
 
 div.editor {
   overflow: hidden; }

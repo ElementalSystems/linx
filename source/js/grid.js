@@ -1,6 +1,6 @@
 //utility to store and display a 5 x 6 hex grid
 
-g_dir=[-5,+1,+6,+5,-1,-6];
+g_dir=[-5,+1,+6,+5,-1,-6,0];
 var activeGrid=null;
 var killgl;
 

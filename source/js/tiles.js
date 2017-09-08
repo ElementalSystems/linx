@@ -21,6 +21,7 @@ var t_set = {
   i: "0b11",
   j: "011b40",
   k: "002a4A",
+  l: "0c2B51",
   A: "0A",
   B: "0D",
   C: "0E",
@@ -30,8 +31,9 @@ var t_set = {
   G: "021C",
   H: "0B3A",
   I: "0b3A5B",
-  J: "0B3a5b"
-
+  J: "0B3a5b",
+  L: "0c1A40",
+  M: "0A2A4A"
 };
 
 function drawLnk(s, lk, sdw) {
