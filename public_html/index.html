@@ -30,14 +30,17 @@
         <div id=dps class=sb>
           <div id=dpr></div>
           <div id=dpt></div>
-          <div class=cmd id=scmd onclick="start();">Play</div>
+          <div class=cmd id=scmd onclick="start();">Start</div>
+          <div class=cmd id=rcmd onclick="start();">Retry</div>
           <div class=cmd id=ncmd onclick="startNext();">Next</div>
+          <div class=cmd id=lcmd onclick="menu();">Levels</div>
+
         </div>
       </div>
     </div>
     <div id=panel>
-      <div id=ti class=sb>Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
-      <div class="tc sb">
+      <div id=ti class="tf sb">Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
+      <div id=ti2 class="tc sb tf">
         <div id=s0 onclick="setGS(0);">
         </div>
         <div id=s1 onclick="setGS(1);">

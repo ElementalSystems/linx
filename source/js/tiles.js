@@ -41,19 +41,30 @@ function drawLnk(s, lk, sdw) {
   switch (lk.ty) {
     case 0:
       cl = "0,255,0";
+      s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
+        .discPath(lk.pts, .03, true);
+      if (!sdw)
+        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1)
+         .discPath(lk.pts, .005, true,.03).discPath(lk.pts, .01, true,.03).discPath(lk.pts, .02, true,.03).discPath(lk.pts, .03, true,.03);
       break;
     case 1:
       cl = "255,0,0";
+      s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
+        .discPath(lk.pts, .03, true);
+      if (!sdw)
+        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)")
+        .discPath(lk.pts, .02, true);
       break;
     case 2:
       cl = "0,0,255";
+      s.lineStyle("rgba(0,0,0,.5)").lineWidth(7)
+        .linePath(lk.pts);
+      if (!sdw) {
+        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(5).linePath(lk.pts);
+        s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts);        
+      }
       break;
   }
-  s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
-    .discPath(lk.pts, .03, true);
-  if (!sdw)
-    s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)")
-    .discPath(lk.pts, .02, true);
   if (lk.ed == 6) { //need to draw the start point
     s.lineStyle("rgba(" + cl + ",1)").lineWidth(3)
       .circle(.2, 0, .1);

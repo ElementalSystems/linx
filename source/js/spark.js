@@ -18,9 +18,9 @@ function _spark(g, tile, lnk,ty) {
   switch (spk.spk_ty) {
     case 0:
       spk.spk_spd=.6;
-      bg.lineStyle("rgba(0,255,0,1)")
-        .lineWidth(10).hex(.80).hex(.40)
-        .echo(5, 0, .2, 0, 0, 0, 0, 1, 1, 1, 0.5)
+      bg.lineStyle("rgba(0,255,0,1)").text('011',0,-.25,5)
+        .mirror(1,1)
+        .echo(4, 0, 0, 0, 0, 0, 90, 1, .5, 1, .2)
         .setbg(spk.spk_decor);
       break;
     case 1:
@@ -33,9 +33,10 @@ function _spark(g, tile, lnk,ty) {
       break;
     case 2:
       spk.spk_spd=3;
-      bg.lineStyle("#000").lineWidth(20).line(-.3,-.3,.3,.3)
-        .lineGrad("rgba(0,0,64,1)", "rgba(0,0,255,1)").lineWidth(15).line(-.3,-.3,.3,.3)
-        .echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(45, 135), 1, 1, 1, 0.2)
+      bg.lineStyle("#000").lineWidth(25).line(-.3,-.3,.3,.3)
+        .lineGrad("rgba(0,0,255,1)", "rgba(0,192,255,1)").lineWidth(20).line(0,0,.3,.3)
+        .lineGrad("rgba(0,192,255,1)", "rgba(0,0,255,1)").lineWidth(20).line(-.3,-.3,0,0)
+        .echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(70, 135), 1, 1, 1, 0.2)
         .setbg(spk.spk_decor);
       break;
   }
@@ -76,7 +77,7 @@ function _spark(g, tile, lnk,ty) {
     }
     if (sw==6) { //back at a start node turn around
       spk.pos = 1 - spk.pos;
-      spk.fact = -spk.spk_spd;      
+      spk.fact = -spk.spk_spd;
     } else  if (sw >= 0) { //seems we are moving to a new hex;
       var outward = h_ni(sw + spk.tile.t_dir);
       var nextTi = spk.tile.t_i + g_dir[outward];

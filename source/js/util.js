@@ -18,3 +18,12 @@ function rdmi(a,b)
 {
    return Math.floor(a+Math.random()*(b-a+1));
 }
+
+function fullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  requestFullScreen.call(docEl);
+
+}

@@ -43,10 +43,11 @@ var _gs = {
       this.ctx.fill();
     return this;
   },
-  discPath: function(pts,r,fill) {
+  discPath: function(pts,r,fill,shk) {
+    if (!shk) shk=0
     for (var i=0;i<pts.length;i+=1) {
       this.ctx.beginPath();
-      this.ctx.arc(pts[i].x, pts[i].y, r, 0, 2 * Math.PI);
+      this.ctx.arc(pts[i].x+rdm(-shk,shk), pts[i].y+rdm(-shk,shk), r, 0, 2 * Math.PI);
       this.ctx.stroke();
       if (fill) this.ctx.fill();
     }

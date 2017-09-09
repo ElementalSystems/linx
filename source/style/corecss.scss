@@ -31,15 +31,26 @@ body {
     padding-left: 0.3em;
   }
   background-size: 100% 100%;
+
+}
+.tf {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tf.act {
+  opacity: 1;
 }
 
 div.sb {
   border-radius: 2vmin;
   padding: 0.5vmin;
   text-align: center;
-  background: rgba(0,0,0,.5);
+  //background: rgba(0,0,0,.5);
+  background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(128,128,128,.3) 50%,rgba(0,0,0,.8) 100%);
+
   border: ridge 4px rgba(128,128,128,.8);
   color: rgba(255,255,255,.8);
+
 }
 
 .tc {
@@ -57,6 +68,7 @@ div.sb {
     display: inline-block;
     box-sizing: border-box;
     font-size: 2vmin;
+    cursor: pointer;
   }
 
   div.active {
@@ -163,12 +175,14 @@ div#dp {
   }
 
   div.cmd {
-    margin: 0.5em;
+    margin: 0;
     font-size: 150%;
     border: #FFF 1px solid;
     border-radius: 0.25em;
     font-variant: small-caps;
     display: none;
+    width:20vmin;
+    cursor: pointer;
   }
   padding: 0.5vmin;
   transition: top 1s;
@@ -179,6 +193,7 @@ div#dp.st {
 
   #scmd {
     display: block;
+    width: auto;
   }
 }
 
@@ -186,7 +201,13 @@ div#dp.ed {
   top: 10%;
 
   #ncmd {
-    display: block;
+    display: inline-block;
+  }
+  #rcmd {
+    display: inline-block;
+  }
+  #lcmd {
+    display: inline-block;
   }
 }
 
@@ -214,7 +235,7 @@ div#menu {
     border: ridge #888 3px;
     border-radius: 2vmin;
     position: relative;
-
+    cursor: pointer;
     div {
       position: absolute;
       left: 0;
