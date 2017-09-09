@@ -45,9 +45,7 @@ div.sb {
   border-radius: 2vmin;
   padding: 0.5vmin;
   text-align: center;
-  //background: rgba(0,0,0,.5);
   background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(128,128,128,.3) 50%,rgba(0,0,0,.8) 100%);
-
   border: ridge 4px rgba(128,128,128,.8);
   color: rgba(255,255,255,.8);
 
@@ -141,9 +139,19 @@ div#dp {
     font-variant: small-caps;
     text-align: left;
     opacity: .8;
-    font-size: 4vmin;
+    font-size: 3vmin;
     margin-top:.5em;
     font-style: normal;
+  }
+
+  div#dpt {
+    opacity: .9;
+    font-size: 3vmin;
+    b {
+      color: #FF8;
+      font-variant: small-caps;
+      transform: rotate(-8deg);
+    }
   }
 
   div#dpl {
@@ -175,14 +183,23 @@ div#dp {
   }
 
   div.cmd {
-    margin: 0;
-    font-size: 150%;
+    padding: .5em;
+    margin: 1vmin;
+    font-size: 120%;
     border: #FFF 1px solid;
     border-radius: 0.25em;
     font-variant: small-caps;
     display: none;
-    width:20vmin;
+    width:25vmin;
     cursor: pointer;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(128,128,64,.3) 50%,rgba(0,0,0,.8) 100%);
+    border: outset 2px rgba(128,128,128,.8);
+  }
+  div.cmd.df {
+    width: 63vmin;
+    color: #FF8;
+    background: linear-gradient(135deg, rgba(0,0,0,.8) 0%,rgba(128,128,0,.9) 50%,rgba(0,0,0,.8) 100%);
+
   }
   padding: 0.5vmin;
   transition: top 1s;
@@ -192,8 +209,16 @@ div#dp.st {
   top: 10%;
 
   #scmd {
-    display: block;
-    width: auto;
+    display: inline-block;
+  }
+}
+
+
+div#dp.fst {
+  top: 10%;
+
+  #fcmd {
+    display: inline-block;
   }
 }
 

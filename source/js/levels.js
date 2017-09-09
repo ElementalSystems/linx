@@ -19,7 +19,7 @@ var lev={
   17: "15802046B300b30000HaA3e0C300A2HfGcDc00A0Ha00d3D30000D5GcD400000000c5",
   18: "21110105b1d21212000051ia@e25c1gcd44053003000105400000000000000000000",
   19: "30400241A200235124MbFd4040C3MbF3Jbl0E0MbF3518bk1A0F350401500A0B41f34",
-  20: "3541216832a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5"
+  20: "3502020932a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5"
 
 };
 
@@ -40,14 +40,15 @@ function exp(com,tm) {
 }
 
 function expG(com,tm) {
-  if ((!com)||(com<50))
-    return "Save 50% for 1 Star";
+  var res="";
   var tt=levTime(lv_id);
-  if (com<100)
-      return "Save 100% for 2 Stars";
-  if (tm>tt)
-      return "Save 100% in "+tt+"s for 3 Stars";
-  return "Completed";
+  res+="Save 50% for 1 Star";
+  if (com>=50) res+=" <b>Complete</b>";
+  res+="<br>Save 100% for 2 Stars";
+  if (com>=100) res+=" <b>Complete</b>";
+  res+="<br>Save 100% in "+tt+"s for 3 Stars";
+  if ((com>=100)&&(tm<=tt)) res+=" <b>Complete</b>";
+  return res;
 }
 
 function decLev(id)
@@ -65,12 +66,13 @@ function level(lv) {
   //set up start thing
   document.getElementById('dp').classList.toggle('st',true);
   document.getElementById('dp').classList.toggle('ed',false);
+  document.getElementById('dp').classList.toggle('fst',false);
   document.getElementById('menu').classList.toggle('act',false);
   document.getElementById('dpl').innerHTML=lv;
   checkStars(document.getElementById('dpst'),lv);
   decLev('dpl');
   document.getElementById('dpr').innerHTML="<i>Best:</i> "+exp(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
-  document.getElementById('dpt').innerHTML="<i>Goal:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+  document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
   document.getElementById('main').innerHTML='';
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
@@ -107,6 +109,7 @@ function menu() {
 
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
+  document.getElementById('dp').classList.toggle('fst',false);
   //set up starts
   var menu=document.getElementById('menu');
   var its=menu.childNodes;
@@ -121,6 +124,7 @@ function menu() {
 function end(com,tm)
 {
   document.getElementById('ti2').classList.toggle('act',false);
+  document.getElementById('ti3').classList.toggle('act',true);
 
   ae.levend();
   //update high scores
@@ -131,15 +135,16 @@ function end(com,tm)
   if (!otm) otm=999;
   localStorage.setItem("tm_"+lv_id,Math.min(tm,otm));
 
-  checkStars(document.getElementById('dpst'),lv);
+  checkStars(document.getElementById('dpst'),lv_id);
 
-  document.getElementById('dp').classList.toggle('ed',true);
   if (lv_id) { //if we are not on level 0
     document.getElementById('dpr').innerHTML="<i>Result:</i> "+exp(com,tm);
-    document.getElementById('dpt').innerHTML="<i>Goal:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+    document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(com,tm);
+    document.getElementById('dp').classList.toggle('ed',true);
   } else {
-    document.getElementById('dpr').innerHTML="";
-    document.getElementById('dpt').innerHTML="";
+    document.getElementById('dpr').innerHTML="The Lost Packets";
+    document.getElementById('dpt').innerHTML="<i>... an abstract puzzle game in 13kb by elementalsystems ...</i>";
+    document.getElementById('dp').classList.toggle('fst',true);
   }
 }
 

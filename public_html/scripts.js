@@ -30,10 +30,10 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
 function decorate() {
     gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
     gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
-    gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0"));
+    gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0")), 
+    gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
     var t = gs(50).lineWidth(10).lineGrad("#080", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
-    t.setbg(document.getElementById("s1")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s2")), 
-    t.echo(3, -.2, 0, .4, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
+    t.setbg(document.getElementById("s2")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
     addStrs(document.getElementById("dpst"), 3);
 }
 
@@ -115,7 +115,26 @@ function ti_to_y(i) {
 
 function setGS(spd) {
     activeGrid.spd = spd;
-    for (var i = 0; i < 4; i += 1) document.getElementById("s" + i).classList.toggle("active", spd == i);
+    for (var i = 0; i < 4; i += 1) {
+        var sel = !1;
+        switch (i) {
+          case 0:
+            sel = 0 == spd;
+            break;
+
+          case 1:
+            sel = .5 == spd;
+            break;
+
+          case 2:
+            sel = 1 == spd;
+            break;
+
+          case 3:
+            sel = 2.5 == spd;
+        }
+        document.getElementById("s" + i).classList.toggle("active", sel);
+    }
 }
 
 function cgrad(ctx, s, c1, c2) {
@@ -147,9 +166,10 @@ function exp(com, tm) {
 }
 
 function expG(com, tm) {
-    if (!com || com < 50) return "Save 50% for 1 Star";
-    var tt = levTime(lv_id);
-    return com < 100 ? "Save 100% for 2 Stars" : tm > tt ? "Save 100% in " + tt + "s for 3 Stars" : "Completed";
+    var res = "", tt = levTime(lv_id);
+    return res += "Save 50% for 1 Star", com >= 50 && (res += " <b>Complete</b>"), res += "<br>Save 100% for 2 Stars", 
+    com >= 100 && (res += " <b>Complete</b>"), res += "<br>Save 100% in " + tt + "s for 3 Stars", 
+    com >= 100 && tm <= tt && (res += " <b>Complete</b>"), res;
 }
 
 function decLev(id) {
@@ -160,9 +180,10 @@ function decLev(id) {
 function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main")), thm(lev[lv_id], document.getElementById("top")), 
     document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("menu").classList.toggle("act", !1), document.getElementById("dpl").innerHTML = lv, 
-    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
-    document.getElementById("dpt").innerHTML = "<i>Goal:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu").classList.toggle("act", !1), 
+    document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
+    decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
     document.getElementById("ti2").classList.toggle("act", !1), ae.click();
 }
@@ -182,21 +203,24 @@ function start() {
 
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
-    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1);
+    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
+    document.getElementById("dp").classList.toggle("fst", !1);
     for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 21; i += 1) checkStars(its[i], i);
     menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click(), 
     fullScreen();
 }
 
 function end(com, tm) {
-    document.getElementById("ti2").classList.toggle("act", !1), ae.levend();
+    document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !0), 
+    ae.levend();
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
-    otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), checkStars(document.getElementById("dpst"), lv), 
-    document.getElementById("dp").classList.toggle("ed", !0), lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
-    document.getElementById("dpt").innerHTML = "<i>Goal:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "", 
-    document.getElementById("dpt").innerHTML = "");
+    otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), checkStars(document.getElementById("dpst"), lv_id), 
+    lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
+    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "The Lost Packets", 
+    document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game in 13kb by elementalsystems ...</i>", 
+    document.getElementById("dp").classList.toggle("fst", !0));
 }
 
 function addStrs(el, c) {
@@ -358,8 +382,8 @@ function drawLnk(s, lk, sdw) {
     var cl = "255,255,255";
     switch (lk.ty) {
       case 0:
-        cl = "0,255,0", s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .03, !0), 
-        sdw || s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).discPath(lk.pts, .005, !0, .03).discPath(lk.pts, .01, !0, .03).discPath(lk.pts, .02, !0, .03).discPath(lk.pts, .03, !0, .03);
+        cl = "0,255,0", s.lineStyle("rgba(0,0,0,.8)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .05, !0), 
+        sdw || s.lineStyle("rgba(0,192,0,.9)").lineWidth(1).fillStyle("rgba(0,64,0,.4)").discPath(lk.pts, .03, !0, .01).discPath(lk.pts, .02, !0, .01).discPath(lk.pts, .01, !0, .02);
         break;
 
       case 1:
@@ -563,7 +587,7 @@ var activeGrid = null, killgl, _gs = {
     17: "15802046B300b30000HaA3e0C300A2HfGcDc00A0Ha00d3D30000D5GcD400000000c5",
     18: "21110105b1d21212000051ia@e25c1gcd44053003000105400000000000000000000",
     19: "30400241A200235124MbFd4040C3MbF3Jbl0E0MbF3518bk1A0F350401500A0B41f34",
-    20: "3541216832a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5"
+    20: "3502020932a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5"
 }, lv_id = 0, t_thm = null, t_set = {
     0: "",
     1: "0a",

@@ -133,6 +133,14 @@ function ti_to_y(i)
 function setGS(spd)
 {
   activeGrid.spd=spd;
-  for (var i=0;i<4;i+=1)
-     document.getElementById('s'+i).classList.toggle('active',spd==i)
+  for (var i=0;i<4;i+=1) {
+     var sel=false;
+     switch (i) {
+       case 0:  sel=(spd==0); break;
+       case 1:  sel=(spd==.5); break;
+       case 2:  sel=(spd==1); break;
+       case 3:  sel=(spd==2.5); break;
+     }
+     document.getElementById('s'+i).classList.toggle('active',sel)
+  }
 }

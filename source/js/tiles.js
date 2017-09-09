@@ -41,11 +41,14 @@ function drawLnk(s, lk, sdw) {
   switch (lk.ty) {
     case 0:
       cl = "0,255,0";
-      s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
-        .discPath(lk.pts, .03, true);
+      s.lineStyle("rgba(0,0,0,.8)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
+        .discPath(lk.pts, .05, true);
       if (!sdw)
-        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1)
-         .discPath(lk.pts, .005, true,.03).discPath(lk.pts, .01, true,.03).discPath(lk.pts, .02, true,.03).discPath(lk.pts, .03, true,.03);
+        s.lineStyle("rgba(0,192,0,.9)").lineWidth(1).fillStyle("rgba(0,64,0,.4)")
+         .discPath(lk.pts, .03, true,.01)
+         .discPath(lk.pts, .02, true,.01)
+         .discPath(lk.pts, .01, true,.02);
+
       break;
     case 1:
       cl = "255,0,0";
@@ -61,7 +64,7 @@ function drawLnk(s, lk, sdw) {
         .linePath(lk.pts);
       if (!sdw) {
         s.lineStyle("rgba(" + cl + ",.8)").lineWidth(5).linePath(lk.pts);
-        s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts);        
+        s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts);
       }
       break;
   }

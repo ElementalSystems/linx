@@ -119,9 +119,16 @@ div#dp {
     font-variant: small-caps;
     text-align: left;
     opacity: .8;
-    font-size: 4vmin;
+    font-size: 3vmin;
     margin-top: .5em;
     font-style: normal; }
+  div#dp div#dpt {
+    opacity: .9;
+    font-size: 3vmin; }
+    div#dp div#dpt b {
+      color: #FF8;
+      font-variant: small-caps;
+      transform: rotate(-8deg); }
   div#dp div#dpl {
     box-sizing: border-box;
     font-size: 15vmin;
@@ -145,20 +152,31 @@ div#dp {
     div#dp div#dpst div.str.off {
       opacity: .2; }
   div#dp div.cmd {
-    margin: 0;
-    font-size: 150%;
+    padding: .5em;
+    margin: 1vmin;
+    font-size: 120%;
     border: #FFF 1px solid;
     border-radius: 0.25em;
     font-variant: small-caps;
     display: none;
-    width: 20vmin;
-    cursor: pointer; }
+    width: 25vmin;
+    cursor: pointer;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(128, 128, 64, 0.3) 50%, rgba(0, 0, 0, 0.8) 100%);
+    border: outset 2px rgba(128, 128, 128, 0.8); }
+  div#dp div.cmd.df {
+    width: 63vmin;
+    color: #FF8;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(128, 128, 0, 0.9) 50%, rgba(0, 0, 0, 0.8) 100%); }
 
 div#dp.st {
   top: 10%; }
   div#dp.st #scmd {
-    display: block;
-    width: auto; }
+    display: inline-block; }
+
+div#dp.fst {
+  top: 10%; }
+  div#dp.fst #fcmd {
+    display: inline-block; }
 
 div#dp.ed {
   top: 10%; }

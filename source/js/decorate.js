@@ -18,18 +18,20 @@ function decorate()
         .mirror(1,0)
         .setbg(document.getElementById('s0'));
 
+  //make a pause button
+  gs(50).lineWidth(11).lineGrad("#D80","#F80")
+        .line(.1,-.2,.1,+.2)
+        .lineGrad("#BA0","#080")
+        .line(-.1,-.2,.1,0).line(-.1,.2,.1,0).line(-.1,-.2,-.1,+.2)
+        .setbg(document.getElementById('s1'));
+
 
   var t=gs(50).lineWidth(10).lineGrad("#080","#0F0")
-        .line(-.1,-.2,.1,0)
-        .line(-.1,.2,.1,0)
-        .line(-.1,-.2,-.1,+.2);
+        .line(-.1,-.2,.1,0).line(-.1,.2,.1,0).line(-.1,-.2,-.1,+.2);
 
-
-  t.setbg(document.getElementById('s1'));
+  t.setbg(document.getElementById('s2'));
   t.echo(2,-.1,0,.3,0,0,0,1,1,1,1)
-   .setbg(document.getElementById('s2'));
-  t.echo(3,-.2,0,.4,0,0,0,1,1,1,1)
-    .setbg(document.getElementById('s3'));
+   .setbg(document.getElementById('s3'));
 
   addStrs(document.getElementById('dpst'),3);
 
