@@ -27,3 +27,25 @@ function fullScreen() {
   requestFullScreen.call(docEl);
 
 }
+
+function sml(ty) //launch a social media message about me
+{
+  var url=window.location.href;
+  var m="I just completed level "+lv_id+" of #TheLostPackets - a game for #js13k."
+  switch (ty)
+    {
+      case 't':
+        window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(m),'_blank');
+        break;
+      case 'f':
+        window.open('https://www.facebook.com/sharer.php?u='+encodeURIComponent(url),'_blank');
+        break;
+      case 'u': //tumblr
+        window.open('https://www.tumblr.com/widgets/share/tool?canonicalUrl='+encodeURIComponent(url)+'&title='+encodeURIComponent(m),'_blank');
+        break;
+      case 'r': //reddit
+        window.open('https://reddit.com/submit?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(m),'_blank');
+        break;
+    }
+
+}

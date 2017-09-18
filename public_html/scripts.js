@@ -41,6 +41,10 @@ function mkStr(el) {
     gs(100).lineStyle("#000").lineWidth(14).line(0, -.35, .2, 0).lineStyle("#FF0").lineWidth(12).line(0, -.35, .2, 0).lineGrad("#F80", "#FF0").lineWidth(8).line(0, -.35, .2, 0).mirror(1, 0).rotSym(5).setbg(el);
 }
 
+function mkN(n, len, dp) {
+    return dp || (dp = 0), String("          " + Number(n).toFixed(dp)).slice(-len).replace(" ", "&nbsp;");
+}
+
 function buildGrid(el, fin, bTm) {
     function spk() {
         spk_time += spk_gap, spk_count += 1;
@@ -67,8 +71,8 @@ function buildGrid(el, fin, bTm) {
         var gft = ft / 2 * g.spd;
         st = t, (spk_time -= gft) < 0 && spk();
         for (var i = 0; i < g.spks.length; i += 1) g.spks[i].tick(gft);
-        if (g.l_tm += gft, ti.innerHTML = g.l_tm.toFixed(1) + "s", ot.innerHTML = (100 * g.spk_out / g.spk_tot).toFixed(0) + "%", 
-        hm.innerHTML = (100 * g.spk_home / g.spk_tot).toFixed(0) + "%", dd.innerHTML = (100 * g.spk_dead / g.spk_tot).toFixed(0) + "%", 
+        if (g.l_tm += gft, ti.innerHTML = mkN(g.l_tm, 4, 1) + "s", ot.innerHTML = mkN(100 * g.spk_out / g.spk_tot, 3) + "%", 
+        hm.innerHTML = mkN(100 * g.spk_home / g.spk_tot, 3) + "%", dd.innerHTML = mkN(100 * g.spk_dead / g.spk_tot, 3) + "%", 
         g.spk_home + g.spk_dead == g.spk_tot) return void end(100 * g.spk_home / g.spk_tot, g.l_tm);
         killgl || window.requestAnimationFrame(gl);
     }
@@ -96,7 +100,8 @@ function buildGrid(el, fin, bTm) {
     }
     activeGrid = g, setGS(1);
     var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0, ti = document.getElementById("tm"), ot = document.getElementById("ot"), dd = document.getElementById("dd"), hm = document.getElementById("hm");
-    return ti.innerHTML = ot.innerHTML = hm.innerHTML = dd.innerHTML = "", setTimeout(function() {
+    return ti.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ot.innerHTML = hm.innerHTML = dd.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;", 
+    setTimeout(function() {
         killgl = !1, window.requestAnimationFrame(gl);
     }, 1e3 * bTm), g;
 }
@@ -181,11 +186,12 @@ function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main")), thm(lev[lv_id], document.getElementById("top")), 
     document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu").classList.toggle("act", !1), 
-    document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
-    decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("shr").classList.toggle("act", !1), document.getElementById("dpl").innerHTML = lv, 
+    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
-    document.getElementById("ti2").classList.toggle("act", !1), ae.click();
+    document.getElementById("ti2").classList.toggle("act", !1), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
+    ae.click();
 }
 
 function startNext() {
@@ -194,15 +200,16 @@ function startNext() {
 
 function start() {
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("menu").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
-    setTimeout(function() {
+    document.getElementById("menu").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
+    killGrid(document.getElementById("main")), setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
-        document.getElementById("ti2").classList.toggle("act", !0));
+        document.getElementById("ti2").classList.toggle("act", !0), document.getElementById("ti3").classList.toggle("act", !0));
     }, 1e3), ae.levstart(), fullScreen();
 }
 
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
+    document.getElementById("ti3").classList.toggle("act", !0), document.getElementById("shr").classList.toggle("act", !1), 
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1);
     for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 21; i += 1) checkStars(its[i], i);
@@ -211,8 +218,8 @@ function menu() {
 }
 
 function end(com, tm) {
-    document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !0), 
-    ae.levend();
+    document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
+    lv_id && document.getElementById("shr").classList.toggle("act", !0), ae.levend();
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
@@ -226,7 +233,7 @@ function end(com, tm) {
 function addStrs(el, c) {
     if (el) for (var i = 0; i < c; i += 1) {
         var d = document.createElement("div");
-        d.classList.add("str"), mkStr(d), el.append(d);
+        d.classList.add("str"), mkStr(d), el.appendChild(d);
     }
 }
 
@@ -237,10 +244,10 @@ function checkStars(el, lev) {
 }
 
 function mkLvlMenu() {
-    for (var m = document.getElementById("menu"), i = 1; i <= 20; i += 1) m.append(function(i) {
+    for (var m = document.getElementById("menu"), i = 1; i <= 20; i += 1) m.appendChild(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
         return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), addStrs(e, 3), 
-        e.append(ei), e.onclick = function() {
+        e.appendChild(ei), e.onclick = function() {
             level(i);
         }, e) : e;
     }(i));
@@ -257,11 +264,11 @@ function _spark(g, tile, lnk, ty) {
     var bg = gs(100);
     switch (spk.spk_ty) {
       case 0:
-        spk.spk_spd = .6, bg.lineStyle("rgba(0,255,0,1)").text("011", 0, -.25, 5).mirror(1, 1).echo(4, 0, 0, 0, 0, 0, 90, 1, .5, 1, .2).setbg(spk.spk_decor);
+        spk.spk_spd = .6, bg.lineStyle("rgba(0,255,0,1)").text(String(rdmi(0, 1)) + String(rdmi(0, 1)) + String(rdmi(0, 1)), 0, -.25, 5).mirror(1, 1).echo(3, 0, 0, 0, 0, 0, 90, 1, .1, 1, .1).setbg(spk.spk_decor);
         break;
 
       case 1:
-        spk.spk_spd = 1, bg.lineGrad("rgba(192,192,0,1)", "rgba(255,0,0,1)").lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45).echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0).rotSym(rdmi(3, 6)).setbg(spk.spk_decor);
+        spk.spk_spd = 1, bg.lineGrad("rgba(128,128,0,1)", "rgba(255,0,0,1)").lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45).echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0).rotSym(rdmi(3, 6)).setbg(spk.spk_decor);
         break;
 
       case 2:
@@ -282,11 +289,12 @@ function _spark(g, tile, lnk, ty) {
                 spk.fx("hop", .1), link(nextTi, lnk, dir);
             }
             var pp = spk.pos * (spk.lk.pts.length - 1), ppf = Math.floor(pp), ppd = pp - ppf, x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd, y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
-            spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,0)", 
+            spk.style.transform = "translate3d(" + (25 * x + 12.5) + "vmin," + (25 * y + 12.5) + "vmin,.5vmin)", 
             spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
     }, spk.fx = function(e, len) {
-        len || (len = .25), len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
+        len || (len = .25), e += spk.spk_ty, console.log(e), len /= activeGrid.spd, ae[e](len), 
+        spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
     }, spk.fx("start"), spk;
 }
 
@@ -456,6 +464,26 @@ function fullScreen() {
     (docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen).call(docEl);
 }
 
+function sml(ty) {
+    var url = window.location.href, m = "I just completed level " + lv_id + " of #TheLostPackets - a game for #js13k.";
+    switch (ty) {
+      case "t":
+        window.open("https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(m), "_blank");
+        break;
+
+      case "f":
+        window.open("https://www.facebook.com/sharer.php?u=" + encodeURIComponent(url), "_blank");
+        break;
+
+      case "u":
+        window.open("https://www.tumblr.com/widgets/share/tool?canonicalUrl=" + encodeURIComponent(url) + "&title=" + encodeURIComponent(m), "_blank");
+        break;
+
+      case "r":
+        window.open("https://reddit.com/submit?url=" + encodeURIComponent(url) + "&title=" + encodeURIComponent(m), "_blank");
+    }
+}
+
 var context = new AudioContext(), ae = {
     levstart: function() {
         tone(2, "triangle").v(.2, .4, .2, .7, .2).f(500, 300, 400, 100, 300, 300, 250, 200);
@@ -469,21 +497,6 @@ var context = new AudioContext(), ae = {
     beep: function() {
         tone(1, "square").v(0, 1, 1, 1, 0).f(300);
     },
-    hop: function(len) {
-        tone(len).v(0, .5, 0).f(200, 250);
-    },
-    home: function(len) {
-        tone(len).v(1, 1, .1).f(200, 500);
-    },
-    start: function(len) {
-        tone(len).v(0, 1, .7).f(100, 200);
-    },
-    death: function(len) {
-        tone(len).v(1, .1, .8, .2, .5, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
-    },
-    chirp: function(len) {
-        tone(len).v(0, .05, .1, 0).f(600, rdm(900, 1e3), rdm(900, 1e3), rdm(900, 1e3), 500);
-    },
     spdup: function() {
         tone(1).v(0, .7, .7, .7, .3, .7, .9, .3, 1, 0).f(100, 200);
     },
@@ -495,6 +508,51 @@ var context = new AudioContext(), ae = {
     },
     rothex: function() {
         tone(.3).v(1, .1, .8, .2, .5, 0).f(150, 100, 150, 100, 150, 100, 150, 100), tone(.3).v(0, .1, .1, 0).f(800, 900);
+    },
+    hop0: function(len) {
+        tone(len).v(0, .5, 0).f(150, 200);
+    },
+    home0: function(len) {
+        tone(len).v(1, 1, .1).f(200, 500);
+    },
+    start0: function(len) {
+        tone(len).v(0, 1, .7).f(100, 150);
+    },
+    death0: function(len) {
+        tone(len).v(1, .1, .8, .5, .6, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
+    },
+    chirp0: function(len) {
+        tone(len).v(0, .05, .1, 0).f(300, rdm(350, 400), rdm(350, 400), rdm(350, 400), 200);
+    },
+    hop1: function(len) {
+        tone(len).v(0, .5, 0).f(200, 250);
+    },
+    home1: function(len) {
+        tone(len).v(1, 1, .1).f(200, 500);
+    },
+    start1: function(len) {
+        tone(len).v(0, 1, .7).f(100, 200);
+    },
+    death1: function(len) {
+        tone(len).v(1, .1, .8, .5, .6, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
+    },
+    chirp1: function(len) {
+        tone(len).v(0, .1, .2, 0).f(600, rdm(650, 700), rdm(650, 700), rdm(650, 700), 500);
+    },
+    hop2: function(len) {
+        tone(len).v(0, .2, 0).f(350, 450);
+    },
+    home2: function(len) {
+        tone(len).v(1, 1, .1).f(200, 500);
+    },
+    start2: function(len) {
+        tone(len).v(0, 1, .7).f(200, 300);
+    },
+    death2: function(len) {
+        tone(len).v(1, .1, .8, .5, .6, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
+    },
+    chirp2: function(len) {
+        tone(len).v(0, .05, .1, 0).f(800, rdm(900, 1e3), rdm(900, 1e3), rdm(900, 1e3), 700);
     }
 };
 

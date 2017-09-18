@@ -68,6 +68,7 @@ function level(lv) {
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('dp').classList.toggle('fst',false);
   document.getElementById('menu').classList.toggle('act',false);
+  document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('dpl').innerHTML=lv;
   checkStars(document.getElementById('dpst'),lv);
   decLev('dpl');
@@ -76,6 +77,7 @@ function level(lv) {
   document.getElementById('main').innerHTML='';
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
+  if (lv_id) document.getElementById('ti3').classList.toggle('act',true);
 
   ae.click();
 }
@@ -89,6 +91,7 @@ function start() {
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('menu').classList.toggle('act',false);
+  document.getElementById('shr').classList.toggle('act',false);
 
   killGrid(document.getElementById('main'));
   setTimeout(
@@ -96,6 +99,7 @@ function start() {
     if (lv_id) {
       document.getElementById('ti').classList.toggle('act',true);
       document.getElementById('ti2').classList.toggle('act',true);
+      document.getElementById('ti3').classList.toggle('act',true);
     }
   },1000);
   ae.levstart();
@@ -106,6 +110,8 @@ function start() {
 function menu() {
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
+  document.getElementById('ti3').classList.toggle('act',true);
+  document.getElementById('shr').classList.toggle('act',false);
 
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
@@ -124,7 +130,8 @@ function menu() {
 function end(com,tm)
 {
   document.getElementById('ti2').classList.toggle('act',false);
-  document.getElementById('ti3').classList.toggle('act',true);
+  document.getElementById('ti3').classList.toggle('act',false);
+  if (lv_id) document.getElementById('shr').classList.toggle('act',true);
 
   ae.levend();
   //update high scores
@@ -155,7 +162,7 @@ function addStrs(el,c)
     var d=document.createElement('div');
     d.classList.add('str');
     mkStr(d);
-    el.append(d);
+    el.appendChild(d);
   }
 }
 
@@ -184,11 +191,11 @@ function mkLvlMenu()
     thm(lev[i],e);
     t_thm.bot(ei,[]);
     addStrs(e,3);
-    e.append(ei);
+    e.appendChild(ei);
     e.onclick=function() { level(i); }
     return e;
   }
   var m=document.getElementById('menu');
   for (var i=1;i<=20;i+=1)
-    m.append(itm(i));
+    m.appendChild(itm(i));
 }

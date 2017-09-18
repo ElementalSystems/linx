@@ -4,6 +4,12 @@ g_dir=[-5,+1,+6,+5,-1,-6,0];
 var activeGrid=null;
 var killgl;
 
+function mkN(n,len,dp)
+{
+  if (!dp) dp=0;
+  return String("          "+Number(n).toFixed(dp)).slice(-len).replace(" ","&nbsp;");
+}
+
 //create a grid in the dom element el from the init string
 function buildGrid(el,fin,bTm)
 {
@@ -52,7 +58,7 @@ function buildGrid(el,fin,bTm)
   var ot=document.getElementById('ot');
   var dd=document.getElementById('dd');
   var hm=document.getElementById('hm');
-  ti.innerHTML=ot.innerHTML=hm.innerHTML=dd.innerHTML='';
+  ti.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; ot.innerHTML=hm.innerHTML=dd.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;';
 
   function spk() //make a wave of sparks because it's that time of the game
   {
@@ -97,10 +103,10 @@ function buildGrid(el,fin,bTm)
 
     g.l_tm+=gft;
     //update the score board
-    ti.innerHTML=g.l_tm.toFixed(1)+'s';
-    ot.innerHTML=(g.spk_out*100/g.spk_tot).toFixed(0)+'%';
-    hm.innerHTML=(g.spk_home*100/g.spk_tot).toFixed(0)+'%';
-    dd.innerHTML=(g.spk_dead*100/g.spk_tot).toFixed(0)+'%';
+    ti.innerHTML=mkN(g.l_tm,4,1)+'s';
+    ot.innerHTML=mkN(g.spk_out*100/g.spk_tot,3)+'%';
+    hm.innerHTML=mkN(g.spk_home*100/g.spk_tot,3)+'%';
+    dd.innerHTML=mkN(g.spk_dead*100/g.spk_tot,3)+'%';
     if ((g.spk_home+g.spk_dead)==g.spk_tot)  {//complete
       end(g.spk_home*100/g.spk_tot,g.l_tm);
       return; //so skip out of the game loop

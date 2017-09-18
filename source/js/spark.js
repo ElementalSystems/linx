@@ -18,14 +18,14 @@ function _spark(g, tile, lnk,ty) {
   switch (spk.spk_ty) {
     case 0:
       spk.spk_spd=.6;
-      bg.lineStyle("rgba(0,255,0,1)").text('011',0,-.25,5)
+      bg.lineStyle("rgba(0,255,0,1)").text(String(rdmi(0,1))+String(rdmi(0,1))+String(rdmi(0,1)),0,-.25,5)
         .mirror(1,1)
-        .echo(4, 0, 0, 0, 0, 0, 90, 1, .5, 1, .2)
+        .echo(3, 0, 0, 0, 0, 0, 90, 1, .1, 1, .1)
         .setbg(spk.spk_decor);
       break;
     case 1:
       spk.spk_spd=1;
-      bg.lineGrad("rgba(192,192,0,1)", "rgba(255,0,0,1)")
+      bg.lineGrad("rgba(128,128,0,1)", "rgba(255,0,0,1)")
         .lineWidth(15).line(0, .1, 0, .4).line(rdm(-.25, 0), .45, rdm(.1, .25), .45)
         .echo(5, 0, 0, 0, 0, 0, rdm(25, 95), 1, 1, 1, 0)
         .rotSym(rdmi(3, 6))
@@ -116,7 +116,7 @@ function _spark(g, tile, lnk,ty) {
     //interpolate between element ppf and ppf+1
     var x = spk.lk.pts[ppf].x * (1 - ppd) + spk.lk.pts[ppf + 1].x * ppd;
     var y = spk.lk.pts[ppf].y * (1 - ppd) + spk.lk.pts[ppf + 1].y * ppd;
-    spk.style.transform = "translate3d(" + (x * 25 + 12.5) + "vmin," + (y * 25 + 12.5) + "vmin,0)";
+    spk.style.transform = "translate3d(" + (x * 25 + 12.5) + "vmin," + (y * 25 + 12.5) + "vmin,.5vmin)";
 
     //chirp code
     spk.ch_tm -= time;
@@ -129,6 +129,8 @@ function _spark(g, tile, lnk,ty) {
   //do a special effect thing
   spk.fx = function(e,len) {
     if (!len) len=.25;
+    e=e+spk.spk_ty;
+    console.log(e);
     len/=activeGrid.spd;
     ae[e](len); //play the sound
     spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
