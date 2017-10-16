@@ -383,6 +383,15 @@ div#menu.act {
     transform: translateZ(0.5vmin) rotateX(-10deg); }
   100% {
     transform: translateZ(0vmin) rotateX(0deg); } }
+@keyframes hover {
+  0% {
+    transform: translateZ(0vmin); }
+  10% {
+    transform: translateZ(-1vmin); }
+  50% {
+    transform: translateZ(-2vmin); }
+  100% {
+    transform: translateZ(0vmin); } }
 div.tile {
   position: absolute;
   width: 25vmin;

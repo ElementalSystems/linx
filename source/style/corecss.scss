@@ -548,6 +548,23 @@ div#menu.act {
   }
 }
 
+@keyframes hover {
+  0% {
+    transform: translateZ(0vmin);
+  }
+
+  10% {
+    transform: translateZ(-1vmin);
+  }
+
+  50% {
+    transform: translateZ(-2vmin);
+  }
+
+  100% {
+    transform: translateZ(0vmin);
+  }
+}
 
 div.tile {
   position: absolute;
