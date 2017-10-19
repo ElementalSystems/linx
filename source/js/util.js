@@ -1,5 +1,8 @@
 
-var _dec='012345abcdefABCDEF';
+//this string defines the mapping from single characters to
+// a cls a value from 0 to 4 indicateing which group of synbols
+// and a value from 0 to 5 indciating the place in the group
+var _dec='012345abcdefABCDEFklmnopKLMNOP';
 function dec(at)
 {
   var v=_dec.indexOf(at);
@@ -19,13 +22,12 @@ function rdmi(a,b)
    return Math.floor(a+Math.random()*(b-a+1));
 }
 
+
 function fullScreen() {
   var doc = window.document;
   var docEl = doc.documentElement;
-
   var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
   requestFullScreen.call(docEl);
-
 }
 
 function sml(ty) //launch a social media message about me

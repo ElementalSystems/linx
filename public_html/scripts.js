@@ -282,9 +282,13 @@ function _spark(g, tile, lnk, ty) {
             if (spk.pos > 1 ? (spk.pos -= 1, sw = spk.lk.ed) : spk.pos < 0 && (spk.pos *= -1, 
             sw = spk.lk.st), 7 == sw) return spk.fx("home", .75), spk.stop = !0, void (g.spk_home += 1);
             if (6 == sw) spk.pos = 1 - spk.pos, spk.fact = -spk.spk_spd; else if (sw >= 0) {
-                var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = g.cell[nextTi], lnk = -1, dir = 1;
-                if (nextT) for (var inward = h_ni(outward + 3 - nextT.t_dir), i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i), 
-                nextT.lk[i].ed == inward && (lnk = i, spk.pos = 1 - spk.pos, dir = -1));
+                var outward = h_ni(sw + spk.tile.t_dir), nextTi = spk.tile.t_i + g_dir[outward], nextT = g.cell[nextTi], lnk = -1, dir = 1, postpos = spk.pos;
+                if (nextT) {
+                    for (var inward = h_ni(outward + 3 - nextT.t_dir), i = 0; i < nextT.lk.length; i += 1) nextT.lk[i].ty == spk.spk_ty && (nextT.lk[i].st == inward && (lnk = i, 
+                    dir = 1, postpos = spk.pos), nextT.lk[i].ed == inward && (lnk = i, postpos = 1 - spk.pos, 
+                    dir = -1));
+                    spk.pos = postpos;
+                }
                 if (!(lnk >= 0)) return spk.fx("death", .5), spk.stop = !0, void (g.spk_dead += 1);
                 spk.fx("hop", .1), link(nextTi, lnk, dir);
             }
@@ -293,8 +297,7 @@ function _spark(g, tile, lnk, ty) {
             spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
     }, spk.fx = function(e, len) {
-        len || (len = .25), e += spk.spk_ty, console.log(e), len /= activeGrid.spd, ae[e](len), 
-        spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
+        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
     }, spk.fx("start"), spk;
 }
 
@@ -681,6 +684,11 @@ var activeGrid = null, killgl, _gs = {
     I: "0b3A5B",
     J: "0B3a5b",
     L: "0c1A40",
-    M: "0A2A4A"
-}, _dec = "012345abcdefABCDEF";
+    M: "0A2A4A",
+    N: "003002",
+    O: "0a3a0c",
+    P: "0A0C0B",
+    Q: "0A0B5A4B0C",
+    R: "124a0A"
+}, _dec = "012345abcdefABCDEFklmnopKLMNOP";
 //# sourceMappingURL=scripts.js.map

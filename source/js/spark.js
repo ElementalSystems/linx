@@ -84,20 +84,23 @@ function _spark(g, tile, lnk,ty) {
       var nextT = g.cell[nextTi];
       var lnk = -1;
       var dir = 1;
+      var postpos=spk.pos; //fix our end pos
       if (nextT) {
         var inward = h_ni(outward + 3 - nextT.t_dir);
         for (var i = 0; i < nextT.lk.length; i += 1) {
           if (nextT.lk[i].ty != spk.spk_ty) continue;
           if (nextT.lk[i].st == inward) {
             lnk = i;
+            dir = 1;
+            postpos=spk.pos;
           }
           if (nextT.lk[i].ed == inward) {
             lnk = i;
-            spk.pos = 1 - spk.pos;
+            postpos = 1 - spk.pos;
             dir = -1;
           }
         }
-
+        spk.pos=postpos;
       }
       if (lnk >= 0) {
         spk.fx('hop',.1);
@@ -130,7 +133,6 @@ function _spark(g, tile, lnk,ty) {
   spk.fx = function(e,len) {
     if (!len) len=.25;
     e=e+spk.spk_ty;
-    console.log(e);
     len/=activeGrid.spd;
     ae[e](len); //play the sound
     spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
