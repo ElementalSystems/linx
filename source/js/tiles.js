@@ -34,13 +34,11 @@ var t_set = {
   J: "0B3a5b",
   L: "0c1A40",
   M: "0A2A4A",
-  N: "003002",
-  O: "0a3a0c",
-  P: "0A0C0B",
+  N: "0b2b4b",
+  O: "0a0c3a",
+  P: "0a3a0b3b",
   Q: "0A0B5A4B0C",
-  R: "124a0A"
-
-
+  R: "0a1a2a3a4a"
 };
 
 function drawLnk(s, lk, sdw) {
@@ -59,18 +57,18 @@ function drawLnk(s, lk, sdw) {
       break;
     case 1:
       cl = "255,0,0";
-      s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)")
-        .discPath(lk.pts, .03, true);
+      s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).fillStyle("rgba(0,0,0,.5)")
+        .discPath(lk.pts, .04, true);
       if (!sdw)
         s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)")
         .discPath(lk.pts, .02, true);
       break;
     case 2:
       cl = "0,0,255";
-      s.lineStyle("rgba(0,0,0,.5)").lineWidth(7)
+      s.lineStyle("rgba(0,0,0,.8)").lineWidth(8)
         .linePath(lk.pts);
       if (!sdw) {
-        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(5).linePath(lk.pts);
+        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts);
         s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts);
       }
       break;
@@ -162,7 +160,7 @@ function tile(ti, at, txt) {
   tc.setTransform = function() {
     var x = ti_to_x(tc.t_i) * 25;
     var y = ti_to_y(tc.t_i) * 25;
-    tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,0vmin) rotateZ(" + tc.t_dir * 60 + "deg)";
+    tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,-.1vmin) rotateZ(" + tc.t_dir * 60 + "deg)";
   }
 
   return tc;

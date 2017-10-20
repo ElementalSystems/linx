@@ -398,12 +398,12 @@ function drawLnk(s, lk, sdw) {
         break;
 
       case 1:
-        cl = "255,0,0", s.lineStyle("rgba(0,0,0,.5)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .03, !0), 
+        cl = "255,0,0", s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .04, !0), 
         sdw || s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)").discPath(lk.pts, .02, !0);
         break;
 
       case 2:
-        cl = "0,0,255", s.lineStyle("rgba(0,0,0,.5)").lineWidth(7).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(5).linePath(lk.pts), 
+        cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts), 
         s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts));
     }
     6 == lk.ed && s.lineStyle("rgba(" + cl + ",1)").lineWidth(3).circle(.2, 0, .1), 
@@ -442,7 +442,7 @@ function tile(ti, at, txt) {
         }, 1e3 * tm);
     }, tc.setTransform = function() {
         var x = 25 * ti_to_x(tc.t_i), y = 25 * ti_to_y(tc.t_i);
-        tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,0vmin) rotateZ(" + 60 * tc.t_dir + "deg)";
+        tc.style.transform = "translate3d(" + x + "vmin," + y + "vmin,-.1vmin) rotateZ(" + 60 * tc.t_dir + "deg)";
     }, tc;
 }
 
@@ -685,10 +685,10 @@ var activeGrid = null, killgl, _gs = {
     J: "0B3a5b",
     L: "0c1A40",
     M: "0A2A4A",
-    N: "003002",
-    O: "0a3a0c",
-    P: "0A0C0B",
+    N: "0b2b4b",
+    O: "0a0c3a",
+    P: "0a3a0b3b",
     Q: "0A0B5A4B0C",
-    R: "124a0A"
+    R: "0a1a2a3a4a"
 }, _dec = "012345abcdefABCDEFklmnopKLMNOP";
 //# sourceMappingURL=scripts.js.map
