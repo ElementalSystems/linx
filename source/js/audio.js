@@ -58,6 +58,12 @@ var ae={
   home2: function(len) {  tone(len).v(1,1,.1).f(200,500); },
   start2: function(len) { tone(len).v(0,1,.7).f(200,300); },
   death2: function(len) { tone(len).v(1,.1,.8,0.5,.6,0).f(250,200,250,150,200,150,200,150);},
-  chirp2: function(len) { tone(len).v(0,.05,.1,0).f(800,rdm(900,1000),rdm(900,1000),rdm(900,1000),700);}
+  chirp2: function(len) { tone(len).v(0,.05,.1,0).f(800,rdm(900,1000),rdm(900,1000),rdm(900,1000),700);},
+
+  hop3: function(len) { tone(len).v(0,.5,0).f(150,200); },
+  home3: function(len) {  tone(len).v(1,1,.1).f(200,500); },
+  start3: function(len) { tone(len).v(0,1,.7).f(100,150); },
+  death3: function(len) { tone(len).v(1,.1,.8,0.5,.6,0).f(250,200,250,150,200,150,200,150);},
+  chirp3: function(len) { tone(len).v(0,.05,.1,0).f(300,rdm(350,400),rdm(350,400),rdm(350,400),200);},
 
 }

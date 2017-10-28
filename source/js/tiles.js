@@ -1,4 +1,4 @@
-var t_set = {
+var tiles1 = {
   0: "",
   1: "0a",
   2: "0d",
@@ -34,12 +34,42 @@ var t_set = {
   J: "0B3a5b",
   L: "0c1A40",
   M: "0A2A4A",
-  N: "0b2b4b",
+  N: "0B4B1B3B",
   O: "0a0c3a",
-  P: "0a3a0b3b",
+  P: "0A0B3A3B0C",
   Q: "0A0B5A4B0C",
   R: "0a1a2a3a4a"
 };
+
+var tiles2 = {
+  0: "",
+  1: "0a",
+  2: "0d",
+  3: "0e",
+  4: "0c",
+  5: "0b",
+  6: "0b1b",
+  7: "0c2b5b",
+  8: "0c1a4a",
+  9: "0a2a4a",
+  a: "0k",
+  b: "0n",
+  c: "0o",
+  d: "0m",
+  e: "0l",
+  f: "0m0k",
+  g: "0m0l",
+  N: "5b2b4b1b",
+  O: "0a0c3a",
+  P: "0a3a0b3b",
+  Q: "0b4b",
+  R: "0a1a2a3a4a",
+  S: "0c0a"
+
+};
+
+var t_set=[tiles1,tiles2];
+
 
 function drawLnk(s, lk, sdw) {
   var cl = "255,255,255";
@@ -69,9 +99,18 @@ function drawLnk(s, lk, sdw) {
         .linePath(lk.pts);
       if (!sdw) {
         s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts);
-        s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts);
+        s.lineStyle("rgba(0,192,255,.6)").lineWidth(2).linePath(lk.pts);
       }
       break;
+    case 3:
+        cl = "192,255,128";
+        s.lineStyle("rgba(0,0,0,.5)").lineWidth(5)
+          .plusPath(lk.pts,0.05);
+        if (!sdw) {
+          s.lineStyle("rgba(192,128,0,.7)").lineWidth(5).plusPath(lk.pts,0.03);
+          s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts,0.025);
+        }
+        break;
   }
   if (lk.ed == 6) { //need to draw the start point
     s.lineStyle("rgba(" + cl + ",1)").lineWidth(3)
@@ -91,13 +130,16 @@ function drawLnks(s, lk, sdw) {
     drawLnk(s, lk[i], sdw);
 }
 
-function tile(ti, at, txt) {
+function tile(tileSet,ti, at, txt) {
   var tc = document.createElement('div');
+  var tSetIndex=dec(tileSet).val;
+  var tileAnimation=dec(tileSet).cls;
   if (txt) tc.innerHTML = txt;
   tc.classList.add('tile');
 
   tc.lk = [];
-  var tds = t_set[ti];
+
+  var tds = t_set[tSetIndex][ti];
   for (var i = 0; i < tds.length; i += 2) {
     var start = Number(tds.charAt(i));
     var sc = dec(tds.charAt(i + 1));

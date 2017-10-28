@@ -14,7 +14,8 @@ function mkN(n,len,dp)
 function buildGrid(el,fin,bTm)
 {
   //now get the tiles
-  var init=fin.substring(8);
+  var init=fin.substring(9);
+  var tilesetindex=fin.charAt(0);
   var grd=[];
   var g={
     cell:grd,
@@ -35,7 +36,7 @@ function buildGrid(el,fin,bTm)
   el.innerHTML='';
   for (var i=0;i<30;i+=1) {
     var ty=dec(init.charAt(i*2+1))
-    var t=tile(init.charAt(i*2),ty.cls);
+    var t=tile(tilesetindex,init.charAt(i*2),ty.cls);
 
     el.appendChild(t);
     for (var j=0;j<t.lk.length;j+=1)
@@ -80,6 +81,17 @@ function buildGrid(el,fin,bTm)
             case 2: //two on / four off for the first 16 counts
               if (spk_count>24) go=false;
               if (((spk_count-1)%6)>1) go=false;
+              break;
+            case 3: //one three thrre one far apart
+              go=false
+              if ((spk_count==1)||
+                  ((spk_count>=13)&&(spk_count<=15))||
+                  ((spk_count>=26)&&(spk_count<=28))||
+                  (spk_count==39))
+                    go=true;
+              break;
+            default:
+              alert('bad type '+ty);
               break;
           }
           if (go) g.spark(l,m,ty);

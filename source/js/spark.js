@@ -39,6 +39,19 @@ function _spark(g, tile, lnk,ty) {
         .echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(70, 135), 1, 1, 1, 0.2)
         .setbg(spk.spk_decor);
       break;
+    case 3:
+        spk.spk_spd=.9;
+        var xoff=rdm(-.2,.3);
+        var yoff=rdm(-.3,.2);
+        bg
+        .lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.7)").lineWidth(30).line(xoff,-.5,0,.5)
+        .line(-.5,0,.5,yoff)
+        .lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.7)").lineWidth(20).line(xoff,-.5,0,.5)
+        .line(-.5,0,.5,yoff)
+        .lineStyle("rgba(255,255,0,1)").lineWidth(10).line(xoff,-.5,0,.5)
+        .line(-.5,0,.5,yoff)
+        .setbg(spk.spk_decor);
+        break;
   }
 
   spk.appendChild(spk.spk_decor);
@@ -134,6 +147,7 @@ function _spark(g, tile, lnk,ty) {
     if (!len) len=.25;
     e=e+spk.spk_ty;
     len/=activeGrid.spd;
+    console.log('play '+e);
     ae[e](len); //play the sound
     spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
   }

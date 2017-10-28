@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>TILESET 0</title>
+<title>TILESET 1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="editor.css">
@@ -14,10 +14,10 @@
   </div>
 <script src="scripts.js"></script>
 <script>
-qThm(0,0,0,80);
-var tiles=Object.keys(t_set[0]);
+qThm(1,18,18,80);
+var tiles=Object.keys(t_set[1]);
 for (var i=0;i<tiles.length;i+=1) {
-  var t=tile('0',tiles[i],0,tiles[i])
+  var t=tile('1',tiles[i],0,tiles[i])
   t.style.transform="";
   document.getElementById('sheet').appendChild(t);
 }

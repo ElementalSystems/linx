@@ -26,6 +26,7 @@ div.editor {
   div.editor div#panel {
     position: absolute;
     right: 50%;
-    transform: scale(0.7, 0.7); }
+    transform: scale(0.7, 0.7);
+    background: #000; }
 
 /*# sourceMappingURL=editor.css.map */

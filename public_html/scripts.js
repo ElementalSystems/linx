@@ -61,6 +61,14 @@ function buildGrid(el, fin, bTm) {
 
               case 2:
                 spk_count > 24 && (go = !1), (spk_count - 1) % 6 > 1 && (go = !1);
+                break;
+
+              case 3:
+                go = !1, (1 == spk_count || spk_count >= 13 && spk_count <= 15 || spk_count >= 26 && spk_count <= 28 || 39 == spk_count) && (go = !0);
+                break;
+
+              default:
+                alert("bad type " + ty);
             }
             go && g.spark(l, m, ty);
         }
@@ -76,7 +84,7 @@ function buildGrid(el, fin, bTm) {
         g.spk_home + g.spk_dead == g.spk_tot) return void end(100 * g.spk_home / g.spk_tot, g.l_tm);
         killgl || window.requestAnimationFrame(gl);
     }
-    var init = fin.substring(8), grd = [], g = {
+    var init = fin.substring(9), tilesetindex = fin.charAt(0), grd = [], g = {
         cell: grd,
         spark: function(tile, lnk, ty) {
             var x = _spark(g, tile, lnk, ty);
@@ -92,7 +100,7 @@ function buildGrid(el, fin, bTm) {
     };
     killgl = !0, el.innerHTML = "";
     for (var i = 0; i < 30; i += 1) {
-        var ty = dec(init.charAt(2 * i + 1)), t = tile(init.charAt(2 * i), ty.cls);
+        var ty = dec(init.charAt(2 * i + 1)), t = tile(tilesetindex, init.charAt(2 * i), ty.cls);
         el.appendChild(t);
         for (var j = 0; j < t.lk.length; j += 1) 6 == t.lk[j].ed && (g.spk_tot += 8);
         t.t_i = i, t.t_dir = ty.val, bTm ? t.setTransformFuture(rdm(.5, bTm)) : t.setTransform(), 
@@ -244,7 +252,7 @@ function checkStars(el, lev) {
 }
 
 function mkLvlMenu() {
-    for (var m = document.getElementById("menu"), i = 1; i <= 20; i += 1) m.appendChild(function(i) {
+    for (var m = document.getElementById("menu"), i = 1; i <= 40; i += 1) m.appendChild(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
         return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), addStrs(e, 3), 
         e.appendChild(ei), e.onclick = function() {
@@ -273,6 +281,12 @@ function _spark(g, tile, lnk, ty) {
 
       case 2:
         spk.spk_spd = 3, bg.lineStyle("#000").lineWidth(25).line(-.3, -.3, .3, .3).lineGrad("rgba(0,0,255,1)", "rgba(0,192,255,1)").lineWidth(20).line(0, 0, .3, .3).lineGrad("rgba(0,192,255,1)", "rgba(0,0,255,1)").lineWidth(20).line(-.3, -.3, 0, 0).echo(10, 0, 0, 0, 0, rdm(-45, 0), rdm(70, 135), 1, 1, 1, .2).setbg(spk.spk_decor);
+        break;
+
+      case 3:
+        spk.spk_spd = .9;
+        var xoff = rdm(-.2, .3), yoff = rdm(-.3, .2);
+        bg.lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.7)").lineWidth(30).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.7)").lineWidth(20).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).lineStyle("rgba(255,255,0,1)").lineWidth(10).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).setbg(spk.spk_decor);
     }
     return spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(1, 2), 
     spk.tick = function(time) {
@@ -297,7 +311,8 @@ function _spark(g, tile, lnk, ty) {
             spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
     }, spk.fx = function(e, len) {
-        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
+        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, console.log("play " + e), 
+        ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
     }, spk.fx("start"), spk;
 }
 
@@ -386,7 +401,7 @@ function qThm(id, c1, c2, l, bk) {
 }
 
 function thm(fin, bk) {
-    qThm(Number(fin.charAt(2)), 10 * Number(fin.substring(3, 5)), 10 * Number(fin.substring(5, 7)), 10 * Number(fin.charAt(7)), bk);
+    qThm(Number(fin.charAt(3)), 10 * Number(fin.substring(4, 6)), 10 * Number(fin.substring(6, 8)), 10 * Number(fin.charAt(8)), bk);
 }
 
 function drawLnk(s, lk, sdw) {
@@ -404,7 +419,12 @@ function drawLnk(s, lk, sdw) {
 
       case 2:
         cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts), 
-        s.lineStyle("rgba(0,192,255,1)").lineWidth(2).linePath(lk.pts));
+        s.lineStyle("rgba(0,192,255,.6)").lineWidth(2).linePath(lk.pts));
+        break;
+
+      case 3:
+        cl = "192,255,128", s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).plusPath(lk.pts, .05), 
+        sdw || (s.lineStyle("rgba(192,128,0,.7)").lineWidth(5).plusPath(lk.pts, .03), s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts, .025));
     }
     6 == lk.ed && s.lineStyle("rgba(" + cl + ",1)").lineWidth(3).circle(.2, 0, .1), 
     7 == lk.ed && s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
@@ -414,10 +434,11 @@ function drawLnks(s, lk, sdw) {
     for (var i = 0; i < lk.length; i += 1) drawLnk(s, lk[i], sdw);
 }
 
-function tile(ti, at, txt) {
-    var tc = document.createElement("div");
+function tile(tileSet, ti, at, txt) {
+    var tc = document.createElement("div"), tSetIndex = dec(tileSet).val;
+    dec(tileSet).cls;
     txt && (tc.innerHTML = txt), tc.classList.add("tile"), tc.lk = [];
-    for (var tds = t_set[ti], i = 0; i < tds.length; i += 2) {
+    for (var tds = t_set[tSetIndex][ti], i = 0; i < tds.length; i += 2) {
         var start = Number(tds.charAt(i)), sc = dec(tds.charAt(i + 1)), end = 0;
         end = sc.val < 3 ? h_ni(start + sc.val + 1) : 3 == sc.val ? 6 : 7, tc.lk.push({
             st: start,
@@ -556,6 +577,21 @@ var context = new AudioContext(), ae = {
     },
     chirp2: function(len) {
         tone(len).v(0, .05, .1, 0).f(800, rdm(900, 1e3), rdm(900, 1e3), rdm(900, 1e3), 700);
+    },
+    hop3: function(len) {
+        tone(len).v(0, .5, 0).f(150, 200);
+    },
+    home3: function(len) {
+        tone(len).v(1, 1, .1).f(200, 500);
+    },
+    start3: function(len) {
+        tone(len).v(0, 1, .7).f(100, 150);
+    },
+    death3: function(len) {
+        tone(len).v(1, .1, .8, .5, .6, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
+    },
+    chirp3: function(len) {
+        tone(len).v(0, .05, .1, 0).f(300, rdm(350, 400), rdm(350, 400), rdm(350, 400), 200);
     }
 };
 
@@ -596,6 +632,15 @@ var activeGrid = null, killgl, _gs = {
         this.ctx.stroke(), fill && this.ctx.fill();
         return this;
     },
+    plusPath: function(pts, r) {
+        for (var i = 0; i < pts.length; i += 1) {
+            var rr = r;
+            this.ctx.beginPath(), this.ctx.moveTo(pts[i].x + r, pts[i].y + rr / 2), this.ctx.lineTo(pts[i].x - r, pts[i].y - rr / 2), 
+            this.ctx.moveTo(pts[i].x, pts[i].y + r / 4), this.ctx.lineTo(pts[i].x, pts[i].y - r / 4), 
+            this.ctx.stroke();
+        }
+        return this;
+    },
     hex: function(w, fill) {
         this.ctx.beginPath(), this.ctx.moveTo(h_vx[5] * w, h_vy[5] * w);
         for (var i = 0; i < 6; i += 1) this.ctx.lineTo(h_vx[i] * w, h_vy[i] * w);
@@ -628,28 +673,46 @@ var activeGrid = null, killgl, _gs = {
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
-    0: "2002020922A1B4000000h1G1b40000c042D3000000A1I534000000A5C50000000000",
-    1: "1602424522000000000055520000114a41140000555200000031525a000000001500",
-    2: "20304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
-    3: "221242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
-    4: "12335355B1E1E1D2000000A1A3D300C3A1FeD400A0AbFeA40000EbFeA40000A0FeA4",
-    5: "135222230022000000003353b30000@aied4000000ia1400000000c5000000000000",
-    6: "25201014a1b4a2000000fdfafdc40000fafaa40000a0faa40000a1faa4000000a5b5",
-    7: "2210202500b1d20000000000d3B30000D1GbD4c3C3A0GcA3a0Gae1d4E000A0E1E1D4",
-    8: "21710180122141130040@b41@e008a8c8c3000400000420010414141140000000000",
-    9: "152040682113000000005012000011419a530000@e41@b0000505f@d@a0000153000",
-    10: "205302080000b2000000c300d30000e000e00000ebe1ea0000000000000000000000",
-    11: "322253030000214113d1d2330040b011jda34000c1jejb54000010jdad000000a0af",
-    12: "17620204222300000051715200005040425300001f8a1f130000318a540000000000",
-    13: "11703244515251240040A2JcA3B340HaIaIaD440IaJaJaA410818cE20000003000C5",
-    14: "22709129000012211351@a54@e544033535053408f7a118050108b14150055240000",
-    15: "22003036D1E1A3a200E023D0b0d3E09ajaGcd4E030jakdD3A0E1GbkdE00000c0C0B0",
-    16: "16530285000000000031418b413412517c1400109a544210225053219b00558b4154",
-    17: "15802046B300b30000HaA3e0C300A2HfGcDc00A0Ha00d3D30000D5GcD400000000c5",
-    18: "21110105b1d21212000051ia@e25c1gcd44053003000105400000000000000000000",
-    19: "30400241A200235124MbFd4040C3MbF3Jbl0E0MbF3518bk1A0F350401500A0B41f34",
-    20: "3502020932a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5"
-}, lv_id = 0, t_thm = null, t_set = {
+    0: "02002020922A1B4000000h1G1b40000c042D3000000A1I534000000A5C50000000000",
+    1: "01602424522000000000055520000114a41140000555200000031525a000000001500",
+    2: "020304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
+    3: "0221242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
+    4: "012335355B1E1E1D2000000A1A3D300C3A1FeD400A0AbFeA40000EbFeA40000A0FeA4",
+    5: "0135222230022000000003353b30000@aied4000000ia1400000000c5000000000000",
+    6: "025201014a1b4a2000000fdfafdc40000fafaa40000a0faa40000a1faa4000000a5b5",
+    7: "02210202500b1d20000000000d3B30000D1GbD4c3C3A0GcA3a0Gae1d4E000A0E1E1D4",
+    8: "021710180122141130040@b41@e008a8c8c3000400000420010414141140000000000",
+    9: "0152040682113000000005012000011419a530000@e41@b0000505f@d@a0000153000",
+    10: "0205302080000b2000000c300d30000e000e00000ebe1ea0000000000000000000000",
+    11: "0322253030000214113d1d2330040b011jda34000c1jejb54000010jdad000000a0af",
+    12: "017620204222300000051715200005040425300001f8a1f130000318a540000000000",
+    13: "011703244515251240040A2JcA3B340HaIaIaD440IaJaJaA410818cE20000003000C5",
+    14: "022709129000012211351@a54@e544033535053408f7a118050108b14150055240000",
+    15: "022003036D1E1A3a200E023D0b0d3E09ajaGcd4E030jakdD3A0E1GbkdE00000c0C0B0",
+    16: "016530285000000000031418b413412517c1400109a544210225053219b00558b4154",
+    17: "015802046B300b30000HaA3e0C300A2HfGcDc00A0Ha00d3D30000D5GcD400000000c5",
+    18: "021110105b1d21212000051ia@e25c1gcd44053003000105400000000000000000000",
+    19: "030400241A200235124MbFd4040C3MbF3Jbl0E0MbF3518bk1A0F350401500A0B41f34",
+    20: "03502020932a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5",
+    21: "13040606800005134000000OC4113235154Q3OA105451QA402141QA51630021416454",
+    22: "1187192150000332300000040400051525080135000QDRD8300555440150000001024",
+    23: "11800000100120023000030424000515211OD135021PA808300555440150000001024",
+    24: "1274030060000000000005152000031Q02353000011P57C000011PAP0140000PA9014",
+    25: "115530346000023000000004000005141OAPA345051QA4053001511PD540000001500",
+    26: "0106002450000A2A1B400B2B0QAD300QBQCQCF300B0M1QEQC0000C1QAE000000000B0",
+    27: "015720184B300C30000D0A2E00000A1QbPB0000D1M0P0PAA3B0D0PBM1D40000A5A5B5",
+    28: "11032124800b1a3000000e1dac40000d0d0a20000d0eAe4e300e0d0e5e40000a50000",
+    29: "1118080860051240000004023000051QA4000001041NA130000004015000000300000",
+    30: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    31: "110703055b200a2b30000d2e0fDa30000d2gDf3000000dAa50000c1g4a40000000000",
+    32: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    33: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    34: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    35: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    36: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    37: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    38: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500"
+}, lv_id = 0, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
     2: "0d",
@@ -685,10 +748,34 @@ var activeGrid = null, killgl, _gs = {
     J: "0B3a5b",
     L: "0c1A40",
     M: "0A2A4A",
-    N: "0b2b4b",
+    N: "0B4B1B3B",
     O: "0a0c3a",
-    P: "0a3a0b3b",
+    P: "0A0B3A3B0C",
     Q: "0A0B5A4B0C",
     R: "0a1a2a3a4a"
-}, _dec = "012345abcdefABCDEFklmnopKLMNOP";
+}, tiles2 = {
+    0: "",
+    1: "0a",
+    2: "0d",
+    3: "0e",
+    4: "0c",
+    5: "0b",
+    6: "0b1b",
+    7: "0c2b5b",
+    8: "0c1a4a",
+    9: "0a2a4a",
+    a: "0k",
+    b: "0n",
+    c: "0o",
+    d: "0m",
+    e: "0l",
+    f: "0m0k",
+    g: "0m0l",
+    N: "5b2b4b1b",
+    O: "0a0c3a",
+    P: "0a3a0b3b",
+    Q: "0b4b",
+    R: "0a1a2a3a4a",
+    S: "0c0a"
+}, t_set = [ tiles1, tiles2 ], _dec = "012345abcdefABCDEFklmnopKLMNOP";
 //# sourceMappingURL=scripts.js.map

@@ -256,7 +256,8 @@ div#menu {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-content: space-around;
+  align-content: flex-start;
+
   position: absolute;
   width: 98%;
   height: 98%;
@@ -267,8 +268,9 @@ div#menu {
   text-align: center;
   font-size: 5vmin;
   box-sizing: border-box;
-
+  overflow-y: scroll;
   div {
+
     width: 20vmin;
     height: 15vmin;
     display: inline-block;
@@ -277,10 +279,11 @@ div#menu {
     border-radius: 2vmin;
     position: relative;
     cursor: pointer;
+    margin: 1vmin auto;
     div {
       position: absolute;
       left: 0;
-      top: 0vmin;
+      top: -1vmin;
       box-sizing: border-box;
       padding-top: 2vmin;
       height: 15vmin;
@@ -298,15 +301,15 @@ div#menu {
       opacity: .2;
     }
     div.str:nth-child(1) {
-      top: 1vmin;
+      top: 0vmin;
       right: 3vmin;
     }
     div.str:nth-child(2) {
-      top:5vmin;
+      top:4vmin;
       right: .5vmin;
     }
     div.str:nth-child(3) {
-      top:9vmin;
+      top:8vmin;
       right: 3vmin;
     }
 
@@ -545,6 +548,82 @@ div#menu.act {
 
   100% {
     transform: translateZ(0vmin) rotateX(0deg);
+  }
+}
+
+@keyframes home3 {
+  0% {
+    transform: translateZ(.2vmin) scale(1,1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateZ(20vmin) scale(1,1);
+    opacity: 0;
+  }
+}
+
+@keyframes hop3 {
+  0% {
+    transform: rotateY(0deg) rotateZ(0deg);
+  }
+  20% {
+    transform: rotateY(30deg) rotateZ(45deg);
+  }
+  80% {
+    transform: rotateY(30deg) rotateZ(-45deg);
+  }
+  100% {
+    transform: rotateY(0deg) rotateZ(0deg);
+  }
+}
+
+@keyframes death3 {
+  0% {
+    opacity: 1;
+    transform: translate3d(0,0,.5vmin) rotateY(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(0,0,-1vmin) rotateY(180deg);
+  }
+
+  100% {
+    transform: translate3d(0,0,-10vmin) rotateY(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes start3 {
+  0% {
+    transform: translateZ(-50vmin);
+  }
+
+  100% {
+    transform: translateZ(.2vmin);
+  }
+}
+@keyframes chirp3 {
+  0% {
+    transform: translateZ(0vmin) scale(1,1);
+  }
+
+  20% {
+    transform: translateZ(1vmin) scale(1,1);
+  }
+  40% {
+    transform: translateZ(1vmin) scale(1.5,.5);
+  }
+  60% {
+    transform: translateZ(1vmin) scale(.5,1.5);
+  }
+  80% {
+    transform: translateZ(1vmin) scale(1,1);
+  }
+
+  100% {
+    transform: translateZ(0vmin)  scale(1,1);
   }
 }
 

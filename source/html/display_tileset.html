@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>cheat sheet</title>
+<title>TILESET 0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="editor.css">
@@ -15,9 +15,9 @@
 <script src="scripts.js"></script>
 <script>
 qThm(0,0,0,80);
-var tiles=Object.keys(t_set);
+var tiles=Object.keys(t_set[0]);
 for (var i=0;i<tiles.length;i+=1) {
-  var t=tile(tiles[i],0,tiles[i])
+  var t=tile('0',tiles[i],0,tiles[i])
   t.style.transform="";
   document.getElementById('sheet').appendChild(t);
 }

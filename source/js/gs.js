@@ -53,6 +53,19 @@ var _gs = {
     }
     return this;
   },
+  plusPath: function(pts,r) {
+    for (var i=0;i<pts.length;i+=1) {
+      var rr=r;
+      //if (i%5) rr=-r;
+      this.ctx.beginPath();
+      this.ctx.moveTo(pts[i].x+r, pts[i].y+rr/2);
+      this.ctx.lineTo(pts[i].x-r, pts[i].y-rr/2);
+      this.ctx.moveTo(pts[i].x, pts[i].y+r/4);
+      this.ctx.lineTo(pts[i].x, pts[i].y-r/4);
+      this.ctx.stroke();
+    }
+    return this;
+  },
   hex: function(w,fill) {
     this.ctx.beginPath();
     this.ctx.moveTo(h_vx[5]*w, h_vy[5]*w);

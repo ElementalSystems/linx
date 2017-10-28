@@ -58,8 +58,9 @@
         <input id=r30 type=text maxlength=2 onchange="edited()">
       </div>
       <div class=deco>
+        Tileset <input id=tileset type=text maxlength=1 onchange="edited()" value='0'>
         Thm <input id=thm type=text maxlength=1 onchange="edited()" value='1'> C1 <input id=h1 type=text maxlength=2 onchange="edited()" value='00'> C2 <input id=h2 type=text maxlength=2 onchange="edited()" value='24'> Lum <input id=lm type=text maxlength=2
-          onchange="edited()" value='5'> <p>
+          onchange="edited()" value='5'>
         Time <input id=time type=text maxlength=2 onchange="edited()" value='10'>
       </div>
       <textarea id=target cols=70 onblur="setdata();">
@@ -67,14 +68,15 @@
 
       <div id=panel>
         <div id=ti>Time<b id=tm>3.8s</b><br/> Out<b id=ot>0%</b> Dead<b id=dd>0%</b> Home<b id=hm>0%</b> </div>
+
         <div class=tc>
           <div id=s0 onclick="setGS(0);">
           </div>
-          <div id=s1 onclick="setGS(1);">
+          <div id=s1 onclick="setGS(.5);">
           </div>
-          <div id=s2 onclick="setGS(2);">
+          <div id=s2 onclick="setGS(1);">
           </div>
-          <div id=s3 onclick="setGS(3);">
+          <div id=s3 onclick="setGS(2.5);">
           </div>
 
         </div>
@@ -94,7 +96,8 @@
 
 
       function edited() {
-        var data = document.getElementById('time').value +
+        var data = document.getElementById('tileset').value +
+          document.getElementById('time').value +
           document.getElementById('thm').value +
           document.getElementById('h1').value +
           document.getElementById('h2').value +
@@ -115,13 +118,14 @@
 
       function setdata() {
         var d = document.getElementById('target').value;
-        document.getElementById('time').value = d.substring(0,2);
-        document.getElementById('thm').value = d.charAt(2);
-        document.getElementById('h1').value = d.substring(3, 5);
-        document.getElementById('h2').value = d.substring(5, 7);
-        document.getElementById('lm').value = d.charAt(7);
+        document.getElementById('tileset').value = d.substring(0,1);
+        document.getElementById('time').value = d.substring(1,3);
+        document.getElementById('thm').value = d.charAt(3);
+        document.getElementById('h1').value = d.substring(4, 6);
+        document.getElementById('h2').value = d.substring(6, 8);
+        document.getElementById('lm').value = d.charAt(8);
         for (var i = 1; i < 31; i += 1) {
-          var val=d.substring(6+i*2,8+i*2);
+          var val=d.substring(7+i*2,9+i*2);
           if (val=='00') val='';
           document.getElementById('r' + i).value=val;
         }
