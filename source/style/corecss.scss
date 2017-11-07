@@ -70,6 +70,20 @@ div.sb {
   margin: 1vmin;
   display: inline-block;
 
+  div#stut {
+    width: auto;
+    height: 4vmin;
+    display: none;
+    font-variant: small-caps;
+    font-size: 4vmin;
+    border: none;
+    background: none;
+    animation: tuttext 3s infinite alternate;
+    margin-bottom: 1vmin;
+  }
+  div#stut.show {
+    display: block
+  }
   div {
     border: #CCC 1px solid;
     background-color: #000;
@@ -338,6 +352,17 @@ div#menu.act {
 
   100% {
     transform: rotateZ(72deg);
+  }
+}
+@keyframes tuttext {
+  0% {
+    color: rgba(255,255,192,1);
+  }
+  20% {
+    color: rgba(255,255,64,1);
+  }
+  100% {
+    color: rgba(128,128,64,0);
   }
 }
 @keyframes home0 {
@@ -695,6 +720,21 @@ div.tile {
     right: 10%;
     background-size: 100% 100%;
     animation: round 3s infinite;
+  }
+
+  div.act_tuttext {
+    z-index: 10;
+    position: absolute;
+    top: 20%;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
+    color: #FF6;
+    text-align: center;
+    pointer-events: none;
+    font-size: 100%;
+    font-variant: small-caps;
+    animation: tuttext 3s infinite alternate;
   }
 
   div.spk {

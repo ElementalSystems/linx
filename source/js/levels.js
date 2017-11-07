@@ -106,6 +106,7 @@ function level(lv) {
 
 function startNext()
 {
+  fullScreen();
   level(lv_id+1);
 }
 
@@ -122,10 +123,10 @@ function start() {
       document.getElementById('ti').classList.toggle('act',true);
       document.getElementById('ti2').classList.toggle('act',true);
     }
+    document.getElementById('stut').classList.toggle('show',lv_id==2);
     document.getElementById('ti3').classList.toggle('act',true);
   },1000);
   ae.levstart();
-  fullScreen();
 }
 
 function menu() {

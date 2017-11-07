@@ -23,11 +23,14 @@ function rdmi(a,b)
 }
 
 
+var _fullScreenAttempt=0
 function fullScreen() {
+  if (_fullScreenAttempt) return;
   var doc = window.document;
   var docEl = doc.documentElement;
   var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
   requestFullScreen.call(docEl);
+  _fullScreenAttempt+=1;
 }
 
 function sml(ty) //launch a social media message about me

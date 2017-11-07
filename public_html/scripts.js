@@ -108,7 +108,7 @@ function buildGrid(el, fin, bTm) {
         t.t_i = i, t.t_dir = ty.val, bTm ? t.setTransformFuture(rdm(.5, bTm)) : t.setTransform(), 
         grd.push(t);
     }
-    activeGrid = g, setGS(1);
+    activeGrid = g, setGS(lv_id > 1 ? 0 : 1);
     var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0, ti = document.getElementById("tm"), ot = document.getElementById("ot"), dd = document.getElementById("dd"), hm = document.getElementById("hm");
     return ti.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ot.innerHTML = hm.innerHTML = dd.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;", 
     setTimeout(function() {
@@ -205,7 +205,7 @@ function level(lv) {
 }
 
 function startNext() {
-    level(lv_id + 1);
+    fullScreen(), level(lv_id + 1);
 }
 
 function start() {
@@ -213,8 +213,9 @@ function start() {
     document.getElementById("menu").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
     killGrid(document.getElementById("main")), setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
-        document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("ti3").classList.toggle("act", !0);
-    }, 1e3), ae.levstart(), fullScreen();
+        document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("stut").classList.toggle("show", 2 == lv_id), 
+        document.getElementById("ti3").classList.toggle("act", !0);
+    }, 1e3), ae.levstart();
 }
 
 function menu() {
@@ -479,7 +480,8 @@ function tile(tileSet, ti, at, txt) {
         gs(200).lineStyle("rgba(0,0,0,1)").lineWidth(6).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).lineStyle("rgba(255,255,0,1)").lineWidth(4).line(0, -.4, .1, -.35).line(0, -.3, .1, -.35).echo(10, 0, 0, 0, 0, -60, 0, 1, 1, .1, 1).rotSym(5).setbg(tc.t_a), 
         tc.appendChild(tc.t_a), tc.t_a.addEventListener("click", function() {
             ae.rothex(), tc.t_dir = tc.t_dir + 1, tc.setTransform();
-        });
+        }), 1 == lv_id && (tc.t_aex = document.createElement("div"), tc.t_aex.innerHTML = "Tap to Rotate Hex", 
+        tc.t_aex.classList.add("act_tuttext"), tc.appendChild(tc.t_aex));
     }
     return tc.style.transform = "translate3d(0vmin,0vmin,100vmin)", tc.setTransformFuture = function(tm) {
         setTimeout(function() {
@@ -508,8 +510,11 @@ function rdmi(a, b) {
 }
 
 function fullScreen() {
-    var doc = window.document, docEl = doc.documentElement;
-    (docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen).call(docEl);
+    if (!_fullScreenAttempt) {
+        var doc = window.document, docEl = doc.documentElement;
+        (docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen).call(docEl), 
+        _fullScreenAttempt += 1;
+    }
 }
 
 function sml(ty) {
@@ -816,5 +821,5 @@ var activeGrid = null, killgl, _gs = {
     Q: "0b4b",
     R: "0a1a2a3a4a",
     S: "0c0a"
-}, t_set = [ tiles1, tiles2 ], _dec = "012345abcdefABCDEFklmnopKLMNOP";
+}, t_set = [ tiles1, tiles2 ], _dec = "012345abcdefABCDEFklmnopKLMNOP", _fullScreenAttempt = 0;
 //# sourceMappingURL=scripts.js.map

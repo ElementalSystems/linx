@@ -200,6 +200,14 @@ function tile(tileSet,ti, at, txt) {
       tc.t_dir = tc.t_dir + 1;
       tc.setTransform();
     });
+    if (lv_id==1) {
+      tc.t_aex = document.createElement('div');
+      tc.t_aex.innerHTML="Tap to Rotate Hex";
+      tc.t_aex.classList.add('act_tuttext');
+      tc.appendChild(tc.t_aex);
+    }
+
+
   }
 
 

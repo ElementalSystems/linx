@@ -49,7 +49,7 @@ function buildGrid(el,fin,bTm)
     grd.push(t)
   }
   activeGrid=g;
-  setGS(1);
+  setGS((lv_id>1)?0:1);
   //start the game loop
   var st=0;
   var spk_gap=.35;
