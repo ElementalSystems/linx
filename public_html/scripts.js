@@ -1,19 +1,21 @@
 function tone(length, type) {
-    var current = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
-    return type && (oscillator.type = type), oscillator.frequency.value = 0, gain.gain.value = 0, 
-    oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
-    oscillator.stop(current + length), {
-        f: function() {
-            if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
-            for (var i = 0; i < arguments.length; i += 1) oscillator.frequency.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
-            return this;
-        },
-        v: function() {
-            if (1 == arguments.length) return gain.gain.value = arguments[0], this;
-            for (var i = 0; i < arguments.length; i += 1) gain.gain.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
-            return this;
-        }
-    };
+    if (!audio_mute) {
+        var current = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
+        return type && (oscillator.type = type), oscillator.frequency.value = 0, gain.gain.value = 0, 
+        oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
+        oscillator.stop(current + length), {
+            f: function() {
+                if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
+                for (var i = 0; i < arguments.length; i += 1) oscillator.frequency.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
+                return this;
+            },
+            v: function() {
+                if (1 == arguments.length) return gain.gain.value = arguments[0], this;
+                for (var i = 0; i < arguments.length; i += 1) gain.gain.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
+                return this;
+            }
+        };
+    }
 }
 
 function bez(len, xs, ys, xe, ye, xc, yc) {
@@ -64,7 +66,7 @@ function buildGrid(el, fin, bTm) {
                 break;
 
               case 3:
-                go = !1, (1 == spk_count || spk_count >= 13 && spk_count <= 15 || spk_count >= 26 && spk_count <= 28 || 39 == spk_count) && (go = !0);
+                go = !1, (1 == spk_count || 2 == spk_count || spk_count >= 11 && spk_count <= 14 || 23 == spk_count || 24 == spk_count) && (go = !0);
                 break;
 
               default:
@@ -211,16 +213,16 @@ function start() {
     document.getElementById("menu").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
     killGrid(document.getElementById("main")), setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
-        document.getElementById("ti2").classList.toggle("act", !0), document.getElementById("ti3").classList.toggle("act", !0));
+        document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("ti3").classList.toggle("act", !0);
     }, 1e3), ae.levstart(), fullScreen();
 }
 
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
-    document.getElementById("ti3").classList.toggle("act", !0), document.getElementById("shr").classList.toggle("act", !1), 
-    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("dp").classList.toggle("fst", !1);
-    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 21; i += 1) checkStars(its[i], i);
+    document.getElementById("ti3").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
+    document.getElementById("intro").classList.toggle("kill", !0), document.getElementById("dp").classList.toggle("st", !1), 
+    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("dp").classList.toggle("fst", !1);
+    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 41; i += 1) checkStars(its[i], i);
     menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click(), 
     fullScreen();
 }
@@ -286,7 +288,7 @@ function _spark(g, tile, lnk, ty) {
       case 3:
         spk.spk_spd = .9;
         var xoff = rdm(-.2, .3), yoff = rdm(-.3, .2);
-        bg.lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.7)").lineWidth(30).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.7)").lineWidth(20).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).lineStyle("rgba(255,255,0,1)").lineWidth(10).line(xoff, -.5, 0, .5).line(-.5, 0, .5, yoff).setbg(spk.spk_decor);
+        bg.lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.4)").lineWidth(40).line(.5, .5, xoff, yoff).lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.5)").lineWidth(25).line(.5, .5, xoff, yoff).lineStyle("rgba(255,255,0,.8)").lineWidth(10).line(.5, .5, xoff, yoff).mirror(1, 0).mirror(0, 1).setbg(spk.spk_decor);
     }
     return spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(1, 2), 
     spk.tick = function(time) {
@@ -349,6 +351,12 @@ function theme(b, sym, s1, s1v, s2, s2v, c, cv, r, rv, fsc, l) {
 
               case 3:
                 bot = bot.lineStyle("hsla(" + mods(s2, s2v) + ",100%," + l + ",.2)").lineWidth(rdm(1.5, 3.5)).line(.1, .1, .3, .3).line(.1, .1, .3, .1).line(.3, .1, .3, .3).mirror(0, 1);
+                break;
+
+              case 4:
+                bot.lineWidth(2).lineStyle("hsla(" + mods(s2, s2v) + ",50%," + l + "%,.8)").line(.1, .1, .1, rdm(.2, .4)), 
+                bot.lineWidth(2).lineStyle("hsla(" + mods(s2, s2v) + ",50%," + l + "%,.8)").line(.1, .1, rdm(.2, .4), .1), 
+                bot = bot.mirror(0, 1);
             }
             sym && (bot = bot.rotSym(sym)), bot = bot.echo(mod(c, cv), 0, 0, 0, 0, 0, mod(r, rv), 1, fsc, .7, 0), 
             bot.lineStyle("hsla(" + mods(s1, s1v) + ",70%," + l + "%,.3)").lineWidth(2).hex(.95), 
@@ -359,40 +367,56 @@ function theme(b, sym, s1, s1v, s2, s2v, c, cv, r, rv, fsc, l) {
 
 function qThm(id, c1, c2, l, bk) {
     switch (id) {
-      case 0:
+      case "0":
         theme(0, 0, c1, 0, c2, 30, 8, 2, 0, 0, .01, l);
         break;
 
-      case 1:
+      case "1":
         theme(0, 0, c1, 30, c2, 0, 12, 4, 30, 0, .1, l);
         break;
 
-      case 2:
+      case "2":
         theme(0, 4, c1, 0, c2, 10, 4, 0, 30, 0, .01, l);
         break;
 
-      case 3:
+      case "3":
         theme(1, 3, c1, 0, c2, 10, 40, 0, 180, 0, .8, l);
         break;
 
-      case 4:
+      case "4":
         theme(1, 6, c1, 30, c2, 10, 15, 0, 50, 20, .8, l);
         break;
 
-      case 5:
+      case "5":
         theme(2, 3, c1, 10, c2, 30, 20, 10, 80, 20, 1.2, l);
         break;
 
-      case 6:
+      case "6":
         theme(2, 3, c1, 10, c2, 10, 10, 5, 45, 10, .1, l);
         break;
 
-      case 7:
+      case "7":
         theme(2, 5, c1, 10, c2, 40, 6, 3, 180, 0, .4, l);
         break;
 
-      case 8:
+      case "8":
         theme(3, 3, c1, 10, c2, 30, 10, 0, 30, 15, .5, l);
+        break;
+
+      case "9":
+        theme(3, 6, c1, 10, c2, 0, 10, 0, 30, 15, .5, l);
+        break;
+
+      case "a":
+        theme(4, 3, c1, 0, c2, 0, 10, 0, 20, 0, .5, l);
+        break;
+
+      case "b":
+        theme(4, 6, c1, 10, c2, 30, 1, 0, 0, 0, 1, l);
+        break;
+
+      case "c":
+        theme(4, 2, c1, 0, c2, 40, 15, 0, 60, 20, 1, l);
     }
     var bl = 95, bl2 = 80, brt = !0;
     l > 70 ? (bl = 0, bl2 = 10, brt = !1) : l > 40 && (bl = 0, bl2 = 20, brt = !1), 
@@ -401,7 +425,7 @@ function qThm(id, c1, c2, l, bk) {
 }
 
 function thm(fin, bk) {
-    qThm(Number(fin.charAt(3)), 10 * Number(fin.substring(4, 6)), 10 * Number(fin.substring(6, 8)), 10 * Number(fin.charAt(8)), bk);
+    qThm(fin.charAt(3), 10 * Number(fin.substring(4, 6)), 10 * Number(fin.substring(6, 8)), 10 * Number(fin.charAt(8)), bk);
 }
 
 function drawLnk(s, lk, sdw) {
@@ -508,7 +532,7 @@ function sml(ty) {
     }
 }
 
-var context = new AudioContext(), ae = {
+var context = new AudioContext(), audio_mute = !1, ae = {
     levstart: function() {
         tone(2, "triangle").v(.2, .4, .2, .7, .2).f(500, 300, 400, 100, 300, 300, 250, 200);
     },
@@ -516,7 +540,7 @@ var context = new AudioContext(), ae = {
         tone(1, "triangle").v(.2, .8, .2).f(300, 250, 400);
     },
     tiled: function() {
-        tone(.5).v(.2, .5).f(300, 350);
+        tone(.3).v(.2, .5, 0).f(rdm(200, 350), 480, 450);
     },
     beep: function() {
         tone(1, "square").v(0, 1, 1, 1, 0).f(300);
@@ -549,7 +573,7 @@ var context = new AudioContext(), ae = {
         tone(len).v(0, .05, .1, 0).f(300, rdm(350, 400), rdm(350, 400), rdm(350, 400), 200);
     },
     hop1: function(len) {
-        tone(len).v(0, .5, 0).f(200, 250);
+        tone(len).v(0, .5, rdm(.1, .6), 0).f(200, 250);
     },
     home1: function(len) {
         tone(len).v(1, 1, .1).f(200, 500);
@@ -579,19 +603,19 @@ var context = new AudioContext(), ae = {
         tone(len).v(0, .05, .1, 0).f(800, rdm(900, 1e3), rdm(900, 1e3), rdm(900, 1e3), 700);
     },
     hop3: function(len) {
-        tone(len).v(0, .5, 0).f(150, 200);
+        tone(len).v(0, .3, .5, 0).f(150, 250, 200);
     },
     home3: function(len) {
-        tone(len).v(1, 1, .1).f(200, 500);
+        tone(len).v(1, 1, .1).f(200, 100, 200, 500);
     },
     start3: function(len) {
-        tone(len).v(0, 1, .7).f(100, 150);
+        tone(len).v(0, 1, .7, 0).f(180, 250, 180, 200);
     },
     death3: function(len) {
         tone(len).v(1, .1, .8, .5, .6, 0).f(250, 200, 250, 150, 200, 150, 200, 150);
     },
     chirp3: function(len) {
-        tone(len).v(0, .05, .1, 0).f(300, rdm(350, 400), rdm(350, 400), rdm(350, 400), 200);
+        tone(len).v(.2, .2, .5, 0).f(rdm(200, 300), 200, rdm(200, 300), 200, rdm(200, 300));
     }
 };
 
@@ -701,17 +725,20 @@ var activeGrid = null, killgl, _gs = {
     25: "115530346000023000000004000005141OAPA345051QA4053001511PD540000001500",
     26: "0106002450000A2A1B400B2B0QAD300QBQCQCF300B0M1QEQC0000C1QAE000000000B0",
     27: "015720184B300C30000D0A2E00000A1QbPB0000D1M0P0PAA3B0D0PBM1D40000A5A5B5",
-    28: "11032124800b1a3000000e1dac40000d0d0a20000d0eAe4e300e0d0e5e40000a50000",
+    28: "11032124800b1aD00000000d0c5000000d0a200e1d1eAe4e3e0a2d0e5e400a5a50000",
     29: "1118080860051240000004023000051QA4000001041NA130000004015000000300000",
-    30: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
+    30: "111c12182000000000000511300000020SD13000031SCQA000000506C140000001500",
     31: "110703055b200a2b30000d2e0fDa30000d2gDf3000000dAa50000c1g4a40000000000",
-    32: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    33: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    34: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    35: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    36: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    37: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500",
-    38: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500"
+    32: "110b0200300b1a300000000d00000a1d1dAe20000d2eAc4e30000a5e5e40000000000",
+    33: "11050404800h3e2000000d0a2h50000fDe4gA0000h200d0e30000e5h0c00000000000",
+    34: "1112303060032b300000051nA24000040iA42000050gDe3530000nAa5400000c05554",
+    35: "11142429400a2b1e20000gEh1a3e300c0gFe4d000e1e4e5e400g000000000a0a40000",
+    36: "1104202230032c2b300e1e28DgD23e021mDmC5400e5e415e300000000000000000000",
+    37: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
+    38: "110210103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
+    39: "120a06069214113A20012D1r0FAD3qCqAr0D2A5E08CR052B5C09A90OAOA0000153515",
+    40: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
+    41: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500"
 }, lv_id = 0, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
@@ -771,6 +798,18 @@ var activeGrid = null, killgl, _gs = {
     e: "0l",
     f: "0m0k",
     g: "0m0l",
+    h: "0n4l",
+    i: "0k5k0m",
+    n: "0m1c",
+    m: "5b2l4l1b",
+    q: "3A1B5a0b",
+    r: "0c1C",
+    A: "0A",
+    B: "0D",
+    C: "0E",
+    D: "0B",
+    E: "0C",
+    F: "0B2B",
     N: "5b2b4b1b",
     O: "0a0c3a",
     P: "0a3a0b3b",

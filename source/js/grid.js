@@ -83,11 +83,10 @@ function buildGrid(el,fin,bTm)
               if (((spk_count-1)%6)>1) go=false;
               break;
             case 3: //one three thrre one far apart
-              go=false
-              if ((spk_count==1)||
-                  ((spk_count>=13)&&(spk_count<=15))||
-                  ((spk_count>=26)&&(spk_count<=28))||
-                  (spk_count==39))
+              go=false;
+              if (((spk_count==1)||(spk_count==2))||
+                  ((spk_count>=11)&&(spk_count<=14))||
+                  ((spk_count==23)||(spk_count==24)))
                     go=true;
               break;
             default:

@@ -44,12 +44,11 @@ function _spark(g, tile, lnk,ty) {
         var xoff=rdm(-.2,.3);
         var yoff=rdm(-.3,.2);
         bg
-        .lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.7)").lineWidth(30).line(xoff,-.5,0,.5)
-        .line(-.5,0,.5,yoff)
-        .lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.7)").lineWidth(20).line(xoff,-.5,0,.5)
-        .line(-.5,0,.5,yoff)
-        .lineStyle("rgba(255,255,0,1)").lineWidth(10).line(xoff,-.5,0,.5)
-        .line(-.5,0,.5,yoff)
+        .lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.4)").lineWidth(40).line(.5,.5,xoff,yoff)
+        .lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.5)").lineWidth(25).line(.5,.5,xoff,yoff)
+        .lineStyle("rgba(255,255,0,.8)").lineWidth(10).line(.5,.5,xoff,yoff)
+        .mirror(1,0)
+        .mirror(0,1)
         .setbg(spk.spk_decor);
         break;
   }
