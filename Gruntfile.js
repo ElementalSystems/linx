@@ -22,6 +22,24 @@ module.exports = function(grunt) {
         files: {
           'release_html/style.css': 'source/style/corecss.scss'
         }
+      },
+      electron: {
+        options: {
+          sourcemap:'none',
+          style: 'compressed'
+        },
+        files: {
+          'desktop_release/electron/resources/app/style.css': 'source/style/corecss.scss'
+        }
+      },
+      cordova: {
+        options: {
+          sourcemap:'none',
+          style: 'compressed'
+        },
+        files: {
+          'cordova/linx/www/style.css': 'source/style/corecss.scss'
+        }
       }
     },
     watch: {
@@ -63,6 +81,32 @@ module.exports = function(grunt) {
             'source/js/*.js'
           ]
         }
+      },
+      electron: {
+        options: {
+          mangle: false,
+          sourceMap: false,
+          compress: true,
+          beautify: false
+        },
+        files: {
+          'desktop_release/electron/resources/app/scripts.js': [
+            'source/js/*.js'
+          ]
+        }
+      },
+      cordova: {
+        options: {
+          mangle: false,
+          sourceMap: false,
+          compress: true,
+          beautify: false
+        },
+        files: {
+          'cordova/linx/www/scripts.js': [
+            'source/js/*.js'
+          ]
+        }
       }
     },
     copy: {
@@ -80,6 +124,30 @@ module.exports = function(grunt) {
           cwd: 'source/html',
           src: ['index.html'],
           dest: 'release_html/'
+        }]
+      },
+      htmlelectron: {
+        files: [{
+          expand: true,
+          cwd: 'source/html',
+          src: ['index.html'],
+          dest: 'desktop_release/electron/resources/app'
+        }]
+      },
+      supportelectron: {
+        files: [{
+          expand: true,
+          cwd: 'source/electron_source',
+          src: ['*.*'],
+          dest: 'desktop_release/electron/resources/app'
+        }]
+      },
+      htmlcordova: {
+        files: [{
+          expand: true,
+          cwd: 'source/html',
+          src: ['index.html'],
+          dest: 'cordova/linx/www'
         }]
       }
     },
@@ -112,6 +180,20 @@ module.exports = function(grunt) {
         host: '127.0.0.1',
         runInBackground: false
       }
+    },
+    exec: {
+      electron: {
+        cwd: "desktop_release/electron",
+        cmd: "linx.exe"
+      },
+      cordovarel: {
+        cwd: "cordova/linx",
+        cmd: "cordova build --release"
+      },
+      cordovarun: {
+        cwd: "cordova/linx",
+        cmd: "cordova run --device"
+      }
     }
   });
 
@@ -122,7 +204,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-http-server');
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-exec');
 
   grunt.registerTask('develop', ['sass:dev', 'uglify:dev', 'copy:htmldev', 'http-server:local', 'open', 'watch']);
   grunt.registerTask('release', ['sass:rel', 'uglify:rel', 'copy:htmlrel','compress:makezip']);
+  grunt.registerTask('electron', ['sass:electron', 'uglify:electron', 'copy:htmlelectron','copy:supportelectron','exec:electron']);
+  grunt.registerTask('cordova-run', ['sass:cordova', 'uglify:cordova', 'copy:htmlcordova','exec:cordovarun']);
+  grunt.registerTask('cordova-release', ['sass:cordova', 'uglify:cordova', 'copy:htmlcordova','exec:cordovarel']);
 };

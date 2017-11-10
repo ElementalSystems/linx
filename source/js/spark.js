@@ -146,7 +146,6 @@ function _spark(g, tile, lnk,ty) {
     if (!len) len=.25;
     e=e+spk.spk_ty;
     len/=activeGrid.spd;
-    console.log('play '+e);
     ae[e](len); //play the sound
     spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
   }

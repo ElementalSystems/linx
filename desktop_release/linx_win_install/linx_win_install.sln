@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "linx_win_install", "linx_win_install\linx_win_install.vdproj", "{2C08DCEB-8969-4B82-8512-12348D2DB96E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C08DCEB-8969-4B82-8512-12348D2DB96E}.Debug|Default.ActiveCfg = Debug
+		{2C08DCEB-8969-4B82-8512-12348D2DB96E}.Debug|Default.Build.0 = Debug
+		{2C08DCEB-8969-4B82-8512-12348D2DB96E}.Release|Default.ActiveCfg = Release
+		{2C08DCEB-8969-4B82-8512-12348D2DB96E}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

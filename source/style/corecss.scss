@@ -48,6 +48,30 @@ body {
 #shr.act {
   display: block;
 }
+
+#levctl {
+  font-size: 3vmin;
+  text-align: left;
+  div {
+    border: #FFF solid 1px;
+    cursor: pointer;
+    color: #FFF;
+    width: 6em;
+    padding: .25em;
+    border-radius: .5em;
+    text-align: center;
+    display:none;
+  }
+  div.act {
+    display: inline-block;
+  }
+  display: none;
+}
+#levctl.act {
+  display: inline-block;
+}
+
+
 .tf {
   opacity: 0;
   transition: opacity 1s;
@@ -63,7 +87,6 @@ div.sb {
   background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(64,64,64,.4) 50%,rgba(0,0,0,.8) 100%);
   border: ridge 4px rgba(128,128,128,.8);
   color: rgba(255,255,255,.8);
-
 }
 
 .tc {
@@ -111,6 +134,11 @@ div.sb {
   padding-top: 0.25em;
   padding-left: 0.1em;
   text-shadow: 0px 0px 10vmin rgba(128, 128, 128, 1);
+  a {
+    text-decoration: none;
+    color: #777;
+    font-size: 2vmin;
+  }
 }
 
 #panel {
@@ -285,7 +313,6 @@ div#menu {
   text-align: center;
   font-size: 5vmin;
   box-sizing: border-box;
-  overflow-y: scroll;
   color: #FFF;
   text-shadow:  0px 0px 10px #000;
 

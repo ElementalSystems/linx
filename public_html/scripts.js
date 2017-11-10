@@ -1,21 +1,27 @@
 function tone(length, type) {
-    if (!audio_mute) {
-        var current = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
-        return type && (oscillator.type = type), oscillator.frequency.value = 0, gain.gain.value = 0, 
-        oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
-        oscillator.stop(current + length), {
-            f: function() {
-                if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
-                for (var i = 0; i < arguments.length; i += 1) oscillator.frequency.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
-                return this;
-            },
-            v: function() {
-                if (1 == arguments.length) return gain.gain.value = arguments[0], this;
-                for (var i = 0; i < arguments.length; i += 1) gain.gain.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
-                return this;
-            }
-        };
-    }
+    if (audio_mute) return {
+        f: function() {
+            return this;
+        },
+        v: function() {
+            return this;
+        }
+    };
+    var current = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
+    return type && (oscillator.type = type), oscillator.frequency.value = 0, gain.gain.value = 0, 
+    oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
+    oscillator.stop(current + length), {
+        f: function() {
+            if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
+            for (var i = 0; i < arguments.length; i += 1) oscillator.frequency.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
+            return this;
+        },
+        v: function() {
+            if (1 == arguments.length) return gain.gain.value = arguments[0], this;
+            for (var i = 0; i < arguments.length; i += 1) gain.gain.linearRampToValueAtTime(arguments[i], current + i / (arguments.length - 1) * length);
+            return this;
+        }
+    };
 }
 
 function bez(len, xs, ys, xe, ye, xc, yc) {
@@ -171,7 +177,7 @@ function h_ni(i) {
 }
 
 function levTime(id) {
-    return Number(lev[id].substring(0, 2));
+    return Number(lev[id].substring(1, 3));
 }
 
 function exp(com, tm) {
@@ -211,7 +217,8 @@ function startNext() {
 function start() {
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("menu").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
-    killGrid(document.getElementById("main")), setTimeout(function() {
+    document.getElementById("levctl").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
+    setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
         document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("stut").classList.toggle("show", 2 == lv_id), 
         document.getElementById("ti3").classList.toggle("act", !0);
@@ -221,9 +228,10 @@ function start() {
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
     document.getElementById("ti3").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
-    document.getElementById("intro").classList.toggle("kill", !0), document.getElementById("dp").classList.toggle("st", !1), 
-    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("dp").classList.toggle("fst", !1);
-    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 1; i < 41; i += 1) checkStars(its[i], i);
+    document.getElementById("intro").classList.toggle("kill", !0), document.getElementById("levctl").classList.toggle("act", !0), 
+    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
+    document.getElementById("dp").classList.toggle("fst", !1);
+    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 0; i < 20; i += 1) checkStars(its[i], i + lv_menu_start);
     menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click(), 
     fullScreen();
 }
@@ -251,17 +259,32 @@ function addStrs(el, c) {
 function checkStars(el, lev) {
     var c = Number(localStorage.getItem("com_" + lev)), t = Number(localStorage.getItem("tm_" + lev)), tar = 0;
     c >= 50 && (tar = 1), c >= 100 && (tar = 2, t <= levTime(lev) && (tar = 3));
-    for (var chd = el.childNodes, i = 0; i < 3; i++) chd[i].classList.toggle("off", i + 1 > tar);
+    for (var chd = el.childNodes, i = 0; i < 3; i++) chd[i] && chd[i].classList.toggle("off", i + 1 > tar);
 }
 
 function mkLvlMenu() {
-    for (var m = document.getElementById("menu"), i = 1; i <= 40; i += 1) m.appendChild(function(i) {
+    var m = document.getElementById("menu");
+    m.innerHTML = "";
+    for (var i = lv_menu_start; i < lv_menu_start + 20; i += 1) m.appendChild(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
         return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), addStrs(e, 3), 
         e.appendChild(ei), e.onclick = function() {
             level(i);
         }, e) : e;
     }(i));
+}
+
+function setSound(on) {
+    ae.click(), audio_mute = !on, ae.click(), document.getElementById("soundon").classList.toggle("act", audio_mute), 
+    document.getElementById("soundoff").classList.toggle("act", !audio_mute);
+}
+
+function changeLevels(dir) {
+    ae.click(), document.getElementById("menu").classList.toggle("act", !1), lv_menu_start += 20 * dir, 
+    lv_menu_start < 1 && (lv_menu_start = 1), lv_menu_start > 41 && (lv_menu_start = 41), 
+    setTimeout(function() {
+        mkLvlMenu(), menu(), ae.click();
+    }, 400);
 }
 
 function _spark(g, tile, lnk, ty) {
@@ -314,8 +337,7 @@ function _spark(g, tile, lnk, ty) {
             spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
     }, spk.fx = function(e, len) {
-        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, console.log("play " + e), 
-        ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
+        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
     }, spk.fx("start"), spk;
 }
 
@@ -740,11 +762,11 @@ var activeGrid = null, killgl, _gs = {
     35: "11142429400a2b1e20000gEh1a3e300c0gFe4d000e1e4e5e400g000000000a0a40000",
     36: "1104202230032c2b300e1e28DgD23e021mDmC5400e5e415e300000000000000000000",
     37: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
-    38: "110210103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
+    38: "123b10103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
     39: "120a06069214113A20012D1r0FAD3qCqAr0D2A5E08CR052B5C09A90OAOA0000153515",
-    40: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
-    41: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500"
-}, lv_id = 0, t_thm = null, tiles1 = {
+    40: "130c1818100e1e20000c2e000h50000eBdAe40000h200e3000000e5e4000000000000",
+    41: "123b201050000b3a2001232d0gDgC806AoAg4gC408C40c50010542000000000000000"
+}, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
     2: "0d",
@@ -807,6 +829,7 @@ var activeGrid = null, killgl, _gs = {
     i: "0k5k0m",
     n: "0m1c",
     m: "5b2l4l1b",
+    o: "0k3a",
     q: "3A1B5a0b",
     r: "0c1C",
     A: "0A",

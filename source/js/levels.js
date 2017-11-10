@@ -37,20 +37,19 @@ var lev={
   35: "11142429400a2b1e20000gEh1a3e300c0gFe4d000e1e4e5e400g000000000a0a40000",
   36: "1104202230032c2b300e1e28DgD23e021mDmC5400e5e415e300000000000000000000",
   37: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
-  38: "110210103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
+  38: "123b10103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
   39: "120a06069214113A20012D1r0FAD3qCqAr0D2A5E08CR052B5C09A90OAOA0000153515",
-  40: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
-  41: "111112122000000000000511300000020SD13000031SCQA000000506C140000001500"
-
-
+  40: "130c1818100e1e20000c2e000h50000eBdAe40000h200e3000000e5e4000000000000",
+  41: "123b201050000b3a2001232d0gDgC806AoAg4gC408C40c50010542000000000000000"
 };
 
 
 var lv_id=0;
+var lv_menu_start=1;
 
 function levTime(id)
 {
-  return Number(lev[id].substring(0,2));
+  return Number(lev[id].substring(1,3));
 }
 
 function exp(com,tm) {
@@ -115,6 +114,7 @@ function start() {
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('menu').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
+  document.getElementById('levctl').classList.toggle('act',false);
 
   killGrid(document.getElementById('main'));
   setTimeout(
@@ -135,6 +135,7 @@ function menu() {
   document.getElementById('ti3').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('intro').classList.toggle('kill',true);
+  document.getElementById('levctl').classList.toggle('act',true);
 
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
@@ -142,8 +143,8 @@ function menu() {
   //set up starts
   var menu=document.getElementById('menu');
   var its=menu.childNodes;
-  for (var i=1;i<41;i+=1)
-    checkStars(its[i],i)
+  for (var i=0;i<20;i+=1)
+    checkStars(its[i],i+lv_menu_start);
   menu.classList.toggle('act',true);
   killGrid(document.getElementById('main'));
   ae.click();
@@ -201,7 +202,7 @@ function checkStars(el,lev)
   }
   var chd = el.childNodes;
   for (var i = 0; i < 3; i++)
-     chd[i].classList.toggle('off',((i+1)>tar));
+     if (chd[i]) chd[i].classList.toggle('off',((i+1)>tar));
 }
 
 function mkLvlMenu()
@@ -219,6 +220,29 @@ function mkLvlMenu()
     return e;
   }
   var m=document.getElementById('menu');
-  for (var i=1;i<=40;i+=1)
+  m.innerHTML='';
+  for (var i=lv_menu_start;i<lv_menu_start+20;i+=1)
     m.appendChild(itm(i));
+}
+
+function setSound(on) {
+  ae.click();
+  audio_mute=!on;
+  ae.click();
+  document.getElementById('soundon').classList.toggle('act',audio_mute)
+  document.getElementById('soundoff').classList.toggle('act',!audio_mute)
+}
+
+function changeLevels(dir)
+{
+  ae.click();
+  document.getElementById('menu').classList.toggle('act',false);
+  lv_menu_start+=dir*20;
+  if (lv_menu_start<1) lv_menu_start=1;
+  if (lv_menu_start>41) lv_menu_start=41;
+  setTimeout(function() {
+    mkLvlMenu();
+    menu();
+    ae.click();
+  },400);
 }

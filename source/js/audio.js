@@ -3,7 +3,9 @@ var context = new AudioContext;
 var audio_mute = false;
 
 function tone(length,type) {
-  if (audio_mute) return;
+  if (audio_mute) return { //a null note
+    f:function() { return this; },
+    v:function() { return this; } };
   var current= context.currentTime;
   var oscillator = context.createOscillator();
   var gain = context.createGain();

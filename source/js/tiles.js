@@ -63,6 +63,7 @@ var tiles2 = {
   i: "0k5k0m",
   n: "0m1c",
   m: "5b2l4l1b",
+  o: "0k3a",
   q: "3A1B5a0b",
   r: "0c1C",
 

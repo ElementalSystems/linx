@@ -12,6 +12,7 @@
   <div id=top>
     <div id=title>
       The Lost Packets
+      <a href="http://www.elementalsystems.co.za"  target="_blank">... designed by elementalsystems...</a>
     </div>
     <div id=mainf>
       <div id=intro>
@@ -47,7 +48,14 @@
         <div onclick="sml('u')">Tumblr</div>
         <div onclick="sml('r')">Reddit</div>
       </div>
+      <div id=levctl class="sb">
+        <div onclick="changeLevels(-1)" class=act>&lt;&lt; Levels </div>
+        <div onclick="changeLevels(1)"class=act>Levels &gt;&gt;</div>
+        <div onclick="setSound(false)" class=act id=soundoff>Sound Off</div>
+        <div onclick="setSound(true)" class=act id=soundon>Sound On</div>
+      </div>
       <div id=ti2 class="tc sb tf">
+        <div id=stut>Control the Game Speed</div>
         <div id=s0 onclick="setGS(0);">
         </div>
         <div id=s1 onclick="setGS(.5);">
@@ -71,6 +79,7 @@
     thm(lev[1],document.getElementById('top'));
     mkLvlMenu();
     level(0);
+    setSound(true);
     start();
   </script>
 </body>
