@@ -61,9 +61,12 @@ var tiles2 = {
   g: "0m0l",
   h: "0n4l",
   i: "0k5k0m",
+  j: "5n3o",
   n: "0m1c",
   m: "5b2l4l1b",
   o: "0k3a",
+  p: "0k1k3a4a",
+
   q: "3A1B5a0b",
   r: "0c1C",
 
@@ -73,12 +76,16 @@ var tiles2 = {
   D: "0B",
   E: "0C",
   F: "0B2B",
+  G: "1B3B0C",
+  H: "0D0C0E",
   N: "5b2b4b1b",
   O: "0a0c3a",
   P: "0a3a0b3b",
   Q: "0b4b",
   R: "0a1a2a3a4a",
-  S: "0c0a"
+  S: "0c0a",
+  T: "5k0m1A1C",
+  U: "4k1A"
 
 };
 
