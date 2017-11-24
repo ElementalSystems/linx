@@ -42,6 +42,8 @@ function decorate() {
     gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
     var t = gs(50).lineWidth(10).lineGrad("#080", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
     t.setbg(document.getElementById("s2")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
+    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(-.3, -.3, .1, 0).line(-.3, .3, .1, 0).echo(5, -.2, 0, .3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvnext")), 
+    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(.3, -.3, -.1, 0).line(.3, .3, -.1, 0).echo(5, .2, 0, -.3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvprev")), 
     addStrs(document.getElementById("dpst"), 3);
 }
 

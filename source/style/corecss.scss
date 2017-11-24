@@ -64,6 +64,15 @@ body {
   }
   div.act {
     display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-variant: small-caps;
+  }
+  div#lvnext {
+    background-position: right;
+  }
+  div#lvprev {
+    background-position: left;
   }
   display: none;
 }

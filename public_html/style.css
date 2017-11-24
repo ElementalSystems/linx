@@ -56,7 +56,14 @@ body {
     text-align: center;
     display: none; }
   #levctl div.act {
-    display: inline-block; }
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-variant: small-caps; }
+  #levctl div#lvnext {
+    background-position: right; }
+  #levctl div#lvprev {
+    background-position: left; }
 
 #levctl.act {
   display: inline-block; }
