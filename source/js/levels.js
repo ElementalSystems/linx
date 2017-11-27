@@ -169,6 +169,7 @@ function end(com,tm)
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti3').classList.toggle('act',false);
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
+  if (optionalFeedbackPosition) optionalFeedbackPosition(lv_id)
 
   ae.levend();
   //update high scores
@@ -258,4 +259,9 @@ function changeLevels(dir)
     menu();
     ae.click();
   },400);
+}
+
+function clearForm()
+{
+  document.getElementById('formholder').classList.toggle('act',false);
 }

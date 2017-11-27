@@ -17,6 +17,33 @@ body {
 #top.brt {
   color: #000; }
 
+#formholder {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+  display: none; }
+  #formholder iframe {
+    margin-left: 10vw;
+    margin-top: 15vh;
+    width: 80vw;
+    height: 80vh;
+    max-width: 50rem; }
+  #formholder button {
+    position: absolute;
+    left: 10vw;
+    width: 80vw;
+    height: 10vh;
+    max-width: 50rem;
+    font-family: monospace;
+    font-size: 200%; }
+
+#formholder.act {
+  display: block; }
+
 #ti {
   padding: 0;
   font-size: 4vmin;

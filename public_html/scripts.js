@@ -51,6 +51,14 @@ function mkStr(el) {
     gs(100).lineStyle("#000").lineWidth(14).line(0, -.35, .2, 0).lineStyle("#FF0").lineWidth(12).line(0, -.35, .2, 0).lineGrad("#F80", "#FF0").lineWidth(8).line(0, -.35, .2, 0).mirror(1, 0).rotSym(5).setbg(el);
 }
 
+function optionalFeedbackPosition(lev) {
+    var forms = {
+        1: "https://docs.google.com/forms/d/e/1FAIpQLSexJvNC1Hl7bRb2OVQI0qDRhn1TsIOURckomwLR4rKdxo0J3g/viewform?embedded=true"
+    };
+    forms[lev] && (document.getElementById("formholder").classList.toggle("act", !0), 
+    document.getElementById("formframe").src = forms[lev]);
+}
+
 function mkN(n, len, dp) {
     return dp || (dp = 0), String("          " + Number(n).toFixed(dp)).slice(-len).replace(" ", "&nbsp;");
 }
@@ -241,7 +249,8 @@ function menu() {
 
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
-    lv_id && document.getElementById("shr").classList.toggle("act", !0), ae.levend();
+    lv_id && document.getElementById("shr").classList.toggle("act", !0), optionalFeedbackPosition && optionalFeedbackPosition(lv_id), 
+    ae.levend();
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
@@ -288,6 +297,10 @@ function changeLevels(dir) {
     setTimeout(function() {
         mkLvlMenu(), menu(), ae.click();
     }, 400);
+}
+
+function clearForm() {
+    document.getElementById("formholder").classList.toggle("act", !1);
 }
 
 function _spark(g, tile, lnk, ty) {

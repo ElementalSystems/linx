@@ -9,7 +9,12 @@
 </head>
 
 <body>
+
   <div id=top>
+    <div id=formholder>
+      <button onclick="clearForm()">Forget about this Form; Let's play...</button>
+      <iframe id=formframe src="#" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+    </div>
     <div id=title>
       The Lost Packets
       <a href="http://www.elementalsystems.co.za"  target="_blank">... designed by elementalsystems...</a>
@@ -40,6 +45,7 @@
         </div>
       </div>
     </div>
+
     <div id=panel>
       <div id=ti class="tf sb">Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
       <div id=shr class="sb">Share<br>
@@ -82,6 +88,7 @@
     setSound(true);
     start();
   </script>
+
 </body>
 
 </html>
