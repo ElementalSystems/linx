@@ -1,3 +1,7 @@
+function analytics_event(type, label, value) {
+    ga("send", "event", "game", type, label, value);
+}
+
 function tone(length, type) {
     if (audio_mute) return {
         f: function() {
@@ -225,15 +229,23 @@ function startNext() {
     fullScreen(), level(lv_id + 1);
 }
 
+function restart() {
+    analytics_event("abortLevel", "Level" + lv_id), start();
+}
+
 function start() {
-    document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("menu").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
-    document.getElementById("levctl").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
-    setTimeout(function() {
+    analytics_event("startLevel", "Level" + lv_id), document.getElementById("dp").classList.toggle("st", !1), 
+    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("menu").classList.toggle("act", !1), 
+    document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
+    killGrid(document.getElementById("main")), setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
         document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("stut").classList.toggle("show", 2 == lv_id), 
         document.getElementById("ti3").classList.toggle("act", !0);
     }, 1e3), ae.levstart();
+}
+
+function exittomenu() {
+    analytics_event("abortLevel", "Level" + lv_id), menu();
 }
 
 function menu() {
@@ -244,13 +256,13 @@ function menu() {
     document.getElementById("dp").classList.toggle("fst", !1);
     for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 0; i < 20; i += 1) checkStars(its[i], i + lv_menu_start);
     menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click(), 
-    fullScreen();
+    fullScreen(), analytics_event("showMenu", "MenuStart" + lv_MenuStart);
 }
 
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
     lv_id && document.getElementById("shr").classList.toggle("act", !0), optionalFeedbackPosition && optionalFeedbackPosition(lv_id), 
-    ae.levend();
+    analytics_event("completeLevel", "level" + lv_id, com), ae.levend();
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
@@ -574,6 +586,19 @@ function sml(ty) {
         window.open("https://reddit.com/submit?url=" + encodeURIComponent(url) + "&title=" + encodeURIComponent(m), "_blank");
     }
 }
+
+!function(i, s, o, g, r, a, m) {
+    i.GoogleAnalyticsObject = r, i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments);
+    }, i[r].l = 1 * new Date(), a = s.createElement(o), m = s.getElementsByTagName(o)[0], 
+    a.async = 1, a.src = "https://www.google-analytics.com/analytics.js", m.parentNode.insertBefore(a, m);
+}(window, document, "script", 0, "ga"), ga("create", "UA-60046020-10", "auto");
+
+var anaytics_id = "";
+
+ga(function(tracker) {
+    analytics_id = tracker.get("clientId");
+}), ga("send", "pageview");
 
 var context = new AudioContext(), audio_mute = !1, ae = {
     levstart: function() {

@@ -10,9 +10,13 @@
 
 <body>
   <div id=top>
+    <div id=formholder>
+      <button onclick="clearForm()">Forget about this Form; Let's play...</button>
+      <iframe id=formframe src="#" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+    </div>
     <div id=title>
       The Lost Packets
-      <a href="http://www.elementalsystems.co.za"  target="_blank">... designed by elementalsystems...</a>
+      <a href="http://www.elementalsystems.co.za"  target="_blank">...designed by elementalsystems...</a>
     </div>
     <div id=mainf>
       <div id=intro>
@@ -40,6 +44,7 @@
         </div>
       </div>
     </div>
+
     <div id=panel>
       <div id=ti class="tf sb">Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
       <div id=shr class="sb">Share<br>
@@ -49,8 +54,8 @@
         <div onclick="sml('r')">Reddit</div>
       </div>
       <div id=levctl class="sb">
-        <div onclick="changeLevels(-1)" class=act>&lt;&lt; Levels </div>
-        <div onclick="changeLevels(1)"class=act>Levels &gt;&gt;</div>
+        <div id=lvprev onclick="changeLevels(-1)" class=act>Levels</div>
+        <div id=lvnext onclick="changeLevels(1)"class=act>Levels</div>
         <div onclick="setSound(false)" class=act id=soundoff>Sound Off</div>
         <div onclick="setSound(true)" class=act id=soundon>Sound On</div>
       </div>
@@ -82,6 +87,7 @@
     setSound(true);
     start();
   </script>
+
 </body>
 
 </html>

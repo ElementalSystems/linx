@@ -123,7 +123,15 @@ function startNext()
   level(lv_id+1);
 }
 
+
+function restart()
+{
+    analytics_event('abortLevel','Level'+lv_id);
+    start();
+}
+
 function start() {
+  analytics_event('startLevel','Level'+lv_id);
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('menu').classList.toggle('act',false);
@@ -141,6 +149,13 @@ function start() {
     document.getElementById('ti3').classList.toggle('act',true);
   },1000);
   ae.levstart();
+}
+
+
+function exittomenu()
+{
+  analytics_event('abortLevel','Level'+lv_id);
+  menu();
 }
 
 function menu() {
@@ -163,6 +178,7 @@ function menu() {
   killGrid(document.getElementById('main'));
   ae.click();
   fullScreen();
+  analytics_event('showMenu','MenuStart'+lv_MenuStart);
 }
 
 function end(com,tm)
@@ -171,7 +187,7 @@ function end(com,tm)
   document.getElementById('ti3').classList.toggle('act',false);
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
   if (optionalFeedbackPosition) optionalFeedbackPosition(lv_id)
-
+  analytics_event('completeLevel','level'+lv_id,com);
   ae.levend();
   //update high scores
   var oc=localStorage.getItem("com_"+lv_id);

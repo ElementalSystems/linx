@@ -4,4 +4,13 @@
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-60046020-10', 'auto');
+var anaytics_id='';
+ga(function(tracker) {
+  analytics_id=tracker.get('clientId');
+});
 ga('send', 'pageview');
+
+function analytics_event(type,label,value)
+{
+  ga('send', 'event', 'game',type,label,value);
+}
