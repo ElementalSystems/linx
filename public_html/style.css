@@ -121,7 +121,7 @@ div.sb {
     font-size: 4vmin;
     border: none;
     background: none;
-    animation: tuttext 3s infinite alternate;
+    animation: tuttext 1s infinite alternate;
     margin-bottom: 1vmin; }
   .tc div#stut.show {
     display: block; }
@@ -568,7 +568,7 @@ div.tile {
     pointer-events: none;
     font-size: 100%;
     font-variant: small-caps;
-    animation: tuttext 3s infinite alternate; }
+    animation: tuttext 1s infinite alternate; }
   div.tile div.spk {
     pointer-events: none;
     z-index: 100;
