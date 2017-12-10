@@ -119,17 +119,16 @@ function drawLnk(s, lk, sdw) {
       s.lineStyle("rgba(0,0,0,.8)").lineWidth(8)
         .linePath(lk.pts);
       if (!sdw) {
-        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts);
-        s.lineStyle("rgba(0,192,255,.6)").lineWidth(2).linePath(lk.pts);
+        s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).linePath(lk.pts);
+        s.lineStyle("rgba(192,192,255,.8)").lineWidth(1).linePath(lk.pts);
       }
       break;
     case 3:
         cl = "192,255,128";
-        s.lineStyle("rgba(0,0,0,.5)").lineWidth(5)
-          .plusPath(lk.pts,0.05);
+        s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts,0.05);
         if (!sdw) {
-          s.lineStyle("rgba(192,128,0,.7)").lineWidth(5).plusPath(lk.pts,0.03);
-          s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts,0.025);
+          s.lineStyle("rgba(192,128,0,.7)").lineWidth(4).plusPath(lk.pts,0.03);
+          s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts,0.025,0.005);
         }
         break;
   }

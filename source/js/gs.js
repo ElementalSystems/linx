@@ -53,15 +53,16 @@ var _gs = {
     }
     return this;
   },
-  plusPath: function(pts,r) {
+  plusPath: function(pts,r,shk) {
+    if (!shk) shk=0
     for (var i=0;i<pts.length;i+=1) {
-      var rr=r;
+      var rr=r+rdm(-shk,shk);
       //if (i%5) rr=-r;
       this.ctx.beginPath();
       this.ctx.moveTo(pts[i].x+r, pts[i].y+rr/2);
       this.ctx.lineTo(pts[i].x-r, pts[i].y-rr/2);
-      this.ctx.moveTo(pts[i].x, pts[i].y+r/4);
-      this.ctx.lineTo(pts[i].x, pts[i].y-r/4);
+      this.ctx.moveTo(pts[i].x, pts[i].y+rr/4);
+      this.ctx.lineTo(pts[i].x, pts[i].y-rr/4);
       this.ctx.stroke();
     }
     return this;

@@ -493,13 +493,13 @@ function drawLnk(s, lk, sdw) {
         break;
 
       case 2:
-        cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(4).linePath(lk.pts), 
-        s.lineStyle("rgba(0,192,255,.6)").lineWidth(2).linePath(lk.pts));
+        cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).linePath(lk.pts), 
+        s.lineStyle("rgba(192,192,255,.8)").lineWidth(1).linePath(lk.pts));
         break;
 
       case 3:
-        cl = "192,255,128", s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).plusPath(lk.pts, .05), 
-        sdw || (s.lineStyle("rgba(192,128,0,.7)").lineWidth(5).plusPath(lk.pts, .03), s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts, .025));
+        cl = "192,255,128", s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts, .05), 
+        sdw || (s.lineStyle("rgba(192,128,0,.7)").lineWidth(4).plusPath(lk.pts, .03), s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts, .025, .005));
     }
     6 == lk.ed && s.lineStyle("rgba(" + cl + ",1)").lineWidth(3).circle(.2, 0, .1), 
     7 == lk.ed && s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
@@ -724,11 +724,12 @@ var activeGrid = null, killgl, _gs = {
         this.ctx.stroke(), fill && this.ctx.fill();
         return this;
     },
-    plusPath: function(pts, r) {
+    plusPath: function(pts, r, shk) {
+        shk || (shk = 0);
         for (var i = 0; i < pts.length; i += 1) {
-            var rr = r;
+            var rr = r + rdm(-shk, shk);
             this.ctx.beginPath(), this.ctx.moveTo(pts[i].x + r, pts[i].y + rr / 2), this.ctx.lineTo(pts[i].x - r, pts[i].y - rr / 2), 
-            this.ctx.moveTo(pts[i].x, pts[i].y + r / 4), this.ctx.lineTo(pts[i].x, pts[i].y - r / 4), 
+            this.ctx.moveTo(pts[i].x, pts[i].y + rr / 4), this.ctx.lineTo(pts[i].x, pts[i].y - rr / 4), 
             this.ctx.stroke();
         }
         return this;
