@@ -7,8 +7,9 @@ ga('create', 'UA-60046020-10', 'auto');
 var anaytics_id='';
 ga(function(tracker) {
   analytics_id=tracker.get('clientId');
+  ga('set', 'dimension1', analytics_id);
+  ga('send', 'pageview');
 });
-ga('send', 'pageview');
 
 function analytics_event(type,label,value)
 {

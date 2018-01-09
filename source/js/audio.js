@@ -1,9 +1,13 @@
 
-var context = new AudioContext;
+
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var context=null;
+if (!AudioContext) alert("no Audio Context");
+else context = new AudioContext;
 var audio_mute = false;
 
 function tone(length,type) {
-  if (audio_mute) return { //a null note
+  if ((!context)||(audio_mute)) return { //a null note
     f:function() { return this; },
     v:function() { return this; } };
   var current= context.currentTime;
@@ -68,6 +72,5 @@ var ae={
   home3: function(len) {  tone(len).v(1,1,.1).f(200,100,200,500); },
   start3: function(len) { tone(len).v(0,1,.7,0).f(180,250,180,200); },
   death3: function(len) { tone(len).v(1,.1,.8,0.5,.6,0).f(250,200,250,150,200,150,200,150);},
-  chirp3: function(len) { tone(len).v(.2,.2,.5,0).f(rdm(200,300),200,rdm(200,300),200,rdm(200,300));},
-
+  chirp3: function(len) { tone(len).v(.2,.2,.5,0).f(rdm(200,300),200,rdm(200,300),200,rdm(200,300));}
 }

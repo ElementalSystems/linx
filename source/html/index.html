@@ -3,16 +3,17 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>The Lost Packets</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.png' />
 </head>
 
-<body>
+<body onload="initGame()">
   <div id=top>
     <div id=formholder>
       <button onclick="clearForm()">Forget about this Form; Let's play...</button>
-      <iframe id=formframe src="#" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+      <iframe id=formframe frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
     </div>
     <div id=title>
       The Lost Packets
@@ -40,7 +41,6 @@
           <div class="cmd df" id=ncmd onclick="startNext();">Next</div>
           <div class=cmd id=rcmd onclick="start();">Restart</div>
           <div class=cmd id=lcmd onclick="menu();">Levels</div>
-
         </div>
       </div>
     </div>
@@ -80,12 +80,14 @@
   </div>
   <script src="scripts.js"></script>
   <script>
+  function initGame() {
     decorate();
     thm(lev[1],document.getElementById('top'));
     mkLvlMenu();
     level(0);
     setSound(true);
     start();
+  }
   </script>
 
 </body>

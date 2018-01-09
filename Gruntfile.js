@@ -100,7 +100,7 @@ module.exports = function(grunt) {
           mangle: false,
           sourceMap: false,
           compress: true,
-          beautify: false
+          beautify: true
         },
         files: {
           'cordova/linx/www/scripts.js': [
@@ -116,6 +116,11 @@ module.exports = function(grunt) {
           cwd: 'source/html',
           src: ['**'],
           dest: 'public_html/'
+        },{
+          expand: true,
+          cwd: 'source/images',
+          src: ['favicon.png'],
+          dest: 'public_html/'
         }]
       },
       htmlrel: {
@@ -123,6 +128,11 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'source/html',
           src: ['index.html'],
+          dest: 'release_html/'
+        },{
+          expand: true,
+          cwd: 'source/images',
+          src: ['favicon.png'],
           dest: 'release_html/'
         }]
       },

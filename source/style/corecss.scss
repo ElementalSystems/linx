@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: monospace;
+  background-color: #000;
 }
 
 #top {
@@ -28,20 +29,20 @@ body {
   left: 0;
   right: 0;
   iframe {
-    margin-left:10vw;
-    margin-top: 15vh;
-    width: 80vw;
-    height: 80vh;
+    margin-left:5vw;
+    margin-top: 11vh;
+    width: 90vw;
+    height: 90vh;
     max-width: 50rem;
   }
   button {
     position: absolute;
-    left:10vw;
-    width: 80vw;
+    left:5vw;
+    width: 90vw;
     height: 10vh;
     max-width: 50rem;
     font-family: monospace;
-    font-size: 200%;
+    font-size: 100%;
   }
   z-index: 5000;
   display:none;
@@ -347,8 +348,8 @@ div#menu {
   width: 98%;
   height: 98%;
   z-index: 500;
-  bottom: -200%;
-  transition: bottom 1s;
+  bottom: -100vh;
+  transition: bottom .5s;
   left: 1%;
   text-align: center;
   font-size: 5vmin;
@@ -361,7 +362,6 @@ div#menu {
     text-shadow:  0px 0px 10px #FFF;
   }
   div {
-
     width: 20vmin;
     height: 15vmin;
     display: inline-block;
@@ -412,6 +412,7 @@ div#menu {
 div#menu.act {
   bottom: 1%;
 }
+
 @keyframes round {
   0% {
     transform: rotateZ(0deg);
@@ -443,7 +444,6 @@ div#menu.act {
     opacity: 0;
   }
 }
-
 @keyframes hop0 {
   0% {
     transform: rotateZ(0deg);
@@ -457,7 +457,6 @@ div#menu.act {
     transform: rotateZ(0deg);
   }
 }
-
 @keyframes death0 {
   0% {
     opacity: 1;
@@ -474,7 +473,6 @@ div#menu.act {
     opacity: 0;
   }
 }
-
 @keyframes start0 {
   0% {
     transform: translateZ(-50vmin);
@@ -500,7 +498,6 @@ div#menu.act {
     transform: translateZ(0vmin) scale3d(1,1,1);
   }
 }
-
 @keyframes home1 {
   0% {
     transform: translateZ(.2vmin) scale(1,1);
@@ -574,7 +571,6 @@ div#menu.act {
     transform: translateZ(0vmin) rotateX(0deg);
   }
 }
-
 
 @keyframes home2 {
   0% {

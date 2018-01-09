@@ -3,7 +3,7 @@ function analytics_event(type, label, value) {
 }
 
 function tone(length, type) {
-    if (audio_mute) return {
+    if (!context || audio_mute) return {
         f: function() {
             return this;
         },
@@ -57,10 +57,17 @@ function mkStr(el) {
 
 function optionalFeedbackPosition(lev) {
     var forms = {
-        1: "https://docs.google.com/forms/d/e/1FAIpQLSexJvNC1Hl7bRb2OVQI0qDRhn1TsIOURckomwLR4rKdxo0J3g/viewform?embedded=true"
+        2: "https://docs.google.com/forms/d/e/1FAIpQLSdOJQoB_lJGFeXzn3s9RKosmQZYWBYnpooYG0I_Y-2R7rQH-A/viewform?usp=pp_url&entry.867156754=#ID#",
+        7: "https://docs.google.com/forms/d/e/1FAIpQLSdhHHPCpxN_w2QFfOUpWw8K0i0j7JHNeqNIAB1sQjyA5p1ORg/viewform?usp=pp_url&entry.867156754=#ID#",
+        15: "https://docs.google.com/forms/d/e/1FAIpQLSeOGeB1UrOYU6ddKDaTkX-zAPZGYj9AimQF1XkBq2Pf_Tz-Bg/viewform?usp=pp_url&entry.867156754=#ID#",
+        35: "https://docs.google.com/forms/d/e/1FAIpQLSenSbphYBvZ5HBVfMCMl9DX1lNFhSKZuFiyy9-f70_0hEFQ0Q/viewform?usp=pp_url&entry.867156754=#ID#",
+        50: "https://docs.google.com/forms/d/e/1FAIpQLScDUsDLbhQBhx39iDwcMAolyerMoq3SqBLs71FyvJTTSPQueQ/viewform?usp=pp_url&entry.867156754=#ID#"
     };
-    forms[lev] && (document.getElementById("formholder").classList.toggle("act", !0), 
-    document.getElementById("formframe").src = forms[lev]);
+    if (forms[lev]) {
+        document.getElementById("formholder").classList.toggle("act", !0);
+        var lnk = forms[lev].replace("#ID#", analytics_id);
+        document.getElementById("formframe").src = lnk;
+    }
 }
 
 function mkN(n, len, dp) {
@@ -597,10 +604,14 @@ function sml(ty) {
 var anaytics_id = "";
 
 ga(function(tracker) {
-    analytics_id = tracker.get("clientId");
-}), ga("send", "pageview");
+    analytics_id = tracker.get("clientId"), ga("set", "dimension1", analytics_id), ga("send", "pageview");
+});
 
-var context = new AudioContext(), audio_mute = !1, ae = {
+var AudioContext = window.AudioContext || window.webkitAudioContext, context = null;
+
+AudioContext ? context = new AudioContext() : alert("no Audio Context");
+
+var audio_mute = !1, ae = {
     levstart: function() {
         tone(2, "triangle").v(.2, .4, .2, .7, .2).f(500, 300, 400, 100, 300, 300, 250, 200);
     },

@@ -132,8 +132,11 @@ function cgrad(ctx, s, c1, c2) {
   return grd;
 }
 
+
+
 function gs(res) {
   var ngs = Object.create(_gs);
+
   if (!res) res = 100;
   ngs.res = res;
   ngs.canvas = document.createElement("canvas");
@@ -145,5 +148,6 @@ function gs(res) {
   ngs.ctx.lineCap = 'round';
   ngs.ctx.textAlign = 'center';
   ngs.ctx.textBaseline = 'middle';
+
   return ngs;
 }
