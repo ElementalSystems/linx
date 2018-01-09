@@ -338,7 +338,7 @@ div#dp.ed {
   }
 }
 
-div#menu {
+div.menuscreen {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -409,7 +409,7 @@ div#menu {
   padding: 0.5vmin;
 }
 
-div#menu.act {
+div.menuscreen.act {
   bottom: 1%;
 }
 

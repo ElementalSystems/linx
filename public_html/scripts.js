@@ -222,7 +222,8 @@ function decLev(id) {
 function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main")), thm(lev[lv_id], document.getElementById("top")), 
     document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu").classList.toggle("act", !1), 
+    document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
+    document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
     document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
     decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
@@ -242,7 +243,8 @@ function restart() {
 
 function start() {
     analytics_event("startLevel", "Level" + lv_id), document.getElementById("dp").classList.toggle("st", !1), 
-    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("menu").classList.toggle("act", !1), 
+    document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("menu0").classList.toggle("act", !1), 
+    document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
     killGrid(document.getElementById("main")), setTimeout(function() {
         buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
@@ -261,9 +263,9 @@ function menu() {
     document.getElementById("intro").classList.toggle("kill", !0), document.getElementById("levctl").classList.toggle("act", !0), 
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1);
-    for (var menu = document.getElementById("menu"), its = menu.childNodes, i = 0; i < 20; i += 1) checkStars(its[i], i + lv_menu_start);
+    for (var ref = Math.floor((lv_menu_start - 1) / 20), menu = document.getElementById("menu" + ref), its = menu.childNodes, i = 0; i < 20; i += 1) checkStars(its[i], i + lv_menu_start);
     menu.classList.toggle("act", !0), killGrid(document.getElementById("main")), ae.click(), 
-    fullScreen(), analytics_event("showMenu", "MenuStart" + lv_MenuStart);
+    fullScreen(), analytics_event("showMenu", "MenuStart" + lv_menu_start);
 }
 
 function end(com, tm) {
@@ -293,10 +295,10 @@ function checkStars(el, lev) {
     for (var chd = el.childNodes, i = 0; i < 3; i++) chd[i] && chd[i].classList.toggle("off", i + 1 > tar);
 }
 
-function mkLvlMenu() {
-    var m = document.getElementById("menu");
+function mkLvlMenu(ref) {
+    var m = document.getElementById("menu" + ref);
     m.innerHTML = "";
-    for (var i = lv_menu_start; i < lv_menu_start + 20; i += 1) m.appendChild(function(i) {
+    for (var i = 20 * ref + 1; i < 20 * ref + 21; i += 1) m.appendChild(function(i) {
         var e = document.createElement("div"), ei = document.createElement("div");
         return ei.innerHTML = i, lev[i] ? (thm(lev[i], e), t_thm.bot(ei, []), addStrs(e, 3), 
         e.appendChild(ei), e.onclick = function() {
@@ -311,10 +313,11 @@ function setSound(on) {
 }
 
 function changeLevels(dir) {
-    ae.click(), document.getElementById("menu").classList.toggle("act", !1), lv_menu_start += 20 * dir, 
+    ae.click(), document.getElementById("menu0").classList.toggle("act", !1), document.getElementById("menu1").classList.toggle("act", !1), 
+    document.getElementById("menu2").classList.toggle("act", !1), lv_menu_start += 20 * dir, 
     lv_menu_start < 1 && (lv_menu_start = 1), lv_menu_start > 41 && (lv_menu_start = 41), 
     setTimeout(function() {
-        mkLvlMenu(), menu(), ae.click();
+        menu(), ae.click();
     }, 400);
 }
 

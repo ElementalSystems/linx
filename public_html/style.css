@@ -275,7 +275,7 @@ div#dp.ed {
   div#dp.ed #lcmd {
     display: inline-block; }
 
-div#menu {
+div.menuscreen {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -293,10 +293,10 @@ div#menu {
   color: #FFF;
   text-shadow: 0px 0px 10px #000;
   padding: 0.5vmin; }
-  div#menu div.brt {
+  div.menuscreen div.brt {
     color: #000;
     text-shadow: 0px 0px 10px #FFF; }
-  div#menu div {
+  div.menuscreen div {
     width: 20vmin;
     height: 15vmin;
     display: inline-block;
@@ -306,7 +306,7 @@ div#menu {
     position: relative;
     cursor: pointer;
     margin: 1vmin auto; }
-    div#menu div div {
+    div.menuscreen div div {
       position: absolute;
       left: 0;
       top: -1vmin;
@@ -316,24 +316,24 @@ div#menu {
       width: 15vmin;
       background-size: 100% 100%;
       border: none; }
-    div#menu div div.str {
+    div.menuscreen div div.str {
       right: 1vmin;
       left: auto;
       width: 5vmin;
       height: 5vmin; }
-    div#menu div div.str.off {
+    div.menuscreen div div.str.off {
       opacity: .2; }
-    div#menu div div.str:nth-child(1) {
+    div.menuscreen div div.str:nth-child(1) {
       top: 0vmin;
       right: 3vmin; }
-    div#menu div div.str:nth-child(2) {
+    div.menuscreen div div.str:nth-child(2) {
       top: 4vmin;
       right: .5vmin; }
-    div#menu div div.str:nth-child(3) {
+    div.menuscreen div div.str:nth-child(3) {
       top: 8vmin;
       right: 3vmin; }
 
-div#menu.act {
+div.menuscreen.act {
   bottom: 1%; }
 
 @keyframes round {

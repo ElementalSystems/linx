@@ -103,7 +103,9 @@ function level(lv) {
   document.getElementById('dp').classList.toggle('st',true);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('dp').classList.toggle('fst',false);
-  document.getElementById('menu').classList.toggle('act',false);
+  document.getElementById('menu0').classList.toggle('act',false);
+  document.getElementById('menu1').classList.toggle('act',false);
+  document.getElementById('menu2').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('levctl').classList.toggle('act',false);
 
@@ -137,7 +139,9 @@ function start() {
   analytics_event('startLevel','Level'+lv_id);
   document.getElementById('dp').classList.toggle('st',false);
   document.getElementById('dp').classList.toggle('ed',false);
-  document.getElementById('menu').classList.toggle('act',false);
+  document.getElementById('menu0').classList.toggle('act',false);
+  document.getElementById('menu1').classList.toggle('act',false);
+  document.getElementById('menu2').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('levctl').classList.toggle('act',false);
 
@@ -173,7 +177,8 @@ function menu() {
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('dp').classList.toggle('fst',false);
   //set up starts
-  var menu=document.getElementById('menu');
+  var ref=Math.floor((lv_menu_start-1)/20);
+  var menu=document.getElementById('menu'+ref);
   var its=menu.childNodes;
   for (var i=0;i<20;i+=1)
     checkStars(its[i],i+lv_menu_start);
@@ -181,7 +186,7 @@ function menu() {
   killGrid(document.getElementById('main'));
   ae.click();
   fullScreen();
-  analytics_event('showMenu','MenuStart'+lv_MenuStart);
+  analytics_event('showMenu','MenuStart'+lv_menu_start);
 }
 
 function end(com,tm)
@@ -239,7 +244,7 @@ function checkStars(el,lev)
      if (chd[i]) chd[i].classList.toggle('off',((i+1)>tar));
 }
 
-function mkLvlMenu()
+function mkLvlMenu(ref)
 {
   function itm(i) {
     var e=document.createElement('div');
@@ -253,9 +258,9 @@ function mkLvlMenu()
     e.onclick=function() { level(i); }
     return e;
   }
-  var m=document.getElementById('menu');
+  var m=document.getElementById('menu'+ref);
   m.innerHTML='';
-  for (var i=lv_menu_start;i<lv_menu_start+20;i+=1)
+  for (var i=ref*20+1;i<ref*20+21;i+=1)
     m.appendChild(itm(i));
 }
 
@@ -270,12 +275,13 @@ function setSound(on) {
 function changeLevels(dir)
 {
   ae.click();
-  document.getElementById('menu').classList.toggle('act',false);
+  document.getElementById('menu0').classList.toggle('act',false);
+  document.getElementById('menu1').classList.toggle('act',false);
+  document.getElementById('menu2').classList.toggle('act',false);
   lv_menu_start+=dir*20;
   if (lv_menu_start<1) lv_menu_start=1;
   if (lv_menu_start>41) lv_menu_start=41;
   setTimeout(function() {
-    mkLvlMenu();
     menu();
     ae.click();
   },400);
