@@ -132,13 +132,13 @@ function buildGrid(el, fin, bTm) {
         var ty = dec(init.charAt(2 * i + 1)), t = tile(tilesetindex, init.charAt(2 * i), ty.cls);
         el.appendChild(t);
         for (var j = 0; j < t.lk.length; j += 1) 6 == t.lk[j].ed && (g.spk_tot += 8);
-        t.t_i = i, t.t_dir = ty.val, bTm ? t.setTransformFuture(rdm(.5, bTm)) : t.setTransform(), 
-        grd.push(t);
+        t.t_i = i, t.t_dir = ty.val, grd.push(t);
     }
     activeGrid = g, setGS(lv_id > 1 ? 0 : 1);
     var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0, ti = document.getElementById("tm"), ot = document.getElementById("ot"), dd = document.getElementById("dd"), hm = document.getElementById("hm");
-    return ti.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ot.innerHTML = hm.innerHTML = dd.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;", 
-    setTimeout(function() {
+    ti.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ot.innerHTML = hm.innerHTML = dd.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    for (var i = 0; i < grd.length; i += 1) bTm ? grd[i].setTransformFuture(rdm(.5, bTm)) : grd[i].setTransform();
+    return setTimeout(function() {
         killgl = !1, window.requestAnimationFrame(gl);
     }, 1e3 * bTm), g;
 }
@@ -220,8 +220,11 @@ function decLev(id) {
 }
 
 function level(lv) {
-    lv_id = lv, killGrid(document.getElementById("main")), thm(lev[lv_id], document.getElementById("top")), 
-    document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
+    lv_id = lv, killGrid(document.getElementById("main"));
+    var bk = document.getElementById("top");
+    bk.classList.toggle("faded", !0), setTimeout(function() {
+        thm(lev[lv_id], bk), bk.classList.toggle("faded", !1);
+    }, 350), document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 

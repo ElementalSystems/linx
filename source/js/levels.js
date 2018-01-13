@@ -98,7 +98,13 @@ function decLev(id)
 function level(lv) {
   lv_id=lv;
   killGrid(document.getElementById('main'));
-  thm(lev[lv_id],document.getElementById('top'));
+  var bk=document.getElementById('top');
+  bk.classList.toggle('faded',true);
+  //alert(lv);
+  setTimeout(function(){   //wait .3s
+    thm(lev[lv_id],bk);
+    bk.classList.toggle('faded',false);//fade  in  
+  },350);
   //set up start thing
   document.getElementById('dp').classList.toggle('st',true);
   document.getElementById('dp').classList.toggle('ed',false);
@@ -118,7 +124,6 @@ function level(lv) {
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
   if (lv_id) document.getElementById('ti3').classList.toggle('act',true);
-
   ae.click();
 }
 

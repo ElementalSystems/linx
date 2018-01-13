@@ -1,7 +1,12 @@
+
+html {
+  background-color: #111;
+}
+
 body {
   margin: 0;
   font-family: monospace;
-  background-color: #000;
+  background-color: #111;
 }
 
 #top {
@@ -14,7 +19,14 @@ body {
   justify-content: space-around;
   overflow: hidden;
   color: #FFF;
-  transition: color 2s;
+  background-color: #000;
+  opacity: 1;
+  transition: color 3s,opacity .5s;
+}
+
+#top.faded
+{
+  opacity: 0;
 }
 
 #top.brt {
@@ -444,6 +456,7 @@ div.menuscreen.act {
     opacity: 0;
   }
 }
+
 @keyframes hop0 {
   0% {
     transform: rotateZ(0deg);

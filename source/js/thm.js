@@ -115,8 +115,8 @@ function qThm(id, c1, c2, l, bk) {
     brt = false;
   }
   if (bk) {
-    bk.style.backgroundImage = "linear-gradient(30deg, hsl(" + c1 + ",90%," + bl + "%), hsl(" + c1 + ",90%," + bl2 + "%))";
-    bk.classList.toggle('brt', brt);
+      bk.style.backgroundImage = "linear-gradient(30deg, hsl(" + c1 + ",90%," + bl + "%), hsl(" + c1 + ",90%," + bl2 + "%))";
+      bk.classList.toggle('brt', brt);
   }
 }
 

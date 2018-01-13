@@ -43,8 +43,6 @@ function buildGrid(el,fin,bTm)
 
     t.t_i=i;
     t.t_dir=ty.val;
-    if (bTm) t.setTransformFuture(rdm(.5,bTm));
-    else t.setTransform();
     grd.push(t)
   }
   activeGrid=g;
@@ -58,7 +56,13 @@ function buildGrid(el,fin,bTm)
   var ot=document.getElementById('ot');
   var dd=document.getElementById('dd');
   var hm=document.getElementById('hm');
-  ti.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; ot.innerHTML=hm.innerHTML=dd.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;';
+  ti.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+  ot.innerHTML=hm.innerHTML=dd.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;';
+  //position each tile of the grid.
+  for (var i=0; i<grd.length;i+=1) {
+    if (bTm) grd[i].setTransformFuture(rdm(.5,bTm));
+    else grd[i].setTransform();
+  }
 
   function spk() //make a wave of sparks because it's that time of the game
   {
@@ -95,7 +99,7 @@ function buildGrid(el,fin,bTm)
           if (go) g.spark(l,m,ty);
         }
   }
-  
+
   function gl(t)
   {
     var ft=.01;
