@@ -99,12 +99,7 @@ function level(lv) {
   lv_id=lv;
   killGrid(document.getElementById('main'));
   var bk=document.getElementById('top');
-  bk.classList.toggle('faded',true);
-  //alert(lv);
-  setTimeout(function(){   //wait .3s
-    thm(lev[lv_id],bk);
-    bk.classList.toggle('faded',false);//fade  in  
-  },350);
+  thm(lev[lv_id],bk);  
   //set up start thing
   document.getElementById('dp').classList.toggle('st',true);
   document.getElementById('dp').classList.toggle('ed',false);

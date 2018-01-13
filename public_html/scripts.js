@@ -222,9 +222,7 @@ function decLev(id) {
 function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main"));
     var bk = document.getElementById("top");
-    bk.classList.toggle("faded", !0), setTimeout(function() {
-        thm(lev[lv_id], bk), bk.classList.toggle("faded", !1);
-    }, 350), document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
+    thm(lev[lv_id], bk), document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
@@ -484,8 +482,10 @@ function qThm(id, c1, c2, l, bk) {
     }
     var bl = 95, bl2 = 80, brt = !0;
     l > 70 ? (bl = 0, bl2 = 10, brt = !1) : l > 40 && (bl = 0, bl2 = 20, brt = !1), 
-    bk && (bk.style.backgroundImage = "linear-gradient(30deg, hsl(" + c1 + ",90%," + bl + "%), hsl(" + c1 + ",90%," + bl2 + "%))", 
-    bk.classList.toggle("brt", brt));
+    bk && (bk.classList.toggle("faded", !0), setTimeout(function() {
+        bk.style.backgroundImage = "linear-gradient(30deg, hsl(" + c1 + ",90%," + bl + "%), hsl(" + c1 + ",90%," + bl2 + "%))", 
+        bk.classList.toggle("brt", brt), bk.classList.toggle("faded", !1);
+    }, 500));
 }
 
 function thm(fin, bk) {
