@@ -3,9 +3,19 @@ html {
   background-color: #111;
 }
 
+@font-face {
+   font-family: "custommain";
+   src: url("JoseFinSans-SemiBold.ttf");
+ }
+
+ @font-face {
+    font-family: "custommono";
+    src: url("NovaMono.ttf");
+  }
+
 body {
   margin: 0;
-  font-family: monospace;
+  font-family: "custommain",monospace;
   background-color: #111;
 }
 
@@ -53,7 +63,6 @@ body {
     width: 90vw;
     height: 10vh;
     max-width: 50rem;
-    font-family: monospace;
     font-size: 100%;
   }
   z-index: 5000;
@@ -73,6 +82,7 @@ body {
   b {
     color: #FFF;
     padding-left: 0.3em;
+    font-family: custommono,monospace;
   }
   background-size: 100% 100%;
 }
@@ -94,29 +104,12 @@ body {
 }
 
 #levctl {
-  font-size: 3vmin;
-  text-align: left;
   div {
-    border: #FFF solid 1px;
-    cursor: pointer;
-    color: #FFF;
-    width: 6em;
-    padding: .25em;
-    border-radius: .5em;
-    text-align: center;
     display:none;
   }
   div.act {
     display: inline-block;
-    background-size: contain;
-    background-repeat: no-repeat;
     font-variant: small-caps;
-  }
-  div#lvnext {
-    background-position: right;
-  }
-  div#lvprev {
-    background-position: left;
   }
   display: none;
 }
@@ -134,11 +127,12 @@ body {
 }
 
 div.sb {
-  border-radius: 2vmin;
-  padding: 0.5vmin;
+  border-radius: 0.2rem;
+  padding: 0.3rem 1rem;
   text-align: center;
-  background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(64,64,64,.4) 50%,rgba(0,0,0,.8) 100%);
-  border: ridge 4px rgba(128,128,128,.8);
+  background: linear-gradient(155deg, rgba(0,0,0,0.9) 0%,rgba(64,64,64,.6) 50%,rgba(0,0,0,.9) 100%);
+  border-top: ridge .3rem rgba(128,128,128,.6);
+  border-bottom: ridge .3rem rgba(128,128,128,.6);
   color: rgba(255,255,255,.8);
 }
 
@@ -161,22 +155,26 @@ div.sb {
     display: block
   }
   div {
-    border: #CCC 1px solid;
-    background-color: #000;
+    border: rgba(64,64,64,.8) .1rem outset;
+    background-color: rgba(64,64,64,.8);
+    padding: .1rem 0px;
     width: 10vmin;
     height: 10vmin;
     background-size: 100% 100%;
-    border-radius: 2vmin;
+    border-radius: 0;
     margin: 0.1vmin;
     display: inline-block;
     box-sizing: border-box;
     font-size: 2vmin;
+    color: #FFF;
+    text-align: center;
     cursor: pointer;
   }
 
   div.active {
-    background-color: #550;
-    border: #FF0 3px solid;
+    background-color: rgba(128,128,0,.8);
+    border: rgba(255,255,128,.8) .2rem inset;
+
   }
 }
 
@@ -268,7 +266,7 @@ div#dp {
   div#dpl {
     box-sizing: border-box;
     font-size: 15vmin;
-    padding-top: 2vmin;
+    padding-top: 5.5vmin;
     width: 25vmin;
     height: 25vmin;
     margin-left: auto;
@@ -297,19 +295,18 @@ div#dp {
     padding: .5em;
     margin: 1vmin;
     font-size: 120%;
-    border: #FFF 1px solid;
-    border-radius: 0.25em;
+    border-radius: 0;
     font-variant: small-caps;
     display: none;
     width:25vmin;
     cursor: pointer;
-    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%,rgba(128,128,64,.3) 50%,rgba(0,0,0,.8) 100%);
-    border: outset 2px rgba(128,128,128,.8);
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%,rgba(64,64,64,.8) 50%,rgba(0,0,0,0) 100%);
+    border-top: ridge .1rem rgba(192,192,192,.8);
+    border-bottom: ridge .1rem rgba(192,192,192,.8);
   }
   div.cmd.df {
     width: 63vmin;
     color: #FF8;
-    background: linear-gradient(135deg, rgba(0,0,0,.8) 0%,rgba(128,128,0,.9) 50%,rgba(0,0,0,.8) 100%);
 
   }
   padding: 0.5vmin;
@@ -378,8 +375,8 @@ div.menuscreen {
     height: 15vmin;
     display: inline-block;
     font-size: 8vmin;
-    border: ridge #888 3px;
-    border-radius: 2vmin;
+    border: solid rgba(128,128,128,.6) .2rem;
+    border-radius: .3rem;
     position: relative;
     cursor: pointer;
     margin: 1vmin auto;
@@ -388,7 +385,7 @@ div.menuscreen {
       left: 0;
       top: -1vmin;
       box-sizing: border-box;
-      padding-top: 2vmin;
+      padding-top: 4vmin;
       height: 15vmin;
       width: 15vmin;
       background-size: 100% 100%;

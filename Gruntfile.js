@@ -121,6 +121,11 @@ module.exports = function(grunt) {
           cwd: 'source/images',
           src: ['favicon.png'],
           dest: 'public_html/'
+        },{
+          expand: true,
+          cwd: 'source/font',
+          src: ['*'],
+          dest: 'public_html/'
         }]
       },
       htmlrel: {
@@ -134,6 +139,11 @@ module.exports = function(grunt) {
           cwd: 'source/images',
           src: ['favicon.png'],
           dest: 'release_html/'
+        },{
+          expand: true,
+          cwd: 'source/font',
+          src: ['*'],
+          dest: 'release_html/'
         }]
       },
       htmlelectron: {
@@ -141,6 +151,11 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'source/html',
           src: ['index.html'],
+          dest: 'desktop_release/electron/resources/app'
+        },{
+          expand: true,
+          cwd: 'source/font',
+          src: ['*'],
           dest: 'desktop_release/electron/resources/app'
         }]
       },
@@ -157,6 +172,11 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'source/html',
           src: ['index.html'],
+          dest: 'cordova/linx/www'
+        },{
+          expand: true,
+          cwd: 'source/font',
+          src: ['*'],
           dest: 'cordova/linx/www'
         }]
       }

@@ -89,7 +89,56 @@ var tiles2 = {
 
 };
 
-var t_set=[tiles1,tiles2];
+var tiles3 = {
+  0: "",
+  1: "0a",
+  2: "0D3e",
+  3: "0c",
+  4: "0b",
+  5: "00",
+  6: "0334",
+  7: "01",
+  8: "02",
+  9: "0c21",
+  a: "0k",
+  b: "0n5o",
+  c: "0l4l0m",
+  d: "0m",
+  e: "0l",
+  f: "0m0k",
+  g: "0m0l",
+  h: "0n4l",
+  i: "0k5k0m",
+  j: "5n3o",
+  n: "021m",
+  m: "221m",
+  o: "0k3a",
+  p: "0k1k3a4a",
+
+  q: "3A1B5a0b",
+  r: "0c1C",
+
+  A: "0A",
+  B: "0d3E",
+  C: "0C",
+  D: "0B",
+  E: "0C",
+  F: "0B2B",
+  G: "1B3B0C",
+  H: "0D0C0E",
+  N: "5b2b4b1b",
+  O: "0a0c3a",
+  P: "0a3a0b3b",
+  Q: "0b4b",
+  R: "0a1a2a3a4a",
+  S: "0c0a",
+  T: "5k0m1A1C",
+  U: "4k1A"
+
+};
+
+
+var t_set=[tiles1,tiles2,tiles3];
 
 
 function drawLnk(s, lk, sdw) {

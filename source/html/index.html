@@ -51,19 +51,19 @@
 
     <div id=panel>
       <div id=ti class="tf sb">Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
-      <div id=shr class="sb">Share<br>
+      <div id=shr>Share<br>
         <div onclick="sml('t')">Twitter</div>
         <div onclick="sml('f')">Facebook</div>
         <div onclick="sml('u')">Tumblr</div>
         <div onclick="sml('r')">Reddit</div>
       </div>
-      <div id=levctl class="sb">
-        <div id=lvprev onclick="changeLevels(-1)" class=act>Levels</div>
-        <div id=lvnext onclick="changeLevels(1)"class=act>Levels</div>
-        <div onclick="setSound(false)" class=act id=soundoff>Sound Off</div>
-        <div onclick="setSound(true)" class=act id=soundon>Sound On</div>
+      <div id=levctl class=tc>
+        <div id=lvprev onclick="changeLevels(-1)" class=act>PREV</div>
+        <div id=lvnext onclick="changeLevels(1)"class=act>NEXT</div>
+        <div onclick="setSound(false)" class=act id=soundoff>SND OFF</div>
+        <div onclick="setSound(true)" class=act id=soundon>SND ON</div>
       </div>
-      <div id=ti2 class="tc sb tf">
+      <div id=ti2 class="tc tf">
         <div id=stut>Control the Game Speed</div>
         <div id=s0 onclick="setGS(0);">
         </div>
@@ -75,7 +75,7 @@
         </div>
 
       </div>
-      <div id=ti3 class="tc sb tf">
+      <div id=ti3 class="tc tf">
         <div id=rs onclick="restart();">RESTART</div>
         <div id=lv onclick="exittomenu();">LEVELS</div>
       </div>

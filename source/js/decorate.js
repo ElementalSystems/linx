@@ -37,16 +37,17 @@ function decorate()
 
 
 
-  //levels next
-  gs(50).lineWidth(10).lineGrad("#884","#FF8")
-        .line(-.3,-.3,.1,0).line(-.3,.3,.1,0)
-        .echo(5,-.2,0,.3,0,0,0,1,1,.1,1)
-        .setbg(document.getElementById('lvnext'));
-  gs(50).lineWidth(10).lineGrad("#884","#FF8")
-        .line(.3,-.3,-.1,0).line(.3,.3,-.1,0)
-        .echo(5,.2,0,-.3,0,0,0,1,1,.1,1)
-        .setbg(document.getElementById('lvprev'));
-
+  //levels next if we have them
+  if (document.getElementById('lvnext')) {
+    gs(50).lineWidth(10).lineGrad("#884","#FF8")
+          .line(-.3,-.3,.1,0).line(-.3,.3,.1,0)
+          .echo(5,-.2,0,.3,0,0,0,1,1,.1,1)
+          .setbg(document.getElementById('lvnext'));
+    gs(50).lineWidth(10).lineGrad("#884","#FF8")
+          .line(.3,-.3,-.1,0).line(.3,.3,-.1,0)
+          .echo(5,.2,0,-.3,0,0,0,1,1,.1,1)
+          .setbg(document.getElementById('lvprev'));
+  }
 
 
   addStrs(document.getElementById('dpst'),3);

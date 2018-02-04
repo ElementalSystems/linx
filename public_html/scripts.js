@@ -46,8 +46,8 @@ function decorate() {
     gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
     var t = gs(50).lineWidth(10).lineGrad("#080", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
     t.setbg(document.getElementById("s2")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
-    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(-.3, -.3, .1, 0).line(-.3, .3, .1, 0).echo(5, -.2, 0, .3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvnext")), 
-    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(.3, -.3, -.1, 0).line(.3, .3, -.1, 0).echo(5, .2, 0, -.3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvprev")), 
+    document.getElementById("lvnext") && (gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(-.3, -.3, .1, 0).line(-.3, .3, .1, 0).echo(5, -.2, 0, .3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvnext")), 
+    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(.3, -.3, -.1, 0).line(.3, .3, -.1, 0).echo(5, .2, 0, -.3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvprev"))), 
     addStrs(document.getElementById("dpst"), 3);
 }
 
@@ -783,7 +783,7 @@ var activeGrid = null, killgl, _gs = {
         ngs.ctx.drawImage(this.canvas, -.5, -.5, 1, 1), ngs;
     }
 }, h_r = .5, h_i = .25, h_j = .44301, h_k = .375, h_l = .2165, h_vx = [ h_i, h_r, h_i, -h_i, -h_r, -h_i ], h_vy = [ -h_j, 0, h_j, h_j, 0, -h_j ], h_mx = [ 0, h_k, h_k, 0, -h_k, -h_k, .2, -.2 ], h_my = [ -h_j, -h_l, h_l, h_j, h_l, -h_l, 0, 0 ], lev = {
-    0: "02002020922A1B4000000h1G1b40000c042D3000000A1I534000000A5C50000000000",
+    0: "2101030371121C1D200a2956153D3d0m13280C0d050n192B3a0d1d1b5150000000000",
     1: "01602424522000000000055520000114a41140000555200000031525a000000001500",
     2: "020304057211300000000606113000010646c0000001d5c140000305a1c0000000000",
     3: "0221242671134d1d200b2had400d3c1ffgae1d4215200530000005554000000000000",
@@ -839,7 +839,8 @@ var activeGrid = null, killgl, _gs = {
     53: "03502020932a1e1e1a3D1Lakaa1d4C0kakaB2b500kakaA3D311LbkaMbD40025c5C0B5",
     54: "119630057c2b3000000B1TAA3000000TATAB30000TATATA000000TAA5000000C00000",
     55: "123b10103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
-    56: "110a002440000000000c2b3512400a1gDnEa3C3D1T0rBT0qAB0a0nDe4A50000300000"
+    56: "110a002440000000000c2b3512400a1gDnEa3C3D1T0rBT0qAB0a0nDe4A50000300000",
+    57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000"
 }, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
@@ -924,5 +925,48 @@ var activeGrid = null, killgl, _gs = {
     S: "0c0a",
     T: "5k0m1A1C",
     U: "4k1A"
-}, t_set = [ tiles1, tiles2 ], _dec = "012345abcdefABCDEFklmnopKLMNOP", _fullScreenAttempt = 0;
+}, tiles3 = {
+    0: "",
+    1: "0a",
+    2: "0D3e",
+    3: "0c",
+    4: "0b",
+    5: "00",
+    6: "0334",
+    7: "01",
+    8: "02",
+    9: "0c21",
+    a: "0k",
+    b: "0n5o",
+    c: "0l4l0m",
+    d: "0m",
+    e: "0l",
+    f: "0m0k",
+    g: "0m0l",
+    h: "0n4l",
+    i: "0k5k0m",
+    j: "5n3o",
+    n: "021m",
+    m: "221m",
+    o: "0k3a",
+    p: "0k1k3a4a",
+    q: "3A1B5a0b",
+    r: "0c1C",
+    A: "0A",
+    B: "0d3E",
+    C: "0C",
+    D: "0B",
+    E: "0C",
+    F: "0B2B",
+    G: "1B3B0C",
+    H: "0D0C0E",
+    N: "5b2b4b1b",
+    O: "0a0c3a",
+    P: "0a3a0b3b",
+    Q: "0b4b",
+    R: "0a1a2a3a4a",
+    S: "0c0a",
+    T: "5k0m1A1C",
+    U: "4k1A"
+}, t_set = [ tiles1, tiles2, tiles3 ], _dec = "012345abcdefABCDEFklmnopKLMNOP", _fullScreenAttempt = 0;
 //# sourceMappingURL=scripts.js.map
