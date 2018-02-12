@@ -282,8 +282,8 @@ function end(com, tm) {
     var oc = localStorage.getItem("com_" + lv_id);
     oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
     var otm = localStorage.getItem("tm_" + lv_id);
-    otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), checkStars(document.getElementById("dpst"), lv_id), 
-    lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
+    otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), scoreReporter && scoreReporter.report(lv_id, com, tm), 
+    checkStars(document.getElementById("dpst"), lv_id), lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "The Lost Packets", 
     document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game by elementalsystems ...</i>", 
     document.getElementById("dp").classList.toggle("fst", !0));

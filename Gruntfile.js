@@ -234,7 +234,7 @@ module.exports = function(grunt) {
         files: [{
             expand: true,
             cwd: 'kong/linx',
-            src: ['*'],
+            src: ['*','!index.html'],
             dest: '/'
           } ]
       }

@@ -5,7 +5,7 @@ var scoreReporter={
       //loop through all levels and check states and send back summaries
       var maxdone=0;
       for (var i=1;i<60;i+=1) {
-        if (localStorage.get("com_"+level)==100) maxdone=i;
+        if (localStorage.getItem("com_"+level)==100) maxdone=i;
         else break; //we're done.
       }
       kongregate.stats.submit("BestLevelCompleted", maxdone);
