@@ -36,7 +36,7 @@ function fullScreen() {
 function sml(ty) //launch a social media message about me
 {
   var url=window.location.href;
-  var m="I just completed level "+lv_id+" of #TheLostPackets - a game for #js13k."
+  var m="I just completed level "+lv_id+" of #TheLostPackets - an abstract puzzle game."
   switch (ty)
     {
       case 't':

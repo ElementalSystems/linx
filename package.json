@@ -12,6 +12,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-exec": "^3.0.0",
     "grunt-http-server": "^2.0.0",
-    "grunt-open": "^0.2.3"
+    "grunt-open": "^0.2.3",
+    "grunt-text-replace": "^0.4.0"
   }
 }

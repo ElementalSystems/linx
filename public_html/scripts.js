@@ -46,8 +46,10 @@ function decorate() {
     gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
     var t = gs(50).lineWidth(10).lineGrad("#080", "#0F0").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2);
     t.setbg(document.getElementById("s2")), t.echo(2, -.1, 0, .3, 0, 0, 0, 1, 1, 1, 1).setbg(document.getElementById("s3")), 
-    document.getElementById("lvnext") && (gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(-.3, -.3, .1, 0).line(-.3, .3, .1, 0).echo(5, -.2, 0, .3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvnext")), 
-    gs(50).lineWidth(10).lineGrad("#884", "#FF8").line(.3, -.3, -.1, 0).line(.3, .3, -.1, 0).echo(5, .2, 0, -.3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvprev"))), 
+    document.getElementById("lvnext") && (gs(50).lineWidth(5).lineGrad("#FF0", "#F80").line(-.3, -.3, .1, 0).line(-.3, .3, .1, 0).echo(4, -.2, 0, .3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvnext")), 
+    gs(50).lineWidth(5).lineGrad("#FF0", "#F80").line(.3, -.3, -.1, 0).line(.3, .3, -.1, 0).echo(4, .2, 0, -.3, 0, 0, 0, 1, 1, .1, 1).setbg(document.getElementById("lvprev")), 
+    gs(50).lineWidth(.01).lineStyle("#000").fillStyle("rgba(255,255,0,.2)").circle(0, 0, .1, !0).circle(0, 0, .2, !0).circle(0, 0, .3, !0).circle(0, 0, .4, !0).setbg(document.getElementById("soundon")), 
+    gs(50).lineWidth(.01).lineStyle("#000").fillStyle("rgba(255,64,0,.5)").circle(0, 0, .1, !0).setbg(document.getElementById("soundoff"))), 
     addStrs(document.getElementById("dpst"), 3);
 }
 
@@ -222,12 +224,13 @@ function decLev(id) {
 function level(lv) {
     lv_id = lv, killGrid(document.getElementById("main"));
     var bk = document.getElementById("top");
-    thm(lev[lv_id], bk), document.getElementById("dp").classList.toggle("st", !0), document.getElementById("dp").classList.toggle("ed", !1), 
-    document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
-    document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
-    document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
-    document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
-    decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    thm(lev[lv_id], bk), lv && setTimeout(function() {
+        document.getElementById("dp").classList.toggle("st", !0);
+    }, 250), document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("dp").classList.toggle("fst", !1), 
+    document.getElementById("menu0").classList.toggle("act", !1), document.getElementById("menu1").classList.toggle("act", !1), 
+    document.getElementById("menu2").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
+    document.getElementById("levctl").classList.toggle("act", !1), document.getElementById("dpl").innerHTML = lv, 
+    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
     document.getElementById("ti2").classList.toggle("act", !1), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
@@ -235,7 +238,10 @@ function level(lv) {
 }
 
 function startNext() {
-    fullScreen(), level(lv_id + 1);
+    fullScreen(), document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
+    setTimeout(function() {
+        level(lv_id + 1);
+    }, 300);
 }
 
 function restart() {
@@ -279,7 +285,7 @@ function end(com, tm) {
     otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), checkStars(document.getElementById("dpst"), lv_id), 
     lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "The Lost Packets", 
-    document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game in 13kb by elementalsystems ...</i>", 
+    document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game by elementalsystems ...</i>", 
     document.getElementById("dp").classList.toggle("fst", !0));
 }
 
@@ -581,7 +587,7 @@ function fullScreen() {
 }
 
 function sml(ty) {
-    var url = window.location.href, m = "I just completed level " + lv_id + " of #TheLostPackets - a game for #js13k.";
+    var url = window.location.href, m = "I just completed level " + lv_id + " of #TheLostPackets - an abstract puzzle game.";
     switch (ty) {
       case "t":
         window.open("https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(m), "_blank");

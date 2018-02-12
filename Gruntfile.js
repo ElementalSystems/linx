@@ -40,6 +40,15 @@ module.exports = function(grunt) {
         files: {
           'cordova/linx/www/style.css': 'source/style/corecss.scss'
         }
+      },
+      kong: {
+        options: {
+          sourcemap:'none',
+          style: 'compressed'
+        },
+        files: {
+          'kong/linx/style.css': 'source/style/corecss.scss'
+        }
       }
     },
     watch: {
@@ -105,6 +114,20 @@ module.exports = function(grunt) {
         files: {
           'cordova/linx/www/scripts.js': [
             'source/js/*.js'
+          ]
+        }
+      },
+      kong: {
+        options: {
+          mangle: false,
+          sourceMap: false,
+          compress: true,
+          beautify: false
+        },
+        files: {
+          'kong/linx/scripts.js': [
+            'source/js/*.js',
+            'source/kongregate/*.js'
           ]
         }
       }
@@ -179,6 +202,19 @@ module.exports = function(grunt) {
           src: ['*'],
           dest: 'cordova/linx/www'
         }]
+      },
+      htmlkong: {
+        files: [{
+          expand: true,
+          cwd: 'source/html',
+          src: ['index.html'],
+          dest: 'kong/linx'
+        },{
+          expand: true,
+          cwd: 'source/font',
+          src: ['*'],
+          dest: 'kong/linx'
+        }]
       }
     },
     compress: {
@@ -188,6 +224,17 @@ module.exports = function(grunt) {
         },
         files: [{
             src: ['release_html/*'],
+            dest: '/'
+          } ]
+      },
+      kongzip: {
+        options: {
+          archive: 'kong/extra/kongextra.zip'
+        },
+        files: [{
+            expand: true,
+            cwd: 'kong/linx',
+            src: ['*'],
             dest: '/'
           } ]
       }
@@ -224,6 +271,16 @@ module.exports = function(grunt) {
         cwd: "cordova/linx",
         cmd: "cordova run --device"
       }
+    },
+    replace: {
+      kong: {
+        src: ['kong/linx/*.html'],
+        overwrite: true,
+        replacements: [{
+          from: '<!--HEADERLOADTARGET-->',
+          to: '<script src="https://cdn1.kongregate.com/javascripts/kongregate_api.js"></script>'
+        }]
+      }
     }
   });
 
@@ -235,10 +292,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-text-replace');
 
   grunt.registerTask('develop', ['sass:dev', 'uglify:dev', 'copy:htmldev', 'http-server:local', 'open', 'watch']);
   grunt.registerTask('release', ['sass:rel', 'uglify:rel', 'copy:htmlrel','compress:makezip']);
   grunt.registerTask('electron', ['sass:electron', 'uglify:electron', 'copy:htmlelectron','copy:supportelectron','exec:electron']);
   grunt.registerTask('cordova-run', ['sass:cordova', 'uglify:cordova', 'copy:htmlcordova','exec:cordovarun']);
   grunt.registerTask('cordova-release', ['sass:cordova', 'uglify:cordova', 'copy:htmlcordova','exec:cordovarel']);
+  grunt.registerTask('kongregate-release', ['sass:kong', 'uglify:kong', 'copy:htmlkong','replace:kong','compress:kongzip']);
+
 };

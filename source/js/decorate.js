@@ -39,14 +39,25 @@ function decorate()
 
   //levels next if we have them
   if (document.getElementById('lvnext')) {
-    gs(50).lineWidth(10).lineGrad("#884","#FF8")
+    gs(50).lineWidth(5).lineGrad("#FF0","#F80")
           .line(-.3,-.3,.1,0).line(-.3,.3,.1,0)
-          .echo(5,-.2,0,.3,0,0,0,1,1,.1,1)
+          .echo(4,-.2,0,.3,0,0,0,1,1,.1,1)
           .setbg(document.getElementById('lvnext'));
-    gs(50).lineWidth(10).lineGrad("#884","#FF8")
+    gs(50).lineWidth(5).lineGrad("#FF0","#F80")
           .line(.3,-.3,-.1,0).line(.3,.3,-.1,0)
-          .echo(5,.2,0,-.3,0,0,0,1,1,.1,1)
+          .echo(4,.2,0,-.3,0,0,0,1,1,.1,1)
           .setbg(document.getElementById('lvprev'));
+    gs(50).lineWidth(.01).lineStyle("#000")
+          .fillStyle("rgba(255,255,0,.2)")
+          .circle(0,0,.1,true)
+          .circle(0,0,.2,true)
+          .circle(0,0,.3,true)
+          .circle(0,0,.4,true)
+          .setbg(document.getElementById('soundon'));
+    gs(50).lineWidth(.01).lineStyle("#000")
+          .fillStyle("rgba(255,64,0,.5)")
+          .circle(0,0,.1,true)
+          .setbg(document.getElementById('soundoff'));
   }
 
 
