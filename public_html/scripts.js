@@ -3,7 +3,7 @@ function analytics_event(type, label, value) {
 }
 
 function tone(length, type) {
-    if (!context || audio_mute) return {
+    if (!audioContext || audio_mute) return {
         f: function() {
             return this;
         },
@@ -11,9 +11,9 @@ function tone(length, type) {
             return this;
         }
     };
-    var current = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
+    var current = audioContext.currentTime, oscillator = audioContext.createOscillator(), gain = audioContext.createGain();
     return type && (oscillator.type = type), oscillator.frequency.value = 0, gain.gain.value = 0, 
-    oscillator.connect(gain), gain.connect(context.destination), oscillator.start(0), 
+    oscillator.connect(gain), gain.connect(audioContext.destination), oscillator.start(0), 
     oscillator.stop(current + length), {
         f: function() {
             if (1 == arguments.length) return oscillator.frequency.value = arguments[0], this;
@@ -39,6 +39,21 @@ function bez(len, xs, ys, xe, ye, xc, yc) {
     return cv;
 }
 
+function betaFeedbackPosition(lev) {
+    var forms = {
+        2: "https://docs.google.com/forms/d/e/1FAIpQLSdOJQoB_lJGFeXzn3s9RKosmQZYWBYnpooYG0I_Y-2R7rQH-A/viewform?usp=pp_url&entry.867156754=#ID#",
+        7: "https://docs.google.com/forms/d/e/1FAIpQLSdhHHPCpxN_w2QFfOUpWw8K0i0j7JHNeqNIAB1sQjyA5p1ORg/viewform?usp=pp_url&entry.867156754=#ID#",
+        15: "https://docs.google.com/forms/d/e/1FAIpQLSeOGeB1UrOYU6ddKDaTkX-zAPZGYj9AimQF1XkBq2Pf_Tz-Bg/viewform?usp=pp_url&entry.867156754=#ID#",
+        35: "https://docs.google.com/forms/d/e/1FAIpQLSenSbphYBvZ5HBVfMCMl9DX1lNFhSKZuFiyy9-f70_0hEFQ0Q/viewform?usp=pp_url&entry.867156754=#ID#",
+        50: "https://docs.google.com/forms/d/e/1FAIpQLScDUsDLbhQBhx39iDwcMAolyerMoq3SqBLs71FyvJTTSPQueQ/viewform?usp=pp_url&entry.867156754=#ID#"
+    };
+    if (forms[lev]) {
+        document.getElementById("formholder").classList.toggle("act", !0);
+        var lnk = forms[lev].replace("#ID#", analytics_id);
+        document.getElementById("formframe").src = lnk;
+    }
+}
+
 function decorate() {
     gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
     gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
@@ -55,21 +70,6 @@ function decorate() {
 
 function mkStr(el) {
     gs(100).lineStyle("#000").lineWidth(14).line(0, -.35, .2, 0).lineStyle("#FF0").lineWidth(12).line(0, -.35, .2, 0).lineGrad("#F80", "#FF0").lineWidth(8).line(0, -.35, .2, 0).mirror(1, 0).rotSym(5).setbg(el);
-}
-
-function optionalFeedbackPosition(lev) {
-    var forms = {
-        2: "https://docs.google.com/forms/d/e/1FAIpQLSdOJQoB_lJGFeXzn3s9RKosmQZYWBYnpooYG0I_Y-2R7rQH-A/viewform?usp=pp_url&entry.867156754=#ID#",
-        7: "https://docs.google.com/forms/d/e/1FAIpQLSdhHHPCpxN_w2QFfOUpWw8K0i0j7JHNeqNIAB1sQjyA5p1ORg/viewform?usp=pp_url&entry.867156754=#ID#",
-        15: "https://docs.google.com/forms/d/e/1FAIpQLSeOGeB1UrOYU6ddKDaTkX-zAPZGYj9AimQF1XkBq2Pf_Tz-Bg/viewform?usp=pp_url&entry.867156754=#ID#",
-        35: "https://docs.google.com/forms/d/e/1FAIpQLSenSbphYBvZ5HBVfMCMl9DX1lNFhSKZuFiyy9-f70_0hEFQ0Q/viewform?usp=pp_url&entry.867156754=#ID#",
-        50: "https://docs.google.com/forms/d/e/1FAIpQLScDUsDLbhQBhx39iDwcMAolyerMoq3SqBLs71FyvJTTSPQueQ/viewform?usp=pp_url&entry.867156754=#ID#"
-    };
-    if (forms[lev]) {
-        document.getElementById("formholder").classList.toggle("act", !0);
-        var lnk = forms[lev].replace("#ID#", analytics_id);
-        document.getElementById("formframe").src = lnk;
-    }
 }
 
 function mkN(n, len, dp) {
@@ -227,28 +227,28 @@ function level(lv) {
     thm(lev[lv_id], bk), lv && setTimeout(function() {
         document.getElementById("dp").classList.toggle("st", !0);
     }, 250);
-    var isOpen = licenceSource.isUnlocked(lv);
+    var isOpen = context.isUnlocked(lv);
     document.getElementById("dp").classList.toggle("badlic", !isOpen), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
     document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
-    decLev("dpl"), isOpen ? (document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
-    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "LEVEL LOCKED!", 
-    document.getElementById("dpt").innerHTML = "Unlock all content for " + licenceSource.getPriceText()), 
+    decLev("dpl"), isOpen ? (document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id)), 
+    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "LEVEL LOCKED!", 
+    document.getElementById("dpt").innerHTML = "Unlock all content for " + context.getPriceText()), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
     document.getElementById("ti2").classList.toggle("act", !1), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
     ae.click();
 }
 
 function unlockGame() {
-    licenceSource.requestUnlock(lv_id, function() {
+    context.requestUnlock(lv_id, function() {
         level(lv_id);
     });
 }
 
 function startNextUnlocked() {
-    for (var l = lv_id; !licenceSource.isUnlocked(l); ) l = (l + 1) % 60;
+    for (var l = lv_id; !context.isUnlocked(l); ) l = (l + 1) % 60;
     level(l);
 }
 
@@ -292,12 +292,12 @@ function menu() {
 
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
-    lv_id && document.getElementById("shr").classList.toggle("act", !0), optionalFeedbackPosition && optionalFeedbackPosition(lv_id), 
-    analytics_event("completeLevel", "level" + lv_id, com), ae.levend();
-    var oc = localStorage.getItem("com_" + lv_id);
-    oc || (oc = 0), localStorage.setItem("com_" + lv_id, Math.max(com, oc));
-    var otm = localStorage.getItem("tm_" + lv_id);
-    otm || (otm = 999), localStorage.setItem("tm_" + lv_id, Math.min(tm, otm)), scoreReporter && scoreReporter.report(lv_id, com, tm), 
+    lv_id && document.getElementById("shr").classList.toggle("act", !0), analytics_event("completeLevel", "level" + lv_id, com), 
+    ae.levend();
+    var oc = context.storageGet("com_" + lv_id);
+    oc || (oc = 0), context.storageSet("com_" + lv_id, Math.max(com, oc));
+    var otm = context.storageGet("tm_" + lv_id);
+    otm || (otm = 999), context.storageSet("tm_" + lv_id, Math.min(tm, otm)), context.reportLevelComplete(lv_id, com, tm), 
     checkStars(document.getElementById("dpst"), lv_id), lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "The Lost Packets", 
     document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game by elementalsystems ...</i>", 
@@ -312,7 +312,7 @@ function addStrs(el, c) {
 }
 
 function checkStars(el, lev) {
-    var c = Number(localStorage.getItem("com_" + lev)), t = Number(localStorage.getItem("tm_" + lev)), tar = 0;
+    var c = Number(context.storageGet("com_" + lev)), t = Number(context.storageGet("tm_" + lev)), tar = 0;
     c >= 50 && (tar = 1), c >= 100 && (tar = 2, t <= levTime(lev) && (tar = 3));
     for (var chd = el.childNodes, i = 0; i < 3; i++) chd[i] && chd[i].classList.toggle("off", i + 1 > tar);
 }
@@ -345,6 +345,11 @@ function changeLevels(dir) {
 
 function clearForm() {
     document.getElementById("formholder").classList.toggle("act", !1);
+}
+
+function initGameSystem() {
+    decorate(), thm(lev[1], document.getElementById("top")), mkLvlMenu(0), mkLvlMenu(1), 
+    mkLvlMenu(2), level(0), setSound(!0), start(), analytics_event("initGameSystem", "init");
 }
 
 function _spark(g, tile, lnk, ty) {
@@ -634,9 +639,9 @@ ga(function(tracker) {
     analytics_id = tracker.get("clientId"), ga("set", "dimension1", analytics_id), ga("send", "pageview");
 });
 
-var AudioContext = window.AudioContext || window.webkitAudioContext, context = null;
+var AudioContext = window.AudioContext || window.webkitAudioContext, audioContext = null;
 
-AudioContext ? context = new AudioContext() : alert("no Audio Context");
+AudioContext ? audioContext = new AudioContext() : alert("no Audio Context");
 
 var audio_mute = !1, ae = {
     levstart: function() {
@@ -722,6 +727,29 @@ var audio_mute = !1, ae = {
     },
     chirp3: function(len) {
         tone(len).v(.2, .2, .5, 0).f(rdm(200, 300), 200, rdm(200, 300), 200, rdm(200, 300));
+    }
+}, demoLevels = [ 1, 2, 3, 4, 5, 8, 10, 12, 15 ], isLocked = !0;
+
+document.addEventListener("DOMContentLoaded", initGameSystem, !1);
+
+var context = {
+    storageSet: function(key, val) {
+        return localStorage.setItem(key, val);
+    },
+    storageGet: function(key, val) {
+        return localStorage.getItem(key, val);
+    },
+    isUnlocked: function(lev) {
+        return !isLocked || demoLevels.includes(lev);
+    },
+    requestUnlock: function(lev, cb) {
+        alert("unlock requested"), isLocked = !1, cb();
+    },
+    getPriceText: function(lev) {
+        return "10 rubles";
+    },
+    reportLevelComplete: function(level, stars, time) {
+        betaFeedbackPosition(lv_id);
     }
 };
 
@@ -862,18 +890,7 @@ var activeGrid = null, killgl, _gs = {
     55: "123b10103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
     56: "110a002440000000000c2b3512400a1gDnEa3C3D1T0rBT0qAB0a0nDe4A50000300000",
     57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000"
-}, lv_id = 0, lv_menu_start = 1, demoLevels = [ 1, 2, 3, 4, 5, 8, 10, 12, 15 ], isLocked = !0, licenceSource = {
-    isUnlocked: function(lev) {
-        return !isLocked || demoLevels.includes(lev);
-    },
-    requestUnlock: function(lev, cb) {
-        alert("unlock requested"), isLocked = !1, cb();
-    },
-    getPriceText: function(lev) {
-        return "10 rubles";
-    },
-    refresh: function() {}
-}, t_thm = null, tiles1 = {
+}, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
     2: "0d",

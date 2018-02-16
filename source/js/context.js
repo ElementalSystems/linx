@@ -1,4 +1,30 @@
-function optionalFeedbackPosition(lev)
+var demoLevels=[1,2,3,4,5,8,10,12,15];
+var isLocked=true;
+
+document.addEventListener('DOMContentLoaded', initGameSystem, false);
+
+var context=
+{
+  //parameter storage
+  storageSet: function(key,val) { return localStorage.setItem(key,val);},
+  storageGet: function(key,val) { return localStorage.getItem(key,val);},
+  //licencing information
+  isUnlocked: function(lev) { return (!isLocked)||(demoLevels.includes(lev));},
+  requestUnlock: function(lev,cb) {
+     alert('unlock requested');
+     isLocked=false;
+     cb(); //call back that licences changed
+  },
+  getPriceText: function(lev) { return "10 rubles"},
+
+  //general statistics report back
+  reportLevelComplete: function(level,stars,time) {
+    //special code for beta form displays
+    betaFeedbackPosition(lv_id);
+  }
+}
+
+function betaFeedbackPosition(lev)
 {
   var forms=
   {

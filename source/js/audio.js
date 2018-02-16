@@ -1,24 +1,24 @@
 
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
-var context=null;
+var audioContext=null;
 if (!AudioContext) alert("no Audio Context");
-else context = new AudioContext;
+else audioContext = new AudioContext;
 var audio_mute = false;
 
 function tone(length,type) {
-  if ((!context)||(audio_mute)) return { //a null note
+  if ((!audioContext)||(audio_mute)) return { //a null note
     f:function() { return this; },
     v:function() { return this; } };
-  var current= context.currentTime;
-  var oscillator = context.createOscillator();
-  var gain = context.createGain();
+  var current= audioContext.currentTime;
+  var oscillator = audioContext.createOscillator();
+  var gain = audioContext.createGain();
 
   if (type) oscillator.type=type;
   oscillator.frequency.value=0;
   gain.gain.value=0;
   oscillator.connect(gain);
-  gain.connect(context.destination);
+  gain.connect(audioContext.destination);
 
   oscillator.start(0);
   oscillator.stop(current+length);

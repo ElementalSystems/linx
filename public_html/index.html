@@ -10,7 +10,7 @@
   <!--HEADERLOADTARGET-->
 </head>
 
-<body onload="initGame()">
+<body>
   <div id=top>
     <div id=formholder>
       <button onclick="clearForm()">Forget about this Form; Let's play...</button>
@@ -86,19 +86,6 @@
 
   </div>
   <script src="scripts.js"></script>
-  <script>
-  function initGame() {
-    decorate();
-    thm(lev[1],document.getElementById('top'));
-    mkLvlMenu(0);
-    mkLvlMenu(1);
-    mkLvlMenu(2);
-    level(0);
-    setSound(true);
-    start();
-  }
-  </script>
-
 </body>
 
 </html>

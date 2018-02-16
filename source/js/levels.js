@@ -107,7 +107,7 @@ function level(lv) {
     setTimeout(function(){document.getElementById('dp').classList.toggle('st',true);},250);
 
 
-  var isOpen=licenceSource.isUnlocked(lv);
+  var isOpen=context.isUnlocked(lv);
   document.getElementById('dp').classList.toggle('badlic',!isOpen);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('dp').classList.toggle('fst',false);
@@ -121,11 +121,11 @@ function level(lv) {
   checkStars(document.getElementById('dpst'),lv);
   decLev('dpl');
   if (isOpen) {
-    document.getElementById('dpr').innerHTML="<i>Best:</i> "+exp(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
-    document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+    document.getElementById('dpr').innerHTML="<i>Best:</i> "+exp(context.storageGet("com_"+lv_id),context.storageGet("tm_"+lv_id));
+    document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(context.storageGet("com_"+lv_id),context.storageGet("tm_"+lv_id));
   } else {
     document.getElementById('dpr').innerHTML="LEVEL LOCKED!";
-    document.getElementById('dpt').innerHTML="Unlock all content for "+ licenceSource.getPriceText();
+    document.getElementById('dpt').innerHTML="Unlock all content for "+ context.getPriceText();
   }
   document.getElementById('main').innerHTML='';
   document.getElementById('ti').classList.toggle('act',false);
@@ -136,14 +136,14 @@ function level(lv) {
 
 function unlockGame()
 {
-  licenceSource.requestUnlock(lv_id,function() {
+  context.requestUnlock(lv_id,function() {
     level(lv_id);
   });
 }
 
 function startNextUnlocked()
 { var l=lv_id;
-  while (!licenceSource.isUnlocked(l))
+  while (!context.isUnlocked(l))
     l=(l+1)%60;
   level(l);
 }
@@ -223,18 +223,16 @@ function end(com,tm)
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti3').classList.toggle('act',false);
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
-  if (optionalFeedbackPosition) optionalFeedbackPosition(lv_id)
   analytics_event('completeLevel','level'+lv_id,com);
   ae.levend();
   //update high scores
-  var oc=localStorage.getItem("com_"+lv_id);
+  var oc=context.storageGet("com_"+lv_id);
   if (!oc) oc=0;
-  localStorage.setItem("com_"+lv_id,Math.max(com,oc));
-  var otm=localStorage.getItem("tm_"+lv_id);
+  context.storageSet("com_"+lv_id,Math.max(com,oc));
+  var otm=context.storageGet("tm_"+lv_id);
   if (!otm) otm=999;
-  localStorage.setItem("tm_"+lv_id,Math.min(tm,otm));
-  if (scoreReporter)
-    scoreReporter.report(lv_id,com,tm);
+  context.storageSet("tm_"+lv_id,Math.min(tm,otm));
+  context.reportLevelComplete(lv_id,com,tm);
   checkStars(document.getElementById('dpst'),lv_id);
 
   if (lv_id) { //if we are not on level 0
@@ -261,8 +259,8 @@ function addStrs(el,c)
 
 function checkStars(el,lev)
 {
-  var c=Number(localStorage.getItem("com_"+lev));
-  var t=Number(localStorage.getItem("tm_"+lev));
+  var c=Number(context.storageGet("com_"+lev));
+  var t=Number(context.storageGet("tm_"+lev));
   var tar=0;
   if (c>=50) tar=1;
   if (c>=100){
@@ -320,4 +318,17 @@ function changeLevels(dir)
 function clearForm()
 {
   document.getElementById('formholder').classList.toggle('act',false);
+}
+
+function initGameSystem() {
+  decorate();
+  thm(lev[1],document.getElementById('top'));
+  mkLvlMenu(0);
+  mkLvlMenu(1);
+  mkLvlMenu(2);
+  level(0);
+  setSound(true);
+  start();
+  analytics_event('initGameSystem','init');
+
 }

@@ -127,7 +127,7 @@ module.exports = function(grunt) {
         files: {
           'kong/linx/scripts.js': [
             'source/js/*.js',
-            '!source/js/licence.js',
+            '!source/js/context.js',
             'source/kongregate/*.js'
           ]
         }
@@ -212,6 +212,11 @@ module.exports = function(grunt) {
           dest: 'kong/linx'
         },{
           expand: true,
+          cwd: 'source/html',
+          src: ['index.html'],
+          dest: 'kong/deploy'
+        },{
+          expand: true,
           cwd: 'source/font',
           src: ['*'],
           dest: 'kong/linx'
@@ -225,12 +230,12 @@ module.exports = function(grunt) {
         },
         files: [{
             src: ['release_html/*'],
-            dest: '/'
+            des: '/'
           } ]
       },
       kongzip: {
         options: {
-          archive: 'kong/extra/kongextra.zip'
+          archive: 'kong/deploy/kongextra.zip'
         },
         files: [{
             expand: true,
@@ -275,7 +280,7 @@ module.exports = function(grunt) {
     },
     replace: {
       kong: {
-        src: ['kong/linx/*.html'],
+        src: ['kong/linx/*.html','kong/deploy/*.html'],
         overwrite: true,
         replacements: [{
           from: '<!--HEADERLOADTARGET-->',
