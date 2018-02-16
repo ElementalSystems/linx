@@ -226,15 +226,30 @@ function level(lv) {
     var bk = document.getElementById("top");
     thm(lev[lv_id], bk), lv && setTimeout(function() {
         document.getElementById("dp").classList.toggle("st", !0);
-    }, 250), document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("dp").classList.toggle("fst", !1), 
-    document.getElementById("menu0").classList.toggle("act", !1), document.getElementById("menu1").classList.toggle("act", !1), 
-    document.getElementById("menu2").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
-    document.getElementById("levctl").classList.toggle("act", !1), document.getElementById("dpl").innerHTML = lv, 
-    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
-    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    }, 250);
+    var isOpen = licenceSource.isUnlocked(lv);
+    document.getElementById("dp").classList.toggle("badlic", !isOpen), document.getElementById("dp").classList.toggle("ed", !1), 
+    document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
+    document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
+    document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
+    document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
+    decLev("dpl"), isOpen ? (document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id)), 
+    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(localStorage.getItem("com_" + lv_id), localStorage.getItem("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "LEVEL LOCKED!", 
+    document.getElementById("dpt").innerHTML = "Unlock all content for " + licenceSource.getPriceText()), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
     document.getElementById("ti2").classList.toggle("act", !1), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
     ae.click();
+}
+
+function unlockGame() {
+    licenceSource.requestUnlock(lv_id, function() {
+        level(lv_id);
+    });
+}
+
+function startNextUnlocked() {
+    for (var l = lv_id; !licenceSource.isUnlocked(l); ) l = (l + 1) % 60;
+    level(l);
 }
 
 function startNext() {
@@ -847,7 +862,18 @@ var activeGrid = null, killgl, _gs = {
     55: "123b10103C3B3231200D0A0qBPB1400E240qC140000qBD45A00003055540000000000",
     56: "110a002440000000000c2b3512400a1gDnEa3C3D1T0rBT0qAB0a0nDe4A50000300000",
     57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000"
-}, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
+}, lv_id = 0, lv_menu_start = 1, demoLevels = [ 1, 2, 3, 4, 5, 8, 10, 12, 15 ], isLocked = !0, licenceSource = {
+    isUnlocked: function(lev) {
+        return !isLocked || demoLevels.includes(lev);
+    },
+    requestUnlock: function(lev, cb) {
+        alert("unlock requested"), isLocked = !1, cb();
+    },
+    getPriceText: function(lev) {
+        return "10 rubles";
+    },
+    refresh: function() {}
+}, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
     2: "0d",

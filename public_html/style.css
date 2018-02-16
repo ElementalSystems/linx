@@ -261,6 +261,13 @@ div#dp.st {
   div#dp.st #scmd {
     display: inline-block; }
 
+div#dp.st.badlic #scmd {
+  display: none; }
+div#dp.st.badlic #lcmd {
+  display: inline-block; }
+div#dp.st.badlic #nucmd {
+  display: inline-block; }
+
 div#dp.fst {
   top: 10%; }
   div#dp.fst #fcmd {

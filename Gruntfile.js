@@ -127,6 +127,7 @@ module.exports = function(grunt) {
         files: {
           'kong/linx/scripts.js': [
             'source/js/*.js',
+            '!source/js/licence.js',
             'source/kongregate/*.js'
           ]
         }

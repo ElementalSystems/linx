@@ -101,9 +101,14 @@ function level(lv) {
   killGrid(document.getElementById('main'));
   var bk=document.getElementById('top');
   thm(lev[lv_id],bk);
+
   //set up start thing
   if (lv)
     setTimeout(function(){document.getElementById('dp').classList.toggle('st',true);},250);
+
+
+  var isOpen=licenceSource.isUnlocked(lv);
+  document.getElementById('dp').classList.toggle('badlic',!isOpen);
   document.getElementById('dp').classList.toggle('ed',false);
   document.getElementById('dp').classList.toggle('fst',false);
   document.getElementById('menu0').classList.toggle('act',false);
@@ -115,13 +120,32 @@ function level(lv) {
   document.getElementById('dpl').innerHTML=lv;
   checkStars(document.getElementById('dpst'),lv);
   decLev('dpl');
-  document.getElementById('dpr').innerHTML="<i>Best:</i> "+exp(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
-  document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+  if (isOpen) {
+    document.getElementById('dpr').innerHTML="<i>Best:</i> "+exp(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+    document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(localStorage.getItem("com_"+lv_id),localStorage.getItem("tm_"+lv_id));
+  } else {
+    document.getElementById('dpr').innerHTML="LEVEL LOCKED!";
+    document.getElementById('dpt').innerHTML="Unlock all content for "+ licenceSource.getPriceText();
+  }
   document.getElementById('main').innerHTML='';
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
   if (lv_id) document.getElementById('ti3').classList.toggle('act',true);
   ae.click();
+}
+
+function unlockGame()
+{
+  licenceSource.requestUnlock(lv_id,function() {
+    level(lv_id);
+  });
+}
+
+function startNextUnlocked()
+{ var l=lv_id;
+  while (!licenceSource.isUnlocked(l))
+    l=(l+1)%60;
+  level(l);
 }
 
 function startNext()
@@ -210,7 +234,7 @@ function end(com,tm)
   if (!otm) otm=999;
   localStorage.setItem("tm_"+lv_id,Math.min(tm,otm));
   if (scoreReporter)
-    scoreReporter.report(lv_id,com,tm);  
+    scoreReporter.report(lv_id,com,tm);
   checkStars(document.getElementById('dpst'),lv_id);
 
   if (lv_id) { //if we are not on level 0

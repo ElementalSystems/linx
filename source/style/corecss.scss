@@ -315,8 +315,19 @@ div#dp {
 
 div#dp.st {
   top: 10%;
-
   #scmd {
+    display: inline-block;
+  }
+}
+
+div#dp.st.badlic {
+  #scmd {
+    display: none;
+  }
+  #lcmd {
+    display: inline-block;
+  }
+  #nucmd {
     display: inline-block;
   }
 }
