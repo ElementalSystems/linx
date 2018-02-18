@@ -1,0 +1,32 @@
+div.sheet {
+  font-size: 300%;
+  background: #000; }
+  div.sheet div.tile {
+    position: relative;
+    width: 20vmin;
+    height: 20vmin; }
+
+div.editor {
+  overflow: hidden; }
+  div.editor div.main {
+    float: right;
+    transform: scale(0.7, 0.7); }
+  div.editor input {
+    font-size: 150%;
+    width: 1.2em;
+    margin: .1em;
+    border: 2px #000 solid;
+    padding: .1em;
+    font-family: monospace; }
+  div.editor div.editrows {
+    padding-top: 7em; }
+  div.editor div.row {
+    transform-origin: 0% 0%;
+    transform: rotateZ(-30deg); }
+  div.editor div#panel {
+    position: absolute;
+    right: 50%;
+    transform: scale(0.7, 0.7);
+    background: #000; }
+
+/*# sourceMappingURL=editor.css.map */
