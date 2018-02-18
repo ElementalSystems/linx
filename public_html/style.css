@@ -350,6 +350,11 @@ div.menuscreen.act {
     transform: rotateZ(0deg); }
   100% {
     transform: rotateZ(72deg); } }
+@keyframes roundall {
+  0% {
+    transform: rotateZ(0deg); }
+  100% {
+    transform: rotateZ(359.99deg); } }
 @keyframes tuttext {
   0% {
     color: #ffffc0; }
@@ -622,6 +627,22 @@ div.tile {
     color: #FF8; }
 
 #intro.kill {
+  display: none; }
+
+div#working {
+  background-image: url("favicon.png");
+  background-size: 100% 100%;
+  width: 20vmin;
+  height: 20vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -10vmin;
+  margin-top: -10vmin;
+  z-index: 1000;
+  animation: roundall 6s infinite; }
+
+div#working.hidden {
   display: none; }
 
 /*# sourceMappingURL=style.css.map */

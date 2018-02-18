@@ -269,10 +269,11 @@ function start() {
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
     killGrid(document.getElementById("main")), setTimeout(function() {
-        buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
-        document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("stut").classList.toggle("show", 2 == lv_id), 
-        document.getElementById("ti3").classList.toggle("act", !0);
-    }, 1e3), ae.levstart();
+        document.getElementById("working").classList.toggle("hidden", !1), buildGrid(document.getElementById("main"), lev[lv_id], 1), 
+        lv_id && (document.getElementById("ti").classList.toggle("act", !0), document.getElementById("ti2").classList.toggle("act", !0)), 
+        document.getElementById("stut").classList.toggle("show", 2 == lv_id), document.getElementById("ti3").classList.toggle("act", !0), 
+        document.getElementById("working").classList.toggle("hidden", !0);
+    }, 500), ae.levstart();
 }
 
 function exittomenu() {
@@ -728,7 +729,7 @@ var audio_mute = !1, ae = {
     chirp3: function(len) {
         tone(len).v(.2, .2, .5, 0).f(rdm(200, 300), 200, rdm(200, 300), 200, rdm(200, 300));
     }
-}, demoLevels = [ 1, 2, 3, 4, 5, 8, 10, 12, 15 ], isLocked = !0;
+}, demoLevels = [ 1, 2, 3, 4, 5, 8, 11, 12, 14, 16, 20 ], isLocked = !0;
 
 document.addEventListener("DOMContentLoaded", initGameSystem, !1);
 

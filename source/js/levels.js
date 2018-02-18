@@ -178,14 +178,17 @@ function start() {
 
   killGrid(document.getElementById('main'));
   setTimeout(
-    function(){  buildGrid(document.getElementById('main'), lev[lv_id],1);
-    if (lv_id) {
-      document.getElementById('ti').classList.toggle('act',true);
-      document.getElementById('ti2').classList.toggle('act',true);
-    }
-    document.getElementById('stut').classList.toggle('show',lv_id==2);
-    document.getElementById('ti3').classList.toggle('act',true);
-  },1000);
+    function(){
+      document.getElementById('working').classList.toggle('hidden',false);
+      buildGrid(document.getElementById('main'), lev[lv_id],1);
+      if (lv_id) {
+        document.getElementById('ti').classList.toggle('act',true);
+        document.getElementById('ti2').classList.toggle('act',true);
+      }
+      document.getElementById('stut').classList.toggle('show',lv_id==2);
+      document.getElementById('ti3').classList.toggle('act',true);
+      document.getElementById('working').classList.toggle('hidden',true);
+    },500);
   ae.levstart();
 }
 
