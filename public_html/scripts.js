@@ -118,8 +118,8 @@ function buildGrid(el, fin, bTm) {
     var init = fin.substring(9), tilesetindex = fin.charAt(0), grd = [], g = {
         cell: grd,
         spark: function(tile, lnk, ty) {
-            var x = _spark(g, tile, lnk, ty);
-            return this.spks.push(x), x;
+            var x = g.cell[tile].spkList.pop();
+            return x.start(), this.spks.push(x), x;
         },
         spd: 1,
         spk_tot: 0,
@@ -132,9 +132,10 @@ function buildGrid(el, fin, bTm) {
     killgl = !0, el.innerHTML = "";
     for (var i = 0; i < 30; i += 1) {
         var ty = dec(init.charAt(2 * i + 1)), t = tile(tilesetindex, init.charAt(2 * i), ty.cls);
-        el.appendChild(t);
-        for (var j = 0; j < t.lk.length; j += 1) 6 == t.lk[j].ed && (g.spk_tot += 8);
-        t.t_i = i, t.t_dir = ty.val, grd.push(t);
+        el.appendChild(t), t.t_i = i;
+        for (var j = 0; j < t.lk.length; j += 1) if (6 == t.lk[j].ed) for (g.spk_tot += 8, 
+        t.spkList = [], q = 0; q < 8; q += 1) t.spkList[q] = _spark(g, t.t_i, j, t.lk[j].ty);
+        t.t_dir = ty.val, grd.push(t);
     }
     activeGrid = g, setGS(lv_id > 1 ? 0 : 1);
     var st = 0, spk_gap = .35, spk_time = 0, spk_count = 0, ti = document.getElementById("tm"), ot = document.getElementById("ot"), dd = document.getElementById("dd"), hm = document.getElementById("hm");
@@ -381,8 +382,9 @@ function _spark(g, tile, lnk, ty) {
         var xoff = rdm(-.2, .3), yoff = rdm(-.3, .2);
         bg.lineGrad("rgba(64,128,0,1)", "rgba(192,255,0,.4)").lineWidth(40).line(.5, .5, xoff, yoff).lineGrad("rgba(255,255,0,1)", "rgba(64,192,0,.5)").lineWidth(25).line(.5, .5, xoff, yoff).lineStyle("rgba(255,255,0,.8)").lineWidth(10).line(.5, .5, xoff, yoff).mirror(1, 0).mirror(0, 1).setbg(spk.spk_decor);
     }
-    return spk.appendChild(spk.spk_decor), spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(1, 2), 
-    spk.tick = function(time) {
+    return spk.appendChild(spk.spk_decor), spk.start = function() {
+        spk.pos = 1, link(tile, lnk, -1), spk.ch_tm = rdm(1, 2), spk.fx("start");
+    }, spk.tick = function(time) {
         if (!spk.stop) {
             spk.pos += spk.fact * time;
             var sw = -1;
@@ -404,8 +406,8 @@ function _spark(g, tile, lnk, ty) {
             spk.ch_tm -= time, spk.ch_tm < 0 && (spk.ch_tm = rdm(1.2, 5), spk.fx("chirp", rdm(.1, .3)));
         }
     }, spk.fx = function(e, len) {
-        len || (len = .25), e += spk.spk_ty, len /= activeGrid.spd, ae[e](len), spk.spk_decor.style.animation = e + " " + len + "s 1 forwards";
-    }, spk.fx("start"), spk;
+        len || (len = .25), e += this.spk_ty, len /= activeGrid.spd, ae[e](len), this.spk_decor.style.animation = e + " " + len + "s 1 forwards";
+    }, spk;
 }
 
 function theme(b, sym, s1, s1v, s2, s2v, c, cv, r, rv, fsc, l) {

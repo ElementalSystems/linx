@@ -61,12 +61,14 @@ function _spark(g, tile, lnk,ty) {
     spk.tile.appendChild(spk);
   }
 
+  spk.start=function()
+  {
+    spk.pos = 1;
+    link(tile, lnk, -1); //connect it to the init tile
+    spk.ch_tm = rdm(1, 2);
+    spk.fx('start')
+  }
 
-
-
-  spk.pos = 1;
-  link(tile, lnk, -1); //connect it to the init tile
-  spk.ch_tm = rdm(1, 2);
   //add it's move me forward in time function
   spk.tick = function(time) {
     if (spk.stop) return;
@@ -143,11 +145,13 @@ function _spark(g, tile, lnk,ty) {
   //do a special effect thing
   spk.fx = function(e,len) {
     if (!len) len=.25;
-    e=e+spk.spk_ty;
+    e=e+this.spk_ty;
     len/=activeGrid.spd;
     ae[e](len); //play the sound
-    spk.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
+    this.spk_decor.style.animation = e + " "+len+"s 1 forwards"; //do the movement
   }
-  spk.fx('start')
+
+  //spk.start();
+
   return spk;
 }

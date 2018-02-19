@@ -19,7 +19,8 @@ function buildGrid(el,fin,bTm)
   var g={
     cell:grd,
     spark: function(tile,lnk,ty) {
-      var x=_spark(g,tile,lnk,ty);
+      var x=g.cell[tile].spkList.pop();
+      x.start();
       this.spks.push(x)
       return x;
     },
@@ -38,10 +39,15 @@ function buildGrid(el,fin,bTm)
     var t=tile(tilesetindex,init.charAt(i*2),ty.cls);
 
     el.appendChild(t);
-    for (var j=0;j<t.lk.length;j+=1)
-      if (t.lk[j].ed==6) g.spk_tot+=8;
-
     t.t_i=i;
+    for (var j=0;j<t.lk.length;j+=1)
+      if (t.lk[j].ed==6) {
+        g.spk_tot+=8;
+        t.spkList=[];//add eight new unique sparks
+        for (q=0;q<8;q+=1)
+          t.spkList[q]=_spark(g, t.t_i, j,t.lk[j].ty);
+      }
+
     t.t_dir=ty.val;
     grd.push(t)
   }
@@ -74,7 +80,7 @@ function buildGrid(el,fin,bTm)
           var go=true;
           var ty=g.cell[l].lk[m].ty;
           switch (ty) {
-            case 0: //four on / six off /four on
+            case 0: //four on / six off / four on
               if (spk_count>14) go=false;
               if ((spk_count>4)&&(spk_count<11)) go=false;
               break;
@@ -85,7 +91,7 @@ function buildGrid(el,fin,bTm)
               if (spk_count>24) go=false;
               if (((spk_count-1)%6)>1) go=false;
               break;
-            case 3: //one three thrre one far apart
+            case 3: //two four two
               go=false;
               if (((spk_count==1)||(spk_count==2))||
                   ((spk_count>=11)&&(spk_count<=14))||
