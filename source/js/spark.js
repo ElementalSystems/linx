@@ -1,6 +1,5 @@
 //File for all the code that makes and moves sparks
 
-
 //returns a fully present spark div that is already
 //  attached to the tile and starts at the end of the lnk
 function _spark(g, tile, lnk,ty) {

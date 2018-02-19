@@ -132,7 +132,10 @@ function level(lv) {
   document.getElementById('main').innerHTML='';
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
-  if (lv_id) document.getElementById('ti3').classList.toggle('act',true);
+  document.getElementById('ti4').classList.toggle('act',!lv_id);
+  if (lv_id) {
+    document.getElementById('ti3').classList.toggle('act',true);
+  }
   ae.click();
 }
 
@@ -175,20 +178,21 @@ function start() {
   document.getElementById('menu2').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('levctl').classList.toggle('act',false);
+  document.getElementById('working').classList.toggle('hidden',false);
+  document.getElementById('ti2').classList.toggle('act',false);
+  document.getElementById('ti3').classList.toggle('act',false);
 
   killGrid(document.getElementById('main'));
   setTimeout(
-    function(){
-      document.getElementById('working').classList.toggle('hidden',false);
-      buildGrid(document.getElementById('main'), lev[lv_id],1);
-      if (lv_id) {
-        document.getElementById('ti').classList.toggle('act',true);
-        document.getElementById('ti2').classList.toggle('act',true);
-      }
-      document.getElementById('stut').classList.toggle('show',lv_id==2);
-      document.getElementById('ti3').classList.toggle('act',true);
-      document.getElementById('working').classList.toggle('hidden',true);
-    },500);
+    function(){  buildGrid(document.getElementById('main'), lev[lv_id],1);
+    if (lv_id) {
+      document.getElementById('ti').classList.toggle('act',true);
+      document.getElementById('ti2').classList.toggle('act',true);
+    }
+    document.getElementById('stut').classList.toggle('show',lv_id==2);
+    document.getElementById('ti3').classList.toggle('act',true);
+    document.getElementById('working').classList.toggle('hidden',true);
+  },500);
   ae.levstart();
 }
 
@@ -203,8 +207,8 @@ function menu() {
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti3').classList.toggle('act',false);
+  document.getElementById('ti4').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
-  document.getElementById('intro').classList.toggle('kill',true);
   document.getElementById('levctl').classList.toggle('act',true);
 
   document.getElementById('dp').classList.toggle('st',false);
@@ -227,6 +231,8 @@ function end(com,tm)
 {
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti3').classList.toggle('act',false);
+  document.getElementById('ti4').classList.toggle('act',false);
+
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
   analytics_event('completeLevel','level'+lv_id,com);
   ae.levend();
@@ -238,6 +244,8 @@ function end(com,tm)
   if (!otm) otm=999;
   context.storageSet("tm_"+lv_id,Math.min(tm,otm));
   context.reportLevelComplete(lv_id,com,tm);
+
+
   checkStars(document.getElementById('dpst'),lv_id);
 
   if (lv_id) { //if we are not on level 0
@@ -327,7 +335,7 @@ function clearForm()
 
 function initGameSystem() {
   decorate();
-  thm(lev[1],document.getElementById('top'));
+  thm(lev[0],document.getElementById('top'));
   mkLvlMenu(0);
   mkLvlMenu(1);
   mkLvlMenu(2);

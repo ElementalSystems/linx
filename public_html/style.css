@@ -603,32 +603,6 @@ div.tile {
       background-size: 100% 100%;
       will-change: transform; }
 
-@keyframes introt {
-  0% {
-    transform: rotateX(10deg) translate3d(0, 100vmin, 5vmin);
-    opacity: 0; }
-  20% {
-    opacity: 1; }
-  100% {
-    transform: rotateX(10deg) translate3d(0, -100vmin, 5vmin);
-    opacity: 0; } }
-#intro {
-  animation: introt 40s 1 forwards;
-  font-size: 5vmin;
-  transform: translate3d(0, 100vmin, 5vmin) rotateX(20deg);
-  text-align: center;
-  padding: 2em;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 2em;
-  color: #FFF;
-  z-index: 500; }
-  #intro b {
-    color: #FF8; }
-
-#intro.kill {
-  display: none; }
-
 div#working {
   background-image: url("favicon.png");
   background-size: 100% 100%;
@@ -640,9 +614,12 @@ div#working {
   margin-left: -10vmin;
   margin-top: -10vmin;
   z-index: 1000;
-  animation: roundall 6s infinite; }
+  animation: roundall 6s infinite;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .5s; }
 
 div#working.hidden {
-  display: none; }
+  opacity: 0; }
 
 /*# sourceMappingURL=style.css.map */

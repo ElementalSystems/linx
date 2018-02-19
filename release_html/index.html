@@ -7,14 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel='shortcut icon' type='image/x-icon' href='/favicon.png' />
+  <!--HEADERLOADTARGET-->
 </head>
 
-<body onload="initGame()">
+<body>
   <div id=top>
     <div id=formholder>
       <button onclick="clearForm()">Forget about this Form; Let's play...</button>
       <iframe id=formframe frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
     </div>
+    <div id=working></div>
+
     <div id=title>
       The Lost Packets
       <a href="http://www.elementalsystems.co.za"  target="_blank">...designed by elementalsystems...</a>
@@ -42,6 +45,8 @@
           <div id=dpt></div>
           <div class="cmd df" id=fcmd onclick="startNext();">Play</div>
           <div class="cmd df" id=scmd onclick="start();">Start</div>
+          <div class="cmd df" id=ulcmd onclick="unlockGame();">Unlock All Levels</div>
+          <div class="cmd df" id=nucmd onclick="startNextUnlocked();">Next Available Level</div>
           <div class="cmd df" id=ncmd onclick="startNext();">Next</div>
           <div class=cmd id=rcmd onclick="start();">Restart</div>
           <div class=cmd id=lcmd onclick="menu();">Levels</div>
@@ -51,19 +56,19 @@
 
     <div id=panel>
       <div id=ti class="tf sb">Time<b id=tm></b><br/> Out<b id=ot></b> Dead<b id=dd></b> Home<b id=hm></b> </div>
-      <div id=shr class="sb">Share<br>
+      <div id=shr>Share<br>
         <div onclick="sml('t')">Twitter</div>
         <div onclick="sml('f')">Facebook</div>
         <div onclick="sml('u')">Tumblr</div>
         <div onclick="sml('r')">Reddit</div>
       </div>
-      <div id=levctl class="sb">
-        <div id=lvprev onclick="changeLevels(-1)" class=act>Levels</div>
-        <div id=lvnext onclick="changeLevels(1)"class=act>Levels</div>
-        <div onclick="setSound(false)" class=act id=soundoff>Sound Off</div>
-        <div onclick="setSound(true)" class=act id=soundon>Sound On</div>
+      <div id=levctl class=tc>
+        <div id=lvprev onclick="changeLevels(-1)" class=act>PREV</div>
+        <div id=lvnext onclick="changeLevels(1)"class=act>NEXT</div>
+        <div onclick="setSound(false)" class=act id=soundoff>MUTE</div>
+        <div onclick="setSound(true)" class=act id=soundon>SOUND</div>
       </div>
-      <div id=ti2 class="tc sb tf">
+      <div id=ti2 class="tc tf">
         <div id=stut>Control the Game Speed</div>
         <div id=s0 onclick="setGS(0);">
         </div>
@@ -75,7 +80,7 @@
         </div>
 
       </div>
-      <div id=ti3 class="tc sb tf">
+      <div id=ti3 class="tc tf">
         <div id=rs onclick="restart();">RESTART</div>
         <div id=lv onclick="exittomenu();">LEVELS</div>
       </div>
@@ -83,19 +88,6 @@
 
   </div>
   <script src="scripts.js"></script>
-  <script>
-  function initGame() {
-    decorate();
-    thm(lev[1],document.getElementById('top'));
-    mkLvlMenu(0);
-    mkLvlMenu(1);
-    mkLvlMenu(2);
-    level(0);
-    setSound(true);
-    start();
-  }
-  </script>
-
 </body>
 
 </html>

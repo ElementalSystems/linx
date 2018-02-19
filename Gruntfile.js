@@ -100,7 +100,9 @@ module.exports = function(grunt) {
         },
         files: {
           'desktop_release/electron/resources/app/scripts.js': [
-            'source/js/*.js'
+            'source/js/*.js',
+            '!source/js/context.js',
+            'source/electron_source/context.js'
           ]
         }
       },

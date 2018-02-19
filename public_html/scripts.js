@@ -55,7 +55,7 @@ function betaFeedbackPosition(lev) {
 }
 
 function decorate() {
-    gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
+    thm(lev[7], null), t_thm.bot(document.getElementById("working"), []), gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
     gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
     gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0")), 
     gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
@@ -237,8 +237,8 @@ function level(lv) {
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "LEVEL LOCKED!", 
     document.getElementById("dpt").innerHTML = "Unlock all content for " + context.getPriceText()), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
-    document.getElementById("ti2").classList.toggle("act", !1), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
-    ae.click();
+    document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti4").classList.toggle("act", !lv_id), 
+    lv_id && document.getElementById("ti3").classList.toggle("act", !0), ae.click();
 }
 
 function unlockGame() {
@@ -268,11 +268,12 @@ function start() {
     document.getElementById("dp").classList.toggle("ed", !1), document.getElementById("menu0").classList.toggle("act", !1), 
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
-    killGrid(document.getElementById("main")), setTimeout(function() {
-        document.getElementById("working").classList.toggle("hidden", !1), buildGrid(document.getElementById("main"), lev[lv_id], 1), 
-        lv_id && (document.getElementById("ti").classList.toggle("act", !0), document.getElementById("ti2").classList.toggle("act", !0)), 
-        document.getElementById("stut").classList.toggle("show", 2 == lv_id), document.getElementById("ti3").classList.toggle("act", !0), 
-        document.getElementById("working").classList.toggle("hidden", !0);
+    document.getElementById("working").classList.toggle("hidden", !1), document.getElementById("ti2").classList.toggle("act", !1), 
+    document.getElementById("ti3").classList.toggle("act", !1), killGrid(document.getElementById("main")), 
+    setTimeout(function() {
+        buildGrid(document.getElementById("main"), lev[lv_id], 1), lv_id && (document.getElementById("ti").classList.toggle("act", !0), 
+        document.getElementById("ti2").classList.toggle("act", !0)), document.getElementById("stut").classList.toggle("show", 2 == lv_id), 
+        document.getElementById("ti3").classList.toggle("act", !0), document.getElementById("working").classList.toggle("hidden", !0);
     }, 500), ae.levstart();
 }
 
@@ -282,8 +283,8 @@ function exittomenu() {
 
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
-    document.getElementById("ti3").classList.toggle("act", !1), document.getElementById("shr").classList.toggle("act", !1), 
-    document.getElementById("intro").classList.toggle("kill", !0), document.getElementById("levctl").classList.toggle("act", !0), 
+    document.getElementById("ti3").classList.toggle("act", !1), document.getElementById("ti4").classList.toggle("act", !1), 
+    document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !0), 
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1);
     for (var ref = Math.floor((lv_menu_start - 1) / 20), menu = document.getElementById("menu" + ref), its = menu.childNodes, i = 0; i < 20; i += 1) checkStars(its[i], i + lv_menu_start);
@@ -293,8 +294,8 @@ function menu() {
 
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
-    lv_id && document.getElementById("shr").classList.toggle("act", !0), analytics_event("completeLevel", "level" + lv_id, com), 
-    ae.levend();
+    document.getElementById("ti4").classList.toggle("act", !1), lv_id && document.getElementById("shr").classList.toggle("act", !0), 
+    analytics_event("completeLevel", "level" + lv_id, com), ae.levend();
     var oc = context.storageGet("com_" + lv_id);
     oc || (oc = 0), context.storageSet("com_" + lv_id, Math.max(com, oc));
     var otm = context.storageGet("tm_" + lv_id);
@@ -349,7 +350,7 @@ function clearForm() {
 }
 
 function initGameSystem() {
-    decorate(), thm(lev[1], document.getElementById("top")), mkLvlMenu(0), mkLvlMenu(1), 
+    decorate(), thm(lev[0], document.getElementById("top")), mkLvlMenu(0), mkLvlMenu(1), 
     mkLvlMenu(2), level(0), setSound(!0), start(), analytics_event("initGameSystem", "init");
 }
 
