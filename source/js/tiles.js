@@ -110,29 +110,37 @@ var tiles3 = {
   h: "0n4l",
   i: "0k5k0m",
   j: "5n3o",
-  n: "021m",
-  m: "221m",
-  o: "0k3a",
-  p: "0k1k3a4a",
+  k: "0d",
+  l: "0n",
 
-  q: "3A1B5a0b",
+  m: "221m",
+  n: "021m",
+  o: "0k3k2c",
+  p: "021c2m",
+
+  q: "1B0b",
   r: "0c1C",
+  s: "0D",
+  t: "03",
+  u: "0c1C",
+  v: "0c1C",
+
 
   A: "0A",
   B: "0d3E",
   C: "0C",
   D: "0B",
   E: "0C",
-  F: "0B2B",
+  F: "0B3C",
   G: "1B3B0C",
   H: "0D0C0E",
-  N: "5b2b4b1b",
-  O: "0a0c3a",
-  P: "0a3a0b3b",
+  N: "0D1d2n330E4e345o",
+  O: "0e2o443E",
+  P: "2l0c",
   Q: "0b4b",
   R: "0a1a2a3a4a",
   S: "0c0a",
-  T: "5k0m1A1C",
+  T: "4k0l",
   U: "4k1A"
 
 };
@@ -143,6 +151,7 @@ var t_set=[tiles1,tiles2,tiles3];
 
 function drawLnk(s, lk, sdw) {
   var cl = "255,255,255";
+  var offx=0,offy=0;
   switch (lk.ty) {
     case 0:
       cl = "0,255,0";
@@ -157,6 +166,7 @@ function drawLnk(s, lk, sdw) {
       break;
     case 1:
       cl = "255,0,0";
+      offx=offy=.02;
       s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).fillStyle("rgba(0,0,0,.5)")
         .discPath(lk.pts, .04, true);
       if (!sdw)
@@ -164,6 +174,8 @@ function drawLnk(s, lk, sdw) {
         .discPath(lk.pts, .02, true);
       break;
     case 2:
+      offx=-.02;
+      offy=.02;
       cl = "0,0,255";
       s.lineStyle("rgba(0,0,0,.8)").lineWidth(8)
         .linePath(lk.pts);
@@ -173,6 +185,7 @@ function drawLnk(s, lk, sdw) {
       }
       break;
     case 3:
+      offx=offy=-.02;
         cl = "192,255,128";
         s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts,0.05);
         if (!sdw) {
@@ -182,15 +195,15 @@ function drawLnk(s, lk, sdw) {
         break;
   }
   if (lk.ed == 6) { //need to draw the start point
-    s.lineStyle("rgba(" + cl + ",1)").lineWidth(3)
-      .circle(.2, 0, .1);
+    s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3)
+      .circle(.2+offx, 0+offy, .1);
   }
   if (lk.ed == 7) { //need to draw the end point
-    s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3)
-      .line(-.3, -.1, -.1, -.1)
-      .line(-.3, .1, -.1, .1)
-      .line(-.3, .1, -.3, -.1)
-      .line(-.1, .1, -.1, -.1);
+    s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3)
+      .line(-.3+offx, -.1+offy, -.1+offx, -.1+offy)
+      .line(-.3+offx, .1+offy, -.1+offx, .1+offy)
+      .line(-.3+offx, .1+offy, -.3+offx, -.1+offy)
+      .line(-.1+offx, .1+offy, -.1+offx, -.1+offy);
   }
 }
 

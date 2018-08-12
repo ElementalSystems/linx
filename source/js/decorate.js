@@ -1,10 +1,10 @@
 function decorate()
 {
 
-  //draw the working graphic
-  thm(lev[7],null);
-  t_thm.bot(document.getElementById('working'),[]);
-
+  if (document.getElementById('working')) {  //draw the working graphic
+    thm(lev[7],null);
+    t_thm.bot(document.getElementById('working'),[]);
+  }
   //make the restart
   gs(50).lineWidth(5).lineStyle("#FF0")
         .circle(0,-.25,.05)

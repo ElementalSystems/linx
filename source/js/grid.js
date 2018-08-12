@@ -19,7 +19,7 @@ function buildGrid(el,fin,bTm)
   var g={
     cell:grd,
     spark: function(tile,lnk,ty) {
-      var x=g.cell[tile].spkList.pop();
+      var x=g.cell[tile].spkList[ty].pop();
       x.start();
       this.spks.push(x)
       return x;
@@ -40,12 +40,15 @@ function buildGrid(el,fin,bTm)
 
     el.appendChild(t);
     t.t_i=i;
+    t.spkList={};    
     for (var j=0;j<t.lk.length;j+=1)
       if (t.lk[j].ed==6) {
         g.spk_tot+=8;
-        t.spkList=[];//add eight new unique sparks
+        t.spkList[t.lk[j].ty]=[]
+
+        //add eight new unique sparks
         for (q=0;q<8;q+=1)
-          t.spkList[q]=_spark(g, t.t_i, j,t.lk[j].ty);
+          t.spkList[t.lk[j].ty][q]=_spark(g, t.t_i, j,t.lk[j].ty);
       }
 
     t.t_dir=ty.val;

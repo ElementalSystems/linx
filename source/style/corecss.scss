@@ -113,17 +113,22 @@ body {
   }
   display: none;
 }
+
 #levctl.act {
   display: inline-block;
 }
 
 
 .tf {
-  opacity: 0;
+  opacity: 0.1;
   transition: opacity 1s;
+  pointer-events: none;
+
 }
+
 .tf.act {
   opacity: 1;
+  pointer-events:auto;
 }
 
 div.sb {
@@ -155,20 +160,21 @@ div.sb {
     display: block
   }
   div {
-    border: rgba(64,64,64,.6) .1rem ridge;
-    background-color: rgba(0,0,0,.5);
-    padding: .1rem .1rem;
+    border: rgba(64,64,64,.8) .1rem solid;
+    background-color: rgba(0,0,0,.6);
+    padding: .2rem .2rem;
     width: 10vmin;
     height: 10vmin;
     background-size: 100% 100%;
-    border-radius: 0.1vmin;
-    margin: 0.1vmin;
+    border-radius: 0;
+    margin: .3vmin;
     display: inline-block;
     box-sizing: border-box;
     font-size: 2vmin;
     color: #FFF;
     text-align: center;
     cursor: pointer;
+    box-shadow: .4vmin .4vmin .4vmin 0px rgba(64,64,64,0.75);
   }
 
   div.active {

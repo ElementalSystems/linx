@@ -96,11 +96,13 @@ body {
   display: inline-block; }
 
 .tf {
-  opacity: 0;
-  transition: opacity 1s; }
+  opacity: 0.1;
+  transition: opacity 1s;
+  pointer-events: none; }
 
 .tf.act {
-  opacity: 1; }
+  opacity: 1;
+  pointer-events: auto; }
 
 div.sb {
   border-radius: 0.2rem;
@@ -127,20 +129,21 @@ div.sb {
   .tc div#stut.show {
     display: block; }
   .tc div {
-    border: rgba(64, 64, 64, 0.6) 0.1rem ridge;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: .1rem .1rem;
+    border: rgba(64, 64, 64, 0.8) 0.1rem solid;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: .2rem .2rem;
     width: 10vmin;
     height: 10vmin;
     background-size: 100% 100%;
-    border-radius: 0.1vmin;
-    margin: 0.1vmin;
+    border-radius: 0;
+    margin: .3vmin;
     display: inline-block;
     box-sizing: border-box;
     font-size: 2vmin;
     color: #FFF;
     text-align: center;
-    cursor: pointer; }
+    cursor: pointer;
+    box-shadow: 0.4vmin 0.4vmin 0.4vmin 0px rgba(64, 64, 64, 0.75); }
   .tc div.active {
     background-color: rgba(128, 128, 0, 0.8);
     border: rgba(255, 255, 128, 0.8) 0.2rem inset; }

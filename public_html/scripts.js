@@ -55,7 +55,8 @@ function betaFeedbackPosition(lev) {
 }
 
 function decorate() {
-    thm(lev[7], null), t_thm.bot(document.getElementById("working"), []), gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
+    document.getElementById("working") && (thm(lev[7], null), t_thm.bot(document.getElementById("working"), [])), 
+    gs(50).lineWidth(5).lineStyle("#FF0").circle(0, -.25, .05).echo(30, 0, 0, 0, 0, 350, 45, 1, 1, .1, 1).setbg(document.getElementById("rs")), 
     gs(50).lineWidth(5).lineStyle("#FF0").hex(.8).echo(5, 0, 0, 0, 0, 10, 0, .1, 1, .5, 1).setbg(document.getElementById("lv")), 
     gs(50).lineWidth(12).lineGrad("#FF0", "#F80").line(-.1, -.2, -.1, .2).mirror(1, 0).setbg(document.getElementById("s0")), 
     gs(50).lineWidth(11).lineGrad("#D80", "#F80").line(.1, -.2, .1, .2).lineGrad("#BA0", "#080").line(-.1, -.2, .1, 0).line(-.1, .2, .1, 0).line(-.1, -.2, -.1, .2).setbg(document.getElementById("s1"));
@@ -118,7 +119,7 @@ function buildGrid(el, fin, bTm) {
     var init = fin.substring(9), tilesetindex = fin.charAt(0), grd = [], g = {
         cell: grd,
         spark: function(tile, lnk, ty) {
-            var x = g.cell[tile].spkList.pop();
+            var x = g.cell[tile].spkList[ty].pop();
             return x.start(), this.spks.push(x), x;
         },
         spd: 1,
@@ -132,9 +133,9 @@ function buildGrid(el, fin, bTm) {
     killgl = !0, el.innerHTML = "";
     for (var i = 0; i < 30; i += 1) {
         var ty = dec(init.charAt(2 * i + 1)), t = tile(tilesetindex, init.charAt(2 * i), ty.cls);
-        el.appendChild(t), t.t_i = i;
+        el.appendChild(t), t.t_i = i, t.spkList = {};
         for (var j = 0; j < t.lk.length; j += 1) if (6 == t.lk[j].ed) for (g.spk_tot += 8, 
-        t.spkList = [], q = 0; q < 8; q += 1) t.spkList[q] = _spark(g, t.t_i, j, t.lk[j].ty);
+        t.spkList[t.lk[j].ty] = [], q = 0; q < 8; q += 1) t.spkList[t.lk[j].ty][q] = _spark(g, t.t_i, j, t.lk[j].ty);
         t.t_dir = ty.val, grd.push(t);
     }
     activeGrid = g, setGS(lv_id > 1 ? 0 : 1);
@@ -523,7 +524,7 @@ function thm(fin, bk) {
 }
 
 function drawLnk(s, lk, sdw) {
-    var cl = "255,255,255";
+    var cl = "255,255,255", offx = 0, offy = 0;
     switch (lk.ty) {
       case 0:
         cl = "0,255,0", s.lineStyle("rgba(0,0,0,.8)").lineWidth(1).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .05, !0), 
@@ -531,21 +532,21 @@ function drawLnk(s, lk, sdw) {
         break;
 
       case 1:
-        cl = "255,0,0", s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .04, !0), 
+        cl = "255,0,0", offx = offy = .02, s.lineStyle("rgba(0,0,0,.5)").lineWidth(5).fillStyle("rgba(0,0,0,.5)").discPath(lk.pts, .04, !0), 
         sdw || s.lineStyle("rgba(" + cl + ",.8)").lineWidth(1).fillStyle("rgba(" + cl + ",.5)").discPath(lk.pts, .02, !0);
         break;
 
       case 2:
-        cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).linePath(lk.pts), 
-        s.lineStyle("rgba(192,192,255,.8)").lineWidth(1).linePath(lk.pts));
+        offx = -.02, offy = .02, cl = "0,0,255", s.lineStyle("rgba(0,0,0,.8)").lineWidth(8).linePath(lk.pts), 
+        sdw || (s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).linePath(lk.pts), s.lineStyle("rgba(192,192,255,.8)").lineWidth(1).linePath(lk.pts));
         break;
 
       case 3:
-        cl = "192,255,128", s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts, .05), 
+        offx = offy = -.02, cl = "192,255,128", s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts, .05), 
         sdw || (s.lineStyle("rgba(192,128,0,.7)").lineWidth(4).plusPath(lk.pts, .03), s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts, .025, .005));
     }
-    6 == lk.ed && s.lineStyle("rgba(" + cl + ",1)").lineWidth(3).circle(.2, 0, .1), 
-    7 == lk.ed && s.lineStyle("rgba(" + cl + ",.8)").lineWidth(3).line(-.3, -.1, -.1, -.1).line(-.3, .1, -.1, .1).line(-.3, .1, -.3, -.1).line(-.1, .1, -.1, -.1);
+    6 == lk.ed && s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3).circle(.2 + offx, 0 + offy, .1), 
+    7 == lk.ed && s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3).line(-.3 + offx, -.1 + offy, -.1 + offx, -.1 + offy).line(-.3 + offx, .1 + offy, -.1 + offx, .1 + offy).line(-.3 + offx, .1 + offy, -.3 + offx, -.1 + offy).line(-.1 + offx, .1 + offy, -.1 + offx, -.1 + offy);
 }
 
 function drawLnks(s, lk, sdw) {
@@ -732,7 +733,7 @@ var audio_mute = !1, ae = {
     chirp3: function(len) {
         tone(len).v(.2, .2, .5, 0).f(rdm(200, 300), 200, rdm(200, 300), 200, rdm(200, 300));
     }
-}, demoLevels = [ 1, 2, 3, 4, 5, 8, 11, 12, 14, 16, 20 ], isLocked = !0;
+}, demoLevels = [ 1, 2, 3, 4, 5, 8, 11, 12, 14, 16, 20, 21 ], isLocked = !0;
 
 document.addEventListener("DOMContentLoaded", initGameSystem, !1);
 
@@ -848,13 +849,13 @@ var activeGrid = null, killgl, _gs = {
     9: "0152040682113000000005012000011419a530000@e41@b0000505f@d@a0000153000",
     10: "0205302080000b2000000c300d30000e000e00000ebe1ea0000000000000000000000",
     11: "0322253030000214113d1d2330040b011jda34000c1jejb54000010jdad000000a0af",
-    12: "125c2424900a2b30000c1fBg3000000d0gD000000gBe0d20000a0a4e5a40000000000",
+    12: "011703244515251240040A2JcA3B340HaIaIaD4JaIaJaJaA410818cE20000003000C5",
     13: "115530346000023000000004000005141OAPA345051QA4053001511PD540000001500",
     14: "110b242453222b20000119B53e300001Ap1e4000000e0g5a3000000eBaE000000a0c4",
     15: "1274030060000000000005152000031Q02353000011P57C000011PAP0140000PA9014",
     16: "017620204222300000051715200005040425300001f8a1f130000318a540000000000",
     17: "12193432300b1a3000000a2a0a30000iBiBiB0000iAiBa50000c00000000000000000",
-    18: "011703244515251240040A2JcA3B340HaIaIaD440IaJaJaA410818cE20000003000C5",
+    18: "125c2424900a2b30000c1fBg3000000d0gD000000gBe0d20000a0a4e5a40000000000",
     19: "111c12182000000000000511300000020SD13000031SCQA000000506C140000001500",
     20: "0201111690000000000HAABA30000E0HANAB400B000A5C50000000000000000000000",
     21: "0106002450000A2A1B400B2B0QAD300QBQCQCF300B0M1QEQC0000C1QAE000000000B0",
@@ -866,7 +867,7 @@ var activeGrid = null, killgl, _gs = {
     27: "120a2222621522351240000PAPA130000PAPAPA11PAPAPAPA31PAPA14000000000000",
     28: "022709129000012211351@a54@e544033535053408f7a118050108b14150055240000",
     29: "120a06069214113A20012D1r0FAD3qCqAr0D2A5E08CR052B5C09A90OAOA0000153515",
-    30: "014801275D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00Q0QAI0E1A4B000311400",
+    30: "014805035D1D2514113P0JBJFB420PAJCJACA00QAQA40PA00B0QAI0E1A40000311400",
     31: "112c12125D1H1D20000D09A6AD32331r19Ar2400000D5GB8A0000A1GBA4000000A500",
     32: "110c0302700B2C2000000UAUAD30000UAUATA00a1d1TBTE0000h1e4UBe3000000c0a5",
     33: "13040606800005134000000OC4113235154Q3OA105451QA402141QA51630021416454",
@@ -895,7 +896,9 @@ var activeGrid = null, killgl, _gs = {
     56: "110a002440000000000c2b3512400a1gDnEa3C3D1T0rBT0qAB0a0nDe4A50000300000",
     57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000",
     58: "220a121050000000000000000A20000002AGDD300A1rAD4A50011BA34130000453444",
-    59: "220b30309005A7200000080737300006A6A6A00008080800000606060000000000000"
+    59: "220b30309005A7200000080737300006A6A6A00008080800000606060000000000000",
+    60: "220100249D1E1q1q200E0a1P0qAq3F041pCN0q4FEqBo1nBa4D0FA15mBe300A5008Ba5",
+    61: "2207161620000k3000000a29F72t300pApEaA5500UBOATAa30000DDA3l00000A0F4s4"
 }, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
@@ -1001,27 +1004,33 @@ var activeGrid = null, killgl, _gs = {
     h: "0n4l",
     i: "0k5k0m",
     j: "5n3o",
-    n: "021m",
+    k: "0d",
+    l: "0n",
     m: "221m",
-    o: "0k3a",
-    p: "0k1k3a4a",
-    q: "3A1B5a0b",
+    n: "021m",
+    o: "0k3k2c",
+    p: "021c2m",
+    q: "1B0b",
     r: "0c1C",
+    s: "0D",
+    t: "03",
+    u: "0c1C",
+    v: "0c1C",
     A: "0A",
     B: "0d3E",
     C: "0C",
     D: "0B",
     E: "0C",
-    F: "0B2B",
+    F: "0B3C",
     G: "1B3B0C",
     H: "0D0C0E",
-    N: "5b2b4b1b",
-    O: "0a0c3a",
-    P: "0a3a0b3b",
+    N: "0D1d2n330E4e345o",
+    O: "0e2o443E",
+    P: "2l0c",
     Q: "0b4b",
     R: "0a1a2a3a4a",
     S: "0c0a",
-    T: "5k0m1A1C",
+    T: "4k0l",
     U: "4k1A"
 }, t_set = [ tiles1, tiles2, tiles3 ], _dec = "012345abcdefABCDEFklmnopKLMNOP", _fullScreenAttempt = 0;
 //# sourceMappingURL=scripts.js.map
