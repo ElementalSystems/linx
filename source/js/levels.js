@@ -59,8 +59,8 @@ var lev={
   57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000",
   58: "220a121050000000000000000A20000002AGDD300A1rAD4A50011BA34130000453444",
   59: "220b30309005A7200000080737300006A6A6A00008080800000606060000000000000",
-  60: "220100249D1E1q1q200E0a1P0qAq3F041pCN0q4FEqBo1nBa4D0FA15mBe300A5008Ba5",
-  61: "2207161620000k3000000a29F72t300pApEaA5500UBOATAa30000DDA3l00000A0F4s4"
+  61: "220100249D1E1q1q200E0a1P0qAq3F041pCN0q4FEqBo1nBa4D0FA15mBe300A5008Ba5",
+  60: "2207161620000k3000000a29F72t300pApEaA5500UBOATAa30000DDA3l00000A0F4s4"
 };
 
 
@@ -120,6 +120,7 @@ function level(lv) {
   document.getElementById('menu2').classList.toggle('act',false);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('levctl').classList.toggle('act',false);
+  document.getElementById('ti2').classList.toggle('gone', false);
 
   document.getElementById('dpl').innerHTML=lv;
   checkStars(document.getElementById('dpst'),lv);
@@ -135,6 +136,7 @@ function level(lv) {
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti4').classList.toggle('act',!lv_id);
+  document.getElementById('ti4').classList.toggle('gone',lv_id);
   if (lv_id) {
     document.getElementById('ti3').classList.toggle('act',true);
   }
@@ -208,8 +210,10 @@ function exittomenu()
 function menu() {
   document.getElementById('ti').classList.toggle('act',false);
   document.getElementById('ti2').classList.toggle('act',false);
+  document.getElementById('ti2').classList.toggle('gone',true);
   document.getElementById('ti3').classList.toggle('act',false);
   document.getElementById('ti4').classList.toggle('act',false);
+  document.getElementById('ti4').classList.toggle('gone',true);
   document.getElementById('shr').classList.toggle('act',false);
   document.getElementById('levctl').classList.toggle('act',true);
 
@@ -233,7 +237,8 @@ function end(com,tm)
 {
   document.getElementById('ti2').classList.toggle('act',false);
   document.getElementById('ti3').classList.toggle('act',false);
-  document.getElementById('ti4').classList.toggle('act',false);
+  document.getElementById('ti4').classList.toggle('gone',true);
+
 
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
   analytics_event('completeLevel','level'+lv_id,com);

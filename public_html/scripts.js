@@ -234,13 +234,14 @@ function level(lv) {
     document.getElementById("dp").classList.toggle("fst", !1), document.getElementById("menu0").classList.toggle("act", !1), 
     document.getElementById("menu1").classList.toggle("act", !1), document.getElementById("menu2").classList.toggle("act", !1), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !1), 
-    document.getElementById("dpl").innerHTML = lv, checkStars(document.getElementById("dpst"), lv), 
-    decLev("dpl"), isOpen ? (document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id)), 
+    document.getElementById("ti2").classList.toggle("gone", !1), document.getElementById("dpl").innerHTML = lv, 
+    checkStars(document.getElementById("dpst"), lv), decLev("dpl"), isOpen ? (document.getElementById("dpr").innerHTML = "<i>Best:</i> " + exp(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id)), 
     document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(context.storageGet("com_" + lv_id), context.storageGet("tm_" + lv_id))) : (document.getElementById("dpr").innerHTML = "LEVEL LOCKED!", 
     document.getElementById("dpt").innerHTML = "Unlock all content for " + context.getPriceText()), 
     document.getElementById("main").innerHTML = "", document.getElementById("ti").classList.toggle("act", !1), 
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti4").classList.toggle("act", !lv_id), 
-    lv_id && document.getElementById("ti3").classList.toggle("act", !0), ae.click();
+    document.getElementById("ti4").classList.toggle("gone", lv_id), lv_id && document.getElementById("ti3").classList.toggle("act", !0), 
+    ae.click();
 }
 
 function unlockGame() {
@@ -285,7 +286,8 @@ function exittomenu() {
 
 function menu() {
     document.getElementById("ti").classList.toggle("act", !1), document.getElementById("ti2").classList.toggle("act", !1), 
-    document.getElementById("ti3").classList.toggle("act", !1), document.getElementById("ti4").classList.toggle("act", !1), 
+    document.getElementById("ti2").classList.toggle("gone", !0), document.getElementById("ti3").classList.toggle("act", !1), 
+    document.getElementById("ti4").classList.toggle("act", !1), document.getElementById("ti4").classList.toggle("gone", !0), 
     document.getElementById("shr").classList.toggle("act", !1), document.getElementById("levctl").classList.toggle("act", !0), 
     document.getElementById("dp").classList.toggle("st", !1), document.getElementById("dp").classList.toggle("ed", !1), 
     document.getElementById("dp").classList.toggle("fst", !1);
@@ -296,7 +298,7 @@ function menu() {
 
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
-    document.getElementById("ti4").classList.toggle("act", !1), lv_id && document.getElementById("shr").classList.toggle("act", !0), 
+    document.getElementById("ti4").classList.toggle("gone", !0), lv_id && document.getElementById("shr").classList.toggle("act", !0), 
     analytics_event("completeLevel", "level" + lv_id, com), ae.levend();
     var oc = context.storageGet("com_" + lv_id);
     oc || (oc = 0), context.storageSet("com_" + lv_id, Math.max(com, oc));
@@ -897,8 +899,8 @@ var activeGrid = null, killgl, _gs = {
     57: "21670001200a2000000a1cCa4000071nC7200006Bb1a4730050818174000000000000",
     58: "220a121050000000000000000A20000002AGDD300A1rAD4A50011BA34130000453444",
     59: "220b30309005A7200000080737300006A6A6A00008080800000606060000000000000",
-    60: "220100249D1E1q1q200E0a1P0qAq3F041pCN0q4FEqBo1nBa4D0FA15mBe300A5008Ba5",
-    61: "2207161620000k3000000a29F72t300pApEaA5500UBOATAa30000DDA3l00000A0F4s4"
+    61: "220100249D1E1q1q200E0a1P0qAq3F041pCN0q4FEqBo1nBa4D0FA15mBe300A5008Ba5",
+    60: "2207161620000k3000000a29F72t300pApEaA5500UBOATAa30000DDA3l00000A0F4s4"
 }, lv_id = 0, lv_menu_start = 1, t_thm = null, tiles1 = {
     0: "",
     1: "0a",
