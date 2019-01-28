@@ -195,15 +195,44 @@ function drawLnk(s, lk, sdw) {
         break;
   }
   if (lk.ed == 6) { //need to draw the start point
-    s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3)
-      .circle(.2+offx, 0+offy, .1);
+    if (!sdw)
+      s.lineStyle("rgba(255,255,255,.8)").lineWidth(7).circle(.2+offx, 0+offy, .1)
+       .lineStyle("rgba(0,0,0,.8)").lineWidth(6).circle(.2+offx, 0+offy, .1);
+    s.lineStyle("rgba(" + cl + ",1)").lineWidth(5).circle(.2+offx, 0+offy, .1);
   }
   if (lk.ed == 7) { //need to draw the end point
-    s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3)
-      .line(-.3+offx, -.1+offy, -.1+offx, -.1+offy)
+    function sqr() {
+      s.line(-.3+offx, -.1+offy, -.1+offx, -.1+offy)
       .line(-.3+offx, .1+offy, -.1+offx, .1+offy)
       .line(-.3+offx, .1+offy, -.3+offx, -.1+offy)
       .line(-.1+offx, .1+offy, -.1+offx, -.1+offy);
+
+    }
+    function sqri() {
+
+     s.line(-.25+offx, -.05+offy, -.15+offx, -.05+offy)
+      .line(-.25+offx, .05+offy, -.15+offx, .05+offy)
+      .line(-.25+offx, .05+offy, -.25+offx, -.05+offy)
+      .line(-.15+offx, .05+offy, -.15+offx, -.05+offy);
+
+    }
+
+    if (!sdw) {
+      s.lineStyle("rgba(" + cl + ",1)").lineWidth(4)
+      sqri();
+      s.lineStyle("rgba(255,255,255.8)").lineWidth(6)
+      sqr();
+      s.lineStyle("rgba(0,0,0,.9)").lineWidth(5)
+      sqr();
+      s.lineStyle("rgba(" + cl + ",1)").lineWidth(4)
+      sqr();      
+    } else {
+      s.lineStyle("rgba(" + cl + ",.4)").lineWidth(6)
+      sqr();
+      sqri();
+    }
+
+
   }
 }
 

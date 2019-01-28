@@ -526,6 +526,12 @@ function thm(fin, bk) {
 }
 
 function drawLnk(s, lk, sdw) {
+    function sqr() {
+        s.line(-.3 + offx, -.1 + offy, -.1 + offx, -.1 + offy).line(-.3 + offx, .1 + offy, -.1 + offx, .1 + offy).line(-.3 + offx, .1 + offy, -.3 + offx, -.1 + offy).line(-.1 + offx, .1 + offy, -.1 + offx, -.1 + offy);
+    }
+    function sqri() {
+        s.line(-.25 + offx, -.05 + offy, -.15 + offx, -.05 + offy).line(-.25 + offx, .05 + offy, -.15 + offx, .05 + offy).line(-.25 + offx, .05 + offy, -.25 + offx, -.05 + offy).line(-.15 + offx, .05 + offy, -.15 + offx, -.05 + offy);
+    }
     var cl = "255,255,255", offx = 0, offy = 0;
     switch (lk.ty) {
       case 0:
@@ -547,8 +553,11 @@ function drawLnk(s, lk, sdw) {
         offx = offy = -.02, cl = "192,255,128", s.lineStyle("rgba(0,0,0,.8)").lineWidth(6).plusPath(lk.pts, .05), 
         sdw || (s.lineStyle("rgba(192,128,0,.7)").lineWidth(4).plusPath(lk.pts, .03), s.lineStyle("rgba(" + cl + ",1)").lineWidth(2).plusPath(lk.pts, .025, .005));
     }
-    6 == lk.ed && s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3).circle(.2 + offx, 0 + offy, .1), 
-    7 == lk.ed && s.lineStyle("rgba(" + cl + ",.6)").lineWidth(3).line(-.3 + offx, -.1 + offy, -.1 + offx, -.1 + offy).line(-.3 + offx, .1 + offy, -.1 + offx, .1 + offy).line(-.3 + offx, .1 + offy, -.3 + offx, -.1 + offy).line(-.1 + offx, .1 + offy, -.1 + offx, -.1 + offy);
+    6 == lk.ed && (sdw || s.lineStyle("rgba(255,255,255,.8)").lineWidth(7).circle(.2 + offx, 0 + offy, .1).lineStyle("rgba(0,0,0,.8)").lineWidth(6).circle(.2 + offx, 0 + offy, .1), 
+    s.lineStyle("rgba(" + cl + ",1)").lineWidth(5).circle(.2 + offx, 0 + offy, .1)), 
+    7 == lk.ed && (sdw ? (s.lineStyle("rgba(" + cl + ",.4)").lineWidth(6), sqr(), sqri()) : (s.lineStyle("rgba(" + cl + ",1)").lineWidth(4), 
+    sqri(), s.lineStyle("rgba(255,255,255.8)").lineWidth(6), sqr(), s.lineStyle("rgba(0,0,0,.9)").lineWidth(5), 
+    sqr(), s.lineStyle("rgba(" + cl + ",1)").lineWidth(4), sqr()));
 }
 
 function drawLnks(s, lk, sdw) {
