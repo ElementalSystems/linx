@@ -74,7 +74,7 @@ function levTime(id)
 
 function exp(com,tm) {
   if (!com) return "Never Attempted";
-  var t="Saved <b>"+Number(com).toFixed(0)+"%</b> of the packets ";
+  var t="Saved <b>"+Number(com).toFixed(0)+"%</b> of the sparks ";
   if (com==100)
     t+=" in "+Number(tm).toFixed(1)+"s";
   return t;
@@ -242,6 +242,7 @@ function end(com,tm)
 
   if (lv_id) document.getElementById('shr').classList.toggle('act',true);
   analytics_event('completeLevel','level'+lv_id,com);
+  localStorage.setItem("used",1);
   ae.levend();
   //update high scores
   var oc=context.storageGet("com_"+lv_id);
@@ -260,7 +261,7 @@ function end(com,tm)
     document.getElementById('dpt').innerHTML="<i>Goals:</i> "+expG(com,tm);
     document.getElementById('dp').classList.toggle('ed',true);
   } else {
-    document.getElementById('dpr').innerHTML="The Lost Packets";
+    document.getElementById('dpr').innerHTML="Linx";
     document.getElementById('dpt').innerHTML="<i>... an abstract puzzle game by elementalsystems ...</i>";
     document.getElementById('dp').classList.toggle('fst',true);
   }
@@ -346,9 +347,11 @@ function initGameSystem() {
   mkLvlMenu(0);
   mkLvlMenu(1);
   mkLvlMenu(2);
-  level(0);
   setSound(true);
-  start();
+  if (localStorage.getItem("used"))
+    menu();
+  else
+    level(0);
   analytics_event('initGameSystem','init');
 
 }

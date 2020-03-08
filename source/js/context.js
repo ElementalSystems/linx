@@ -1,5 +1,5 @@
 var demoLevels=[1,2,3,4,5,8,11,12,14,16,20,21];
-var isLocked=true;
+var isLocked=false;
 
 document.addEventListener('DOMContentLoaded', initGameSystem, false);
 

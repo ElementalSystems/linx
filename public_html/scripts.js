@@ -207,7 +207,7 @@ function levTime(id) {
 
 function exp(com, tm) {
     if (!com) return "Never Attempted";
-    var t = "Saved <b>" + Number(com).toFixed(0) + "%</b> of the packets ";
+    var t = "Saved <b>" + Number(com).toFixed(0) + "%</b> of the sparks ";
     return 100 == com && (t += " in " + Number(tm).toFixed(1) + "s"), t;
 }
 
@@ -299,13 +299,14 @@ function menu() {
 function end(com, tm) {
     document.getElementById("ti2").classList.toggle("act", !1), document.getElementById("ti3").classList.toggle("act", !1), 
     document.getElementById("ti4").classList.toggle("gone", !0), lv_id && document.getElementById("shr").classList.toggle("act", !0), 
-    analytics_event("completeLevel", "level" + lv_id, com), ae.levend();
+    analytics_event("completeLevel", "level" + lv_id, com), localStorage.setItem("used", 1), 
+    ae.levend();
     var oc = context.storageGet("com_" + lv_id);
     oc || (oc = 0), context.storageSet("com_" + lv_id, Math.max(com, oc));
     var otm = context.storageGet("tm_" + lv_id);
     otm || (otm = 999), context.storageSet("tm_" + lv_id, Math.min(tm, otm)), context.reportLevelComplete(lv_id, com, tm), 
     checkStars(document.getElementById("dpst"), lv_id), lv_id ? (document.getElementById("dpr").innerHTML = "<i>Result:</i> " + exp(com, tm), 
-    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "The Lost Packets", 
+    document.getElementById("dpt").innerHTML = "<i>Goals:</i> " + expG(com, tm), document.getElementById("dp").classList.toggle("ed", !0)) : (document.getElementById("dpr").innerHTML = "Linx", 
     document.getElementById("dpt").innerHTML = "<i>... an abstract puzzle game by elementalsystems ...</i>", 
     document.getElementById("dp").classList.toggle("fst", !0));
 }
@@ -355,7 +356,7 @@ function clearForm() {
 
 function initGameSystem() {
     decorate(), thm(lev[0], document.getElementById("top")), mkLvlMenu(0), mkLvlMenu(1), 
-    mkLvlMenu(2), level(0), setSound(!0), start(), analytics_event("initGameSystem", "init");
+    mkLvlMenu(2), setSound(!0), localStorage.getItem("used") ? menu() : level(0), analytics_event("initGameSystem", "init");
 }
 
 function _spark(g, tile, lnk, ty) {
@@ -744,7 +745,7 @@ var audio_mute = !1, ae = {
     chirp3: function(len) {
         tone(len).v(.2, .2, .5, 0).f(rdm(200, 300), 200, rdm(200, 300), 200, rdm(200, 300));
     }
-}, demoLevels = [ 1, 2, 3, 4, 5, 8, 11, 12, 14, 16, 20, 21 ], isLocked = !0;
+}, demoLevels = [ 1, 2, 3, 4, 5, 8, 11, 12, 14, 16, 20, 21 ], isLocked = !1;
 
 document.addEventListener("DOMContentLoaded", initGameSystem, !1);
 
